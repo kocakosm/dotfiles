@@ -1,0 +1,19 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+[*.java]
+indent_size = 8
+indent_style = tab
+
+[*.{js,py,css,less,scss,sh}]
+indent_size = 4
+indent_style = space
+
+[*.{xml,html,json,yml,vim}]
+indent_size = 2
+indent_style = space

@@ -1,0 +1,36 @@
+[ui]
+username = Osman Koçak <kocakosm@gmail.com>
+editor = vim
+ignore = ~/.hgignore
+
+[extensions]
+hgext.bookmarks =
+hgext.git =
+pager =
+progress =
+color =
+
+[pager]
+pager = LESS='FRX' less
+ignore = version, diff, update
+
+[alias]
+show = log -pr
+glog = log -G
+
+[color]
+status.modified = magenta bold
+status.added = green bold
+status.removed = red bold
+status.deleted = cyan bold
+status.unknown = blue bold
+status.ignored = black bold
+diff.diffline = bold
+diff.extended = cyan bold
+diff.file_a = red bold
+diff.file_b = green bold
+diff.hunk = magenta
+diff.deleted = red
+diff.inserted = green
+diff.changed = white
+diff.trailingwhitespace = bold red_background

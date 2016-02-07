@@ -1,0 +1,10 @@
+[user]
+name = Osman Koçak
+email = kocakosm@gmail.com
+
+[push]
+default = simple
+
+[core]
+excludesfile = ~/.gitignore
+editor = vim
