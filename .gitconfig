@@ -6,5 +6,5 @@ email = kocakosm@gmail.com
 default = simple
 
 [core]
-excludesfile = ~/.gitignore
 editor = vim
+excludesfile = ~/.global-gitignore
