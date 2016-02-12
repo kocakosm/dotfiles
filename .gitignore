@@ -16,6 +16,7 @@
 *.toc
 *.orig
 TODO
+tmp
 target
 node_modules
 nb-configuration.xml
