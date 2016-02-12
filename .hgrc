@@ -1,7 +1,7 @@
 [ui]
 username = Osman Koçak <kocakosm@gmail.com>
+ignore = ~/.global-hgignore
 editor = vim
-ignore = ~/.hgignore
 
 [extensions]
 hgext.bookmarks =
