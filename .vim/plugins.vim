@@ -21,6 +21,7 @@ call plug#begin('~/.vim/bundles')
   Plug 'sjl/gundo.vim'
   Plug 'sukima/xmledit'
   Plug 'terryma/vim-multiple-cursors'
+  Plug 'ryanoasis/vim-devicons'
   "Plug 'kien/rainbow_parentheses.vim'
   "Plug 'godlygeek/csapprox'
   "Plug 'chrisbra/unicode.vim'
