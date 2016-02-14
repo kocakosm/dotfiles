@@ -14,7 +14,7 @@ call plug#begin('~/.vim/bundles')
   Plug 'editorconfig/editorconfig-vim'
   Plug 'ervandew/supertab'
   Plug 'jiangmiao/auto-pairs'
-  Plug 'kien/ctrlp.vim'
+  Plug 'ctrlpvim/ctrlp.vim'
   Plug 'kocakosm/hilal'
   Plug 'scrooloose/nerdcommenter'
   Plug 'scrooloose/nerdtree'
