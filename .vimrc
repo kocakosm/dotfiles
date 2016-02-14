@@ -3,6 +3,7 @@ set nocompatible
 
 " Set UTF-8 as the default encoding
 set encoding=utf-8
+set fileencoding=utf-8
 
 " Activate the mouse (wheel, selection, etc...)
 set mouse=a
@@ -82,6 +83,10 @@ set number
 
 " Use 4 columns for line numbers
 set numberwidth=4
+
+" Prettier vertical split line
+set fillchars=vert:\┊
+"set fillchars=vert:\│
 
 " Open new windows below the current window
 set splitbelow
@@ -230,6 +235,9 @@ noremap Y y$
 
 " Use tabulation to go to the next tab
 "noremap <Tab> gt
+
+" Space centers the current line
+noremap <silent> <space> zz
 
 " Alt-Right switches to the next buffer
 noremap <silent> <A-RIGHT> :bn!<CR>
