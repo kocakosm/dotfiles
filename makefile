@@ -1,6 +1,6 @@
-.PHONY: all dotfiles
+.PHONY: all dotfiles fc-cache
 
-all: dotfiles
+all: fc-cache
 
 dotfiles:
 	@for file in $(shell find $(CURDIR) -maxdepth 1 -name ".*" \
@@ -8,3 +8,6 @@ dotfiles:
 	do \
 		ln -sf $$file $(HOME)/$$(basename $$file); \
 	done
+
+fc-cache: dotfiles
+	@fc-cache -f $(HOME)/.fonts
