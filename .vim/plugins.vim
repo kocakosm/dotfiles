@@ -1,3 +1,10 @@
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  source ~/.vim/autoload/plug.vim
+endif
+
 call plug#begin('~/.vim/bundles')
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   Plug 'Valloric/MatchTagAlways'
