@@ -17,6 +17,7 @@ syntax: glob
 *.out
 *.toc
 *.orig
+*.old
 TODO
 tmp
 target
