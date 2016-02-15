@@ -66,3 +66,9 @@ let g:gundo_close_on_revert=1
 " IndentLine configuration
 let g:indentLine_char='┊'
 let g:indentLine_color_gui='#1f2a2a'
+
+" Devicons configuration
+"let g:webdevicons_enable_airline_tabline=0
+"let g:webdevicons_enable_nerdtree=0
+let g:WebDevIconsNerdTreeAfterGlyphPadding=' '
+"let g:WebDevIconsUnicodeDecorateFolderNodes=1
