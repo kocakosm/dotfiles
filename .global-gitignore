@@ -1,4 +1,4 @@
-.hgignore
+.gitignore
 *.o
 *.class
 *.back
