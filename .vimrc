@@ -103,7 +103,7 @@ set textwidth=0
 " Don't wrap long lines
 set nowrap
 
-" Only wrap at a character in the breakat option
+" Only wrap at a character in the 'breakat' option
 "set linebreak
 
 " Show as much as possible of the last line
@@ -128,7 +128,7 @@ set scrolloff=1
 " Side-scroll 5 chars before the screen border
 set sidescrolloff=5
 
-" Prevent the cursor from changing the current column when jumping to other lines
+" Try to keep the cursor at the current column when jumping to other lines
 set nostartofline
 
 " Show tabs, non-printable characters, ...
@@ -142,11 +142,6 @@ syntax on
 
 " Colorscheme for the terminal mode
 "colorscheme default
-
-" Highlight lines longer than 80 characters
-"highlight link OverLength ErrorMsg
-"match OverLength /\%81v.\+/
-"setlocal colorcolumn=81
 
 " More powerful backspacing (allows backspacing over everything in insert mode)
 set backspace=indent,eol,start
@@ -202,19 +197,8 @@ set nohlsearch
 " Load plugins
 source $HOME/.vim/plugins.vim
 
-" Load matchit
-if !exists('g:loaded_matchit')
-  runtime macros/matchit.vim
-endif
-
 " Activate the file type plugins
 filetype plugin indent on
-
-" Remove trailing white spaces before saving
-autocmd BufWrite * silent! %s/[\r \t]\+$//
-
-" Source vimrc when saved
-"autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " Move between screen lines instead of real lines
 "noremap <Up> gk
@@ -230,11 +214,14 @@ noremap Y y$
 "noremap <silent> <Backspace> i<Backspace><Right><Esc>
 
 " Ctrl-t opens a new tab
-"noremap <silent> <C-t> :tabnew<CR>
-"inoremap <silent> <C-t> <C-o>:tabnew<CR>
+noremap <silent> <C-t> :tabnew<CR>
+inoremap <silent> <C-t> <C-o>:tabnew<CR>
 
-" Use tabulation to go to the next tab
-"noremap <Tab> gt
+" Tab switches to the next tab
+noremap <Tab> gt
+
+" Shift-Tab switches to the previous tab
+noremap <S-Tab> gT
 
 " Space centers the current line
 noremap <silent> <space> zz
@@ -255,10 +242,3 @@ inoremap <Return> <Return><C-g>u
 " Don't lose selection when shifting sidewards
 xnoremap < <gv
 xnoremap > >gv
-
-" Search for selected text using '/'
-vnoremap <silent> / :<C-U>
-\let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-\gvy/<C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-\gV:call setreg('"', old_reg, old_regtype)<CR>
