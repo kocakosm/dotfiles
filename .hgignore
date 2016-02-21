@@ -1,4 +1,5 @@
 syntax: glob
 
+.vim/autoload
 .vim/bundles
 .gitignore
