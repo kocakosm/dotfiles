@@ -3,16 +3,14 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
+indent_size = 4
+indent_style = space
 insert_final_newline = false
 trim_trailing_whitespace = true
 
-[*.java]
+[{*.java,[mM]akefile}]
 indent_size = 8
 indent_style = tab
-
-[*.{js,py,css,less,scss,sh}]
-indent_size = 4
-indent_style = space
 
 [*.{xml,html,json,yml,vim}]
 indent_size = 2
