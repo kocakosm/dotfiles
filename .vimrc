@@ -1,6 +1,12 @@
 " Deactivate vi compatibility
 set nocompatible
 
+" Load plugins
+source $HOME/.vim/plugins.vim
+
+" Activate file type plugins
+filetype plugin indent on
+
 " Set UTF-8 as the default encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -26,7 +32,7 @@ set lazyredraw
 " Enhance command-line completion
 set wildmenu
 
-" Don't try to open these
+" Don't try to open these files/directories
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.png,*.jpg,*.jpeg,*.gif
 set wildignore+=*.o,*.pyc,*.pyo,*.class
@@ -140,8 +146,12 @@ let &listchars='tab:┊ '
 " Activate syntaxic coloration
 syntax on
 
-" Colorscheme for the terminal mode
-"colorscheme default
+" Try to use 256 colors in terminal mode
+set t_Co=256
+
+" Background and colorscheme (ahem...)
+"set background=dark
+colorscheme hilal
 
 " More powerful backspacing (allows backspacing over everything in insert mode)
 set backspace=indent,eol,start
@@ -193,12 +203,6 @@ set incsearch
 
 " Don't highlight search results
 set nohlsearch
-
-" Load plugins
-source $HOME/.vim/plugins.vim
-
-" Activate the file type plugins
-filetype plugin indent on
 
 " Move between screen lines instead of real lines
 "noremap <Up> gk

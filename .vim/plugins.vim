@@ -6,16 +6,17 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/bundles')
-  Plug 'JulesWang/css.vim', { 'for': ['css'] } | Plug 'cakebaker/scss-syntax.vim', { 'for': ['scss'] }
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   Plug 'Valloric/MatchTagAlways', { 'for': ['xml', 'html', 'xhtml'] }
   Plug 'Yggdroot/indentLine'
   Plug 'ap/vim-css-color', { 'for': ['css', 'less', 'scss', 'vim'] }
+  Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'chrisbra/NrrwRgn'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'easymotion/vim-easymotion'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'ervandew/supertab'
+  Plug 'godlygeek/csapprox'
   Plug 'itspriddle/ZoomWin'
   Plug 'jiangmiao/auto-pairs'
   Plug 'kocakosm/hilal'
@@ -47,42 +48,43 @@ call plug#end()
 " SirVer/ultisnips: garbas/vim-snipmate (simpler, though less powerful)
 
 " Other great plugins:
-" godlygeek/csapprox
+" Xuyuanp/nerdtree-git-plugin (depends on scrooloose/nerdtree)
 " chrisbra/unicode.vim
-" mhinz/vim-signify
+" gregsexton/VimCalc
+" gregsexton/gitv (depends on tpope/vim-fugitive)
+" itchyny/calendar.vim / mattn/calendar-vim
+" jeetsukumaran/vim-indentwise
+" jistr/vim-nerdtree-tabs (depends on scrooloose/nerdtree)
+" kien/rainbow_parentheses.vim
+" mattn/vim-terminal
 " mhinz/vim-rfc
+" mhinz/vim-signify
 " mhinz/vim-startify
 " tpope/vim-dispatch
-" tpope/vim-commentary
+" tpope/vim-fugitive
 " tpope/vim-speeddating
-" gregsexton/VimCalc
 " vim-scripts/bufkill.vim
-" kien/rainbow_parentheses.vim
 " whatyouhide/vim-lengthmatters
-" gregsexton/gitv (depends on tpope/vim-fugitive)
-" tpope/vim-fugitive (depends on tpope/vim-git for vim < 7.2)
-" jistr/vim-nerdtree-tabs (depends on scrooloose/nerdtree)
-" Xuyuanp/nerdtree-git-plugin (depends on scrooloose/nerdtree)
 
 " Airline configuration
-if has('gui_running')
-  set noshowmode
-  set laststatus=2
-  let g:airline_theme='luna'
-  let g:airline_section_c='%t'
-  let g:airline_powerline_fonts=1
-  let g:airline#extensions#wordcount#enabled=0
-  "let g:airline#extensions#tagbar#enabled=0
-  let g:airline#extensions#tabline#enabled=1
-  let g:airline#extensions#tabline#fnamemod=':t'
-  let g:airline#extensions#tabline#tab_nr_type=1
-  let g:airline#extensions#tabline#show_close_button=0
-  let g:airline#extensions#tabline#formatter='unique_tail_improved'
-  let g:airline#extensions#whitespace#checks=['indent', 'trailing', 'long']
-  let g:airline#extensions#whitespace#mixed_indent_algo=2
-else
-  autocmd VimEnter * AirlineToggle
-endif
+set noshowmode
+set laststatus=2
+let g:airline_theme='luna'
+let g:airline_section_c='%t'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#wordcount#enabled=0
+"let g:airline#extensions#tagbar#enabled=0
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#fnamemod=':t'
+let g:airline#extensions#tabline#tab_nr_type=1
+let g:airline#extensions#tabline#show_close_button=0
+let g:airline#extensions#tabline#formatter='unique_tail_improved'
+let g:airline#extensions#whitespace#checks=['indent', 'trailing', 'long']
+let g:airline#extensions#whitespace#mixed_indent_algo=2
+"let g:airline#extensions#tabline#left_alt_sep=''
+"let g:airline#extensions#tabline#left_sep=''
+"let g:airline_right_sep=''
+"let g:airline_left_sep=''
 
 " NERDTree configuration
 nnoremap <F5> :GundoHide<CR>:NERDTreeToggle<CR>

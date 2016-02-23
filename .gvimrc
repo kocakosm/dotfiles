@@ -23,7 +23,7 @@ set guioptions-=t
 set guitablabel=%t\ %m
 
 " GUI specific colorscheme
-colorscheme hilal
+"colorscheme hilal
 
 " Bells
 "set errorbells
