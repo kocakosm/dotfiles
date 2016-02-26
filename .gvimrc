@@ -1,6 +1,11 @@
+" Activate right-click's contextual menu
+set mousemodel=popup
+"set mousemodel=popup_setpos
+
 " GUI specific font
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
 "set guifont=Deja\ Vu\ Sans\ Mono\ for\ Powerline\ 11
+set guifont=Inconsolata\ for\ Powerline\ 13
 
 " Remove the toolbar
 set guioptions-=T

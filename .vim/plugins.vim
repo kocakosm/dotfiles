@@ -49,22 +49,30 @@ call plug#end()
 
 " Other great plugins:
 " Xuyuanp/nerdtree-git-plugin (depends on scrooloose/nerdtree)
+" artur-shaik/vim-javacomplete2
 " chrisbra/unicode.vim
+" davidhalter/jedi-vim
 " gregsexton/VimCalc
 " gregsexton/gitv (depends on tpope/vim-fugitive)
 " itchyny/calendar.vim / mattn/calendar-vim
 " jeetsukumaran/vim-indentwise
 " jistr/vim-nerdtree-tabs (depends on scrooloose/nerdtree)
+" justinmk/vim-gtfo
 " kien/rainbow_parentheses.vim
 " mattn/vim-terminal
 " mhinz/vim-rfc
 " mhinz/vim-signify
 " mhinz/vim-startify
+" michaeljsmith/vim-indent-object
+" suan/vim-instant-markdown
+" ternjs/tern_for_vim
 " tpope/vim-dispatch
 " tpope/vim-fugitive
 " tpope/vim-speeddating
+" vim-expand-region
 " vim-scripts/bufkill.vim
 " whatyouhide/vim-lengthmatters
+" zhaocai/GoldenView.Vim
 
 " Airline configuration
 set noshowmode
@@ -137,3 +145,9 @@ let g:tagbar_iconchars=['▸', '▾']
 
 " Maven plugin configuration
 let g:maven_auto_chdir=1
+
+" UltiSnips configuration
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+"let g:UltiSnipsEditSplit="vertical"

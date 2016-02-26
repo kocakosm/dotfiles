@@ -1,12 +1,6 @@
 " Deactivate vi compatibility
 set nocompatible
 
-" Load plugins
-source $HOME/.vim/plugins.vim
-
-" Activate file type plugins
-filetype plugin indent on
-
 " Set UTF-8 as the default encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -14,7 +8,10 @@ set fileencoding=utf-8
 " Activate the mouse (wheel, selection, etc...)
 set mouse=a
 
-" Always change to the directory of the current file
+" Hide the mouse when typing
+set mousehide
+
+" Automatically switch to the directory of the current file
 set autochdir
 
 " Reload the file after each modification
@@ -29,8 +26,11 @@ set lazyredraw
 " Allow switching from an unsaved buffer (without saving it first)
 "set hidden
 
-" Enhance command-line completion
+" Enhanced command-line completion
 set wildmenu
+
+" Case insensitive command-line completion
+set wildignorecase
 
 " Don't try to open these files/directories
 set wildignore+=.hg,.git,.svn
@@ -68,7 +68,7 @@ set directory=$HOME/.vim/tmp/swap//
 set undodir=$HOME/.vim/tmp/undo/
 set viminfo='100,n$HOME/.vim/tmp/info/viminfo
 
-" Window title
+" Set the window title
 set title
 set titlestring=%F\ %m
 
@@ -94,10 +94,10 @@ set numberwidth=4
 set fillchars=vert:\┊
 "set fillchars=vert:\│
 
-" Open new windows below the current window
+" Open new windows below the current one
 set splitbelow
 
-" Open new windows right of the current window
+" Open new windows at the right-hand side of the current one
 set splitright
 
 " Line spacing
@@ -137,21 +137,12 @@ set sidescrolloff=5
 " Try to keep the cursor at the current column when jumping to other lines
 set nostartofline
 
-" Show tabs, non-printable characters, ...
+" Show tabs, non-printable characters, etc...
 set list
 let &listchars='tab:┊ '
 "let &listchars='tab:▸ ,extends:❯,precedes:❮,trail:·,eol:¬'
+"let &listchars='trail:•'
 "let &showbreak='↪ '
-
-" Activate syntaxic coloration
-syntax on
-
-" Try to use 256 colors in terminal mode
-set t_Co=256
-
-" Background and colorscheme (ahem...)
-"set background=dark
-colorscheme hilal
 
 " More powerful backspacing (allows backspacing over everything in insert mode)
 set backspace=indent,eol,start
@@ -189,8 +180,11 @@ set pumheight=10
 " Delete comment character when joining commented lines
 set formatoptions+=j
 
-" Use the * register for the clipboard
-set clipboard^=unnamed
+" Use system's default clipboards for yanking/pasting
+if has('unnamedplus')
+  set clipboard=unnamedplus
+endif
+set clipboard+=unnamed
 
 " Case insensitive search
 set ignorecase
@@ -203,6 +197,22 @@ set incsearch
 
 " Don't highlight search results
 set nohlsearch
+
+" Load plugins
+source $HOME/.vim/plugins.vim
+
+" Activate file type plugins
+filetype plugin indent on
+
+" Activate syntaxic coloration
+syntax on
+
+" Try to use 256 colors in terminal mode
+set t_Co=256
+
+" Background and colorscheme (ahem...)
+"set background=dark
+colorscheme hilal
 
 " Move between screen lines instead of real lines
 "noremap <Up> gk
@@ -222,10 +232,10 @@ noremap <silent> <C-t> :tabnew<CR>
 inoremap <silent> <C-t> <C-o>:tabnew<CR>
 
 " Tab switches to the next tab
-noremap <Tab> gt
+noremap <A-UP> gt
 
 " Shift-Tab switches to the previous tab
-noremap <S-Tab> gT
+noremap <A-DOWN> gT
 
 " Space centers the current line
 noremap <silent> <space> zz
@@ -243,6 +253,18 @@ inoremap <Tab> <Tab><C-g>u
 inoremap <Space> <Space><C-g>u
 inoremap <Return> <Return><C-g>u
 
+" Reselect last paste with gp
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+
 " Don't lose selection when shifting sidewards
 xnoremap < <gv
 xnoremap > >gv
+
+" \s sorts the current visual selection
+xnoremap <Leader>s :sort<CR>
+
+" \h toggles search results highlighting
+nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
+
+" \<space> toggles spell-checking
+nnoremap <leader><space> :setlocal spell!<cr>
