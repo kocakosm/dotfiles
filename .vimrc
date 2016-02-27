@@ -14,7 +14,7 @@ set mousehide
 " Automatically switch to the directory of the current file
 set autochdir
 
-" Reload the file after each modification
+" Reload current file after each modification
 set autoread
 
 " Better display in terminal mode
@@ -23,7 +23,7 @@ set ttyfast
 " Don't redraw when running macros
 set lazyredraw
 
-" Allow switching from an unsaved buffer (without saving it first)
+" Allow more than one unsaved buffer
 "set hidden
 
 " Enhanced command-line completion
@@ -201,70 +201,66 @@ set nohlsearch
 " Load plugins
 source $HOME/.vim/plugins.vim
 
-" Activate file type plugins
+" Activate filetype-specific indenting, syntax highlighting, etc...
 filetype plugin indent on
 
-" Activate syntaxic coloration
+" Activate syntax highlighting
 syntax on
 
-" Try to use 256 colors in terminal mode
-set t_Co=256
-
-" Background and colorscheme (ahem...)
-"set background=dark
+" Ahem... well... set colorscheme
 colorscheme hilal
 
+" Finer-grained undo
+inoremap <silent> <tab> <tab><C-g>u
+inoremap <silent> <space> <space><C-g>u
+inoremap <silent> <return> <return><C-g>u
+
 " Move between screen lines instead of real lines
-"noremap <Up> gk
-"noremap <Down> gj
-"inoremap <Up> <C-o>gk
-"inoremap <Down> <C-o>gj
+"noremap k gk
+"noremap <up> gk
+"inoremap <up> <C-o>gk
+"noremap j gj
+"noremap <down> gj
+"inoremap <down> <C-o>gj
 
 " Y yanks from the cursor to the end of the line
-noremap Y y$
+nnoremap <silent> Y y$
 
-" Let space and backspace act the same way as in insert mode
-"noremap <silent> <Space> i<Space><Right><Esc>
-"noremap <silent> <Backspace> i<Backspace><Right><Esc>
+" <ctrl>-t opens a new tab
+noremap <silent> <C-t> :tabnew<cr>
+inoremap <silent> <C-t> <C-o>:tabnew<cr>
 
-" Ctrl-t opens a new tab
-noremap <silent> <C-t> :tabnew<CR>
-inoremap <silent> <C-t> <C-o>:tabnew<CR>
+" <alt>-<up> switches to the next tab
+noremap <silent> <A-up> gt
+inoremap <silent> <A-up> <C-o>gt
 
-" Tab switches to the next tab
-noremap <A-UP> gt
+" <alt>-<down> switches to the previous tab
+noremap <silent> <A-down> gT
+inoremap <silent> <A-down> <C-o>gT
 
-" Shift-Tab switches to the previous tab
-noremap <A-DOWN> gT
+" <alt>-<right> switches to the next buffer
+noremap <silent> <A-right> :bn!<cr>
+inoremap <silent> <A-right> <C-o>:bn!<cr>
 
-" Space centers the current line
+" <alt>-<left> switches to the previous buffer
+noremap <silent> <A-left> :bp!<cr>
+inoremap <silent> <A-left> <C-o>:bp!<cr>
+
+" <space> centers the current line
 noremap <silent> <space> zz
 
-" Alt-Right switches to the next buffer
-noremap <silent> <A-RIGHT> :bn!<CR>
-inoremap <silent> <A-RIGHT> <C-o>:bn!<CR>
-
-" Alt-Left switches to the previous buffer
-noremap <silent> <A-LEFT> :bp!<CR>
-inoremap <silent> <A-LEFT> <C-o>:bp!<CR>
-
-" Finer-grained undo
-inoremap <Tab> <Tab><C-g>u
-inoremap <Space> <Space><C-g>u
-inoremap <Return> <Return><C-g>u
-
-" Reselect last paste with gp
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" Reselect last pasted text with gp
+nnoremap <silent> <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Don't lose selection when shifting sidewards
-xnoremap < <gv
-xnoremap > >gv
+xnoremap <silent> < <gv
+xnoremap <silent> > >gv
 
 " \s sorts the current visual selection
-xnoremap <Leader>s :sort<CR>
+xnoremap <silent> <leader>s :sort<cr>
 
 " \h toggles search results highlighting
 nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
 
 " \<space> toggles spell-checking
-nnoremap <leader><space> :setlocal spell!<cr>
+nnoremap <silent> <leader><space> :setlocal spell!<cr>

@@ -1,3 +1,6 @@
+" Enable matchit (built-in plugin)
+runtime macros/matchit.vim
+
 " Install vim-plug if not found
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -34,7 +37,6 @@ call plug#begin('~/.vim/bundles')
   Plug 'tpope/vim-eunuch'
   Plug 'tyru/open-browser.vim'
   Plug 'vim-jp/vim-java', { 'for': 'java' }
-  Plug 'vim-scripts/matchit.zip'
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
   Plug 'ryanoasis/vim-devicons'
 call plug#end()
@@ -48,17 +50,17 @@ call plug#end()
 " SirVer/ultisnips: garbas/vim-snipmate (simpler, though less powerful)
 
 " Other great plugins:
-" Xuyuanp/nerdtree-git-plugin (depends on scrooloose/nerdtree)
+" Xuyuanp/nerdtree-git-plugin
 " artur-shaik/vim-javacomplete2
 " chrisbra/unicode.vim
 " davidhalter/jedi-vim
 " gregsexton/VimCalc
-" gregsexton/gitv (depends on tpope/vim-fugitive)
-" itchyny/calendar.vim / mattn/calendar-vim
+" gregsexton/gitv
 " jeetsukumaran/vim-indentwise
-" jistr/vim-nerdtree-tabs (depends on scrooloose/nerdtree)
+" jistr/vim-nerdtree-tabs
 " justinmk/vim-gtfo
 " kien/rainbow_parentheses.vim
+" mattn/calendar-vim
 " mattn/vim-terminal
 " mhinz/vim-rfc
 " mhinz/vim-signify

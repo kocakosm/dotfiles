@@ -3,9 +3,9 @@ set mousemodel=popup
 "set mousemodel=popup_setpos
 
 " GUI specific font
+set guifont=Inconsolata\ for\ Powerline\ 13
 "set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
 "set guifont=Deja\ Vu\ Sans\ Mono\ for\ Powerline\ 11
-set guifont=Inconsolata\ for\ Powerline\ 13
 
 " Remove the toolbar
 set guioptions-=T
@@ -38,7 +38,7 @@ set guitablabel=%t\ %m
 set lines=37 columns=124
 autocmd GUIEnter * winpos 120 40
 
-" Highlight the current line in edition mode
+" Highlight the current line in insert mode
 "autocmd InsertLeave * set nocursorline
 "autocmd InsertEnter * set cursorline
 
