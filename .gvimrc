@@ -4,8 +4,11 @@ set mousemodel=popup
 
 " GUI specific font
 set guifont=Inconsolata\ for\ Powerline\ 13
-"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-"set guifont=Deja\ Vu\ Sans\ Mono\ for\ Powerline\ 11
+set guifont+=Droid\ Sans\ Mono\ for\ Powerline\ 11
+set guifont+=Deja\ Vu\ Sans\ Mono\ for\ Powerline\ 11
+
+" Line spacing
+set linespace=2
 
 " Remove the toolbar
 set guioptions-=T
@@ -26,9 +29,6 @@ set guioptions-=t
 
 " Custom tabs label
 set guitablabel=%t\ %m
-
-" GUI specific colorscheme
-"colorscheme hilal
 
 " Bells
 "set errorbells

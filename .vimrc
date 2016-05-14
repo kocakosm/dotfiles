@@ -3,7 +3,7 @@ set nocompatible
 
 " Set UTF-8 as the default encoding
 set encoding=utf-8
-set fileencoding=utf-8
+setglobal fileencoding=utf-8
 
 " Activate the mouse (wheel, selection, etc...)
 set mouse=a
@@ -24,7 +24,7 @@ set ttyfast
 set lazyredraw
 
 " Allow more than one unsaved buffer
-"set hidden
+set hidden
 
 " Enhanced command-line completion
 set wildmenu
@@ -72,6 +72,9 @@ set viminfo='100,n$HOME/.vim/tmp/info/viminfo
 set title
 set titlestring=%F\ %m
 
+" Don't display the intro message when starting
+set shortmess+=I
+
 " Display commands as they are typed
 set showcmd
 
@@ -79,7 +82,7 @@ set showcmd
 set showmode
 
 " Always show the status line
-"set laststatus=2
+set laststatus=2
 
 " Show the cursor position
 set ruler
@@ -91,17 +94,13 @@ set number
 set numberwidth=4
 
 " Prettier vertical split line
-set fillchars=vert:\┊
-"set fillchars=vert:\│
+set fillchars=vert:\│
 
 " Open new windows below the current one
 set splitbelow
 
 " Open new windows at the right-hand side of the current one
 set splitright
-
-" Line spacing
-set linespace=3
 
 " Maximum text width (0 means don't cut lines)
 set textwidth=0
@@ -134,12 +133,15 @@ set scrolloff=1
 " Side-scroll 5 chars before the screen border
 set sidescrolloff=5
 
+" The minimal number of columns to scroll horizontally
+set sidescroll=1
+
 " Try to keep the cursor at the current column when jumping to other lines
 set nostartofline
 
 " Show tabs, non-printable characters, etc...
-set list
-let &listchars='tab:┊ '
+"set list
+"let &listchars='tab:┊ '
 "let &listchars='tab:▸ ,extends:❯,precedes:❮,trail:·,eol:¬'
 "let &listchars='trail:•'
 "let &showbreak='↪ '
@@ -157,8 +159,8 @@ set virtualedit=onemore,block
 set autoindent
 set smartindent
 
-" Don't replace tabulations with white spaces
-set noexpandtab
+" Expand tabulations to spaces
+set expandtab
 
 " Use 4 characters-wide tabulations
 set softtabstop=4
@@ -199,6 +201,11 @@ set incsearch
 set nohlsearch
 
 " Load plugins
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 source $HOME/.vim/plugins.vim
 
 " Activate filetype-specific indenting, syntax highlighting, etc...
@@ -207,49 +214,46 @@ filetype plugin indent on
 " Activate syntax highlighting
 syntax on
 
-" Ahem... well... set colorscheme
-colorscheme hilal
-
 " Finer-grained undo
-inoremap <silent> <tab> <tab><C-g>u
-inoremap <silent> <space> <space><C-g>u
-inoremap <silent> <return> <return><C-g>u
+inoremap <silent> <tab> <tab><c-g>u
+inoremap <silent> <space> <space><c-g>u
+inoremap <silent> <return> <return><c-g>u
 
 " Move between screen lines instead of real lines
 "noremap k gk
 "noremap <up> gk
-"inoremap <up> <C-o>gk
+"inoremap <up> <c-o>gk
 "noremap j gj
 "noremap <down> gj
-"inoremap <down> <C-o>gj
+"inoremap <down> <c-o>gj
 
 " Y yanks from the cursor to the end of the line
 nnoremap <silent> Y y$
 
 " <ctrl>-t opens a new tab
-noremap <silent> <C-t> :tabnew<cr>
-inoremap <silent> <C-t> <C-o>:tabnew<cr>
+noremap <silent> <c-t> :tabnew<cr>
+inoremap <silent> <c-t> <c-o>:tabnew<cr>
 
 " <alt>-<up> switches to the next tab
-noremap <silent> <A-up> gt
-inoremap <silent> <A-up> <C-o>gt
+noremap <silent> <a-up> gt
+inoremap <silent> <a-up> <c-o>gt
 
 " <alt>-<down> switches to the previous tab
-noremap <silent> <A-down> gT
-inoremap <silent> <A-down> <C-o>gT
+noremap <silent> <a-down> gT
+inoremap <silent> <a-down> <c-o>gT
 
 " <alt>-<right> switches to the next buffer
-noremap <silent> <A-right> :bn!<cr>
-inoremap <silent> <A-right> <C-o>:bn!<cr>
+noremap <silent> <a-right> :bn!<cr>
+inoremap <silent> <a-right> <c-o>:bn!<cr>
 
 " <alt>-<left> switches to the previous buffer
-noremap <silent> <A-left> :bp!<cr>
-inoremap <silent> <A-left> <C-o>:bp!<cr>
+noremap <silent> <a-left> :bp!<cr>
+inoremap <silent> <a-left> <c-o>:bp!<cr>
 
 " <space> centers the current line
 noremap <silent> <space> zz
 
-" Reselect last pasted text with gp
+" gp reselects last pasted text
 nnoremap <silent> <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Don't lose selection when shifting sidewards
@@ -264,3 +268,7 @@ nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
 
 " \<space> toggles spell-checking
 nnoremap <silent> <leader><space> :setlocal spell!<cr>
+
+" easier buffer switching
+nnoremap <leader>l :buffer<space>
+inoremap <leader>l <c-o>:buffer<space>
