@@ -4,11 +4,12 @@ ignore = ~/.global-hgignore
 editor = vim
 
 [extensions]
-hgext.bookmarks =
-hgext.git =
-pager =
-progress =
 color =
+pager =
+shelve =
+progress =
+hgext.git =
+hgext.bookmarks =
 
 [pager]
 pager = LESS='FRX' less
