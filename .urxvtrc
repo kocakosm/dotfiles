@@ -1,0 +1,98 @@
+!-- Terminal name --!
+URxvt.termName: rxvt-256color
+
+!-- Initial geometry --!
+!URxvt.geometry: 80x28
+
+!-- Save up to 9999 lines in the scrollback buffer --!
+URxvt.saveLines: 9999
+
+!-- Do not show the scrollbar --!
+URxvt.scrollBar: false
+
+!-- Make the cursor blink --!
+URxvt.cursorBlink: true
+
+!-- Make the pointer disappear when a key is pressed or after 5 seconds of inactivity --!
+URxvt.pointerBlank: true
+URxvt.pointerBlankDelay: 5
+
+!-- Background/foreground colors --!
+URxvt.depth: 32
+URxvt.foreground: #f2f2f2
+URxvt.background: rgba:0000/0000/0000/dddd
+
+!-- Color palette (Tango) --!
+URxvt.color0: #101010
+URxvt.color1: #f13a21
+URxvt.color2: #93f91d
+URxvt.color3: #ffd00a
+URxvt.color4: #004f9e
+URxvt.color5: #ec0048
+URxvt.color6: #2aa7e7
+URxvt.color7: #f2f2f2
+URxvt.color8: #1d202f
+URxvt.color9: #ff361e
+URxvt.color10: #ffc005
+URxvt.color11: #93ff00
+URxvt.color12: #0071ff
+URxvt.color13: #ef0051
+URxvt.color14: #4bb8fd
+URxvt.color15: #a020f0
+
+!-- Fade the text by the given percentage when focus is lost --!
+URxvt.fading: 35
+
+!-- Font --!
+URxvt.font: xft:Deja Vu Sans Mono:size=11
+
+!-- Font spacing (distance between characters) --!
+!URxvt.letterSpace: -1
+
+!-- Number of pixels to insert between each row (defaults to 0) --!
+URxvt.lineSpace: 3
+
+!-- Use visual bell on receipt of a bell character --!
+!URxvt.visualBell: true
+
+!-- Set the urgency hint for the WM on receipt of a bell character --!
+URxvt.urgentOnBell: true
+
+!-- Enable smooth scrolling --!
+URxvt.jumpScroll: false
+
+!-- Every line should be displayed, even if the refresh is too fast --!
+URxvt.skipScroll: false
+
+!-- Do not scroll to bottom when tty receives output --!
+URxvt.scrollTtyOutput: false
+
+!-- Scroll with scrollback buffer when tty receives new lines --!
+!URxvt.scrollWithBuffer: true
+
+!-- Scroll back to the bottom on keypress --!
+URxvt.scrollTtyKeypress: true
+
+!-- Extensions --!
+URxvt.perl-lib: /usr/lib/urxvt/perl/
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.matcher.button: 1
+
+!-- Disable shortcuts for ISO-14755 mode --!
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+!-- Keycode fixes (for Vim mostly) --!
+URxvt.keysym.C-Up: \033[1;5A
+URxvt.keysym.C-Down: \033[1;5B
+URxvt.keysym.C-Right: \033[1;5C
+URxvt.keysym.C-Left: \033[1;5D
+URxvt.keysym.C-Prior: \033[5;5~
+URxvt.keysym.C-Next: \033[6;5~
+URxvt.keysym.C-Home: \033[7;5~
+URxvt.keysym.C-End: \033[8;5~
+URxvt.keysym.A-Up: \033[1;3A
+URxvt.keysym.A-Down: \033[1;3B
+URxvt.keysym.A-Right: \033[1;3C
+URxvt.keysym.A-Left: \033[1;3D
