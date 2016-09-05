@@ -1,9 +1,19 @@
 " Deactivate vi compatibility
 set nocompatible
 
+" Disable unused built-in plugins
+let g:loaded_2html_plugin=1
+let g:loaded_getscriptPlugin=1
+let g:loaded_netrwPlugin=1
+let g:loaded_vimballPlugin=1
+
 " Set UTF-8 as the default encoding
 set encoding=utf-8
+set termencoding=utf-8
 setglobal fileencoding=utf-8
+
+" Disable modeline
+set nomodeline
 
 " Activate the mouse (wheel, selection, etc...)
 set mouse=a
@@ -16,6 +26,12 @@ set autochdir
 
 " Reload current file after each modification
 set autoread
+
+" Automatically save buffer before :next, :make etc...
+"set autowrite
+
+" Ask to save modified files before operations like :q
+"set confirm
 
 " Better display in terminal mode
 set ttyfast
@@ -39,14 +55,11 @@ set wildignore+=*.o,*.pyc,*.pyo,*.class
 set wildignore+=*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 set wildignore+=*.orig
 
-" Don't create the ~/.vim/.netrwhist file
-let g:netrw_dirhistmax=0
-
-" Don't keep backup
+" Don't keep backups
 set nobackup
 set nowritebackup
 
-" Don't create swap file
+" Don't create swap files
 "set noswapfile
 
 " Save undo tree to disk
@@ -108,6 +121,9 @@ set textwidth=0
 " Don't wrap long lines
 set nowrap
 
+" Add a ↪ at the start of lines that have been wrapped
+"let &showbreak='↪ '
+
 " Only wrap at a character in the 'breakat' option
 "set linebreak
 
@@ -124,32 +140,35 @@ set nofoldenable
 " Fold using indentation
 "set fdm=indent
 
-" Show folding marks (left margin)
+" Show folding marks
 "set foldcolumn=1
 
 " Try to keep 1 line above and below the cursor
 set scrolloff=1
 
-" Side-scroll 5 chars before the screen border
+" Side-scroll 5 characters before the screen border
 set sidescrolloff=5
 
-" The minimal number of columns to scroll horizontally
+" Side-scroll 1 character at a time
 set sidescroll=1
 
 " Try to keep the cursor at the current column when jumping to other lines
 set nostartofline
 
 " Show tabs, non-printable characters, etc...
-"set list
 "let &listchars='tab:┊ '
 "let &listchars='tab:▸ ,extends:❯,precedes:❮,trail:·,eol:¬'
 "let &listchars='trail:•'
-"let &showbreak='↪ '
+"augroup List
+"  autocmd!
+"  autocmd InsertEnter * set nolist
+"  autocmd InsertLeave * set list
+"augroup END
 
 " More powerful backspacing (allows backspacing over everything in insert mode)
 set backspace=indent,eol,start
 
-" Allow left/right keys and h/l commands to wrap the cursor around line borders
+" Allow <left>/<right> and h/l to wrap the cursor around line borders
 set whichwrap=<,>,h,l
 
 " Allow the cursor to go after the end of line
@@ -219,13 +238,18 @@ inoremap <silent> <tab> <tab><c-g>u
 inoremap <silent> <space> <space><c-g>u
 inoremap <silent> <return> <return><c-g>u
 
-" Move between screen lines instead of real lines
-"noremap k gk
-"noremap <up> gk
+" Make <up>/<down> move by virtual lines in insert mode
 "inoremap <up> <c-o>gk
-"noremap j gj
-"noremap <down> gj
 "inoremap <down> <c-o>gj
+
+" Make j/k/<up>/<down> move by physical lines when used with a count and by virtual lines when used without
+"noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+"noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+"noremap <silent> <expr> <down> (v:count == 0 ? 'gj' : 'j')
+"noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
+
+" K splits the current line (opposite of J)
+nnoremap <silent> K i<cr><esc>
 
 " Y yanks from the cursor to the end of the line
 nnoremap <silent> Y y$
@@ -269,6 +293,10 @@ nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
 " \<space> toggles spell-checking
 nnoremap <silent> <leader><space> :setlocal spell!<cr>
 
-" easier buffer switching
+" Easily replace the word under the cursor
+nnoremap <leader>r :% s/\<<c-r><c-w>\>/
+vnoremap <leader>r y:% s/<c-r>"/
+
+" Easier buffer switching
 nnoremap <leader>l :buffer<space>
 inoremap <leader>l <c-o>:buffer<space>
