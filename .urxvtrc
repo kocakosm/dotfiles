@@ -2,10 +2,10 @@
 URxvt.termName: rxvt-256color
 
 !-- Initial geometry --!
-!URxvt.geometry: 80x28
+!URxvt.geometry: 80x20
 
-!-- Save up to 9999 lines in the scrollback buffer --!
-URxvt.saveLines: 9999
+!-- Size of the scrollback buffer --!
+URxvt.saveLines: 8192
 
 !-- Do not show the scrollbar --!
 URxvt.scrollBar: false
@@ -13,7 +13,7 @@ URxvt.scrollBar: false
 !-- Make the cursor blink --!
 URxvt.cursorBlink: true
 
-!-- Make the pointer disappear when a key is pressed or after 5 seconds of inactivity --!
+!-- Hide the mouse when a key is pressed or after 5 seconds of inactivity --!
 URxvt.pointerBlank: true
 URxvt.pointerBlankDelay: 5
 
@@ -52,26 +52,30 @@ URxvt.font: xft:Deja Vu Sans Mono:size=11
 !-- Number of pixels to insert between each row (defaults to 0) --!
 URxvt.lineSpace: 3
 
-!-- Use visual bell on receipt of a bell character --!
+!-- Enable visual bell --!
 !URxvt.visualBell: true
 
-!-- Set the urgency hint for the WM on receipt of a bell character --!
+!-- Enable setting the urgency hint for the WM --!
 URxvt.urgentOnBell: true
 
 !-- Enable smooth scrolling --!
 URxvt.jumpScroll: false
 
-!-- Every line should be displayed, even if the refresh is too fast --!
-URxvt.skipScroll: false
+!-- Display every line, even if the refresh is too fast --!
+!URxvt.skipScroll: false
 
 !-- Do not scroll to bottom when tty receives output --!
 URxvt.scrollTtyOutput: false
 
 !-- Scroll with scrollback buffer when tty receives new lines --!
-!URxvt.scrollWithBuffer: true
+URxvt.scrollWithBuffer: true
 
 !-- Scroll back to the bottom on keypress --!
 URxvt.scrollTtyKeypress: true
+
+!-- Disable scrollback for the secondary screen --!
+URxvt.secondaryScreen: true
+URxvt.secondaryScroll: false
 
 !-- Extensions --!
 URxvt.perl-lib: /usr/lib/urxvt/perl/
@@ -83,7 +87,7 @@ URxvt.matcher.button: 1
 URxvt.iso14755: false
 URxvt.iso14755_52: false
 
-!-- Keycode fixes (for Vim mostly) --!
+!-- Keymaps --!
 URxvt.keysym.C-Up: \033[1;5A
 URxvt.keysym.C-Down: \033[1;5B
 URxvt.keysym.C-Right: \033[1;5C
