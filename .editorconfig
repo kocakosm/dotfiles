@@ -5,6 +5,7 @@ charset = utf-8
 end_of_line = lf
 indent_size = 4
 indent_style = space
+max_line_length = off
 insert_final_newline = false
 trim_trailing_whitespace = true
 
@@ -12,6 +13,6 @@ trim_trailing_whitespace = true
 indent_size = 8
 indent_style = tab
 
-[*.{xml,html,json,yml,vim}]
+[{*.xml,*.html,*.json,*.yml,*.vim,*vimrc*}]
 indent_size = 2
 indent_style = space
