@@ -1,83 +1,67 @@
+" Disable unused built-in plugins
+let g:loaded_2html_plugin=1
+let g:loaded_getscriptPlugin=1
+let g:loaded_netrwPlugin=1
+let g:loaded_vimballPlugin=1
+
 " Enable matchit (built-in plugin)
-runtime macros/matchit.vim
+if !exists('g:loaded_matchit')
+  runtime macros/matchit.vim
+endif
 
 call plug#begin('~/.vim/bundles')
-  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-  Plug 'Yggdroot/indentLine'
-  Plug 'ap/vim-css-color', { 'for': ['css', 'less', 'scss', 'vim'] }
-  Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'chrisbra/NrrwRgn'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'editorconfig/editorconfig-vim'
-  Plug 'ervandew/supertab'
-  Plug 'godlygeek/csapprox', has('gui_running') ? { 'on': [] } : {}
-  Plug 'itspriddle/ZoomWin'
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'kocakosm/hilal'
-  Plug 'ludovicchabant/vim-lawrencium'
-  Plug 'majutsushi/tagbar'
-  Plug 'mikelue/vim-maven-plugin', { 'for': 'java' }
-  Plug 'scrooloose/nerdcommenter'
-  Plug 'scrooloose/nerdtree'
-  Plug 'scrooloose/syntastic'
-  Plug 'sheerun/vim-polyglot'
-  Plug 'sjl/gundo.vim'
-  Plug 'sukima/xmledit', { 'for': ['xml', 'html', 'xhtml'] }
-  Plug 'terryma/vim-multiple-cursors'
-  Plug 'thinca/vim-visualstar'
-  Plug 'tpope/vim-eunuch'
-  Plug 'tyru/open-browser.vim'
-  Plug 'vim-jp/vim-java', { 'for': 'java' }
-  Plug 'ryanoasis/vim-devicons', has('gui_running') ? {} : { 'on': [] }
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'Yggdroot/indentLine'
+Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
+Plug 'chrisbra/NrrwRgn'
+Plug 'airblade/vim-rooter'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'ervandew/supertab'
+Plug 'godlygeek/csapprox', has('gui_running') ? {'on': []} : {}
+Plug 'itspriddle/ZoomWin'
+Plug 'jiangmiao/auto-pairs'
+Plug 'kocakosm/hilal'
+Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
+Plug 'lambdalisue/vim-fullscreen'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'sjl/gundo.vim'
+Plug 'sukima/xmledit', {'for': ['xml', 'html', 'xhtml']}
+Plug 'terryma/vim-multiple-cursors'
+Plug 'thinca/vim-visualstar'
+Plug 'tyru/open-browser.vim'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons', has('gui_running') ? {} : {'on': []}
 call plug#end()
-
-" Alternative plugins:
-" ctrlpvim/ctrlp.vim: Shougo/unite.vim
-" scrooloose/nerdtree: Shougo/vimfiler.vim
-" scrooloose/nerdcommenter: tpope/vim-commentary (simpler, though less powerful)
-" jiangmiao/auto-pairs: Raimondi/delimitMate (with let delimitMate_expand_cr=1)
-" mikelue/vim-maven-plugin: JalaiAmitahl/maven-compiler.vim + airblade/vim-rooter
-" SirVer/ultisnips: garbas/vim-snipmate (simpler, though less powerful)
-
-" Other great plugins:
-" Quramy/tsuquyomi
-" Valloric/MatchTagAlways
-" Xuyuanp/nerdtree-git-plugin
-" artur-shaik/vim-javacomplete2
-" chrisbra/unicode.vim
-" davidhalter/jedi-vim
-" gregsexton/VimCalc
-" gregsexton/gitv
-" itchyny/lightline.vim
-" jeetsukumaran/vim-indentwise
-" jistr/vim-nerdtree-tabs
-" justinmk/vim-gtfo
-" kien/rainbow_parentheses.vim
-" mattn/calendar-vim
-" mattn/vim-terminal
-" mhinz/vim-rfc
-" mhinz/vim-signify
-" mhinz/vim-startify
-" michaeljsmith/vim-indent-object
-" moll/vim-bbye
-" suan/vim-instant-markdown
-" ternjs/tern_for_vim
-" tpope/vim-dispatch
-" tpope/vim-fugitive
-" tpope/vim-speeddating
-" vim-airline/vim-airline
-" vim-airline/vim-airline-themes
-" vim-expand-region
-" vim-scripts/SyntaxAttr.vim
-" vim-scripts/bufkill.vim
-" w0ng/vim-hybrid
-" whatyouhide/vim-lengthmatters
-" zefei/vim-wintabs
-" zhaocai/GoldenView.Vim
 
 " Ahem... well... set colorscheme
 silent! colorscheme hilal
+
+" Airline configuration
+set noshowmode
+set laststatus=2
+let g:airline_theme='lucius'
+let g:airline_section_c='%t'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#wordcount#enabled=0
+let g:airline#extensions#syntastic#enabled=0
+"let g:airline#extensions#tagbar#enabled=0
+"let g:airline#extensions#tabline#enabled=1
+"let g:airline#extensions#tabline#fnamemod=':t'
+"let g:airline#extensions#tabline#tab_nr_type=1
+"let g:airline#extensions#tabline#show_close_button=0
+"let g:airline#extensions#tabline#formatter='unique_tail_improved'
+"let g:airline#extensions#tabline#left_alt_sep=''
+"let g:airline#extensions#tabline#left_sep=''
+let g:airline#extensions#whitespace#checks=['indent', 'trailing', 'long']
+let g:airline#extensions#whitespace#mixed_indent_algo=2
+let g:airline_right_sep=''
+let g:airline_left_sep=''
+let g:airline_right_alt_sep=''
+let g:airline_left_alt_sep=''
 
 " NERDTree configuration
 nnoremap <silent> <f5> :NERDTreeToggle<cr>
@@ -89,17 +73,25 @@ let NERDTreeHighlightCursorline=1
 nnoremap <silent> <f9> :GundoToggle<cr>
 let g:gundo_help=0
 let g:gundo_right=1
-let g:gundo_width=31
+let g:gundo_width=26
+let g:gundo_preview_bottom=1
+let g:gundo_preview_height=10
 let g:gundo_close_on_revert=1
+augroup Gundo
+  autocmd!
+  autocmd BufNewFile __Gundo__ setlocal cursorline
+augroup END
 
 " IndentLine configuration
 let g:indentLine_char='│'
 let g:indentLine_color_gui='#1a1e22'
-let g:indentLine_fileTypeExclude=['java', 'txt']
+let g:indentLine_fileTypeExclude=['java', 'make', 'txt', 'help', '']
 
 " Devicons configuration
-"let g:webdevicons_enable_airline_tabline=0
+"let g:webdevicons_enable_ctrlp=0
 "let g:webdevicons_enable_nerdtree=0
+"let g:webdevicons_enable_airline_tabline=0
+let g:webdevicons_enable_airline_statusline=0
 let g:WebDevIconsNerdTreeAfterGlyphPadding=' '
 "let g:WebDevIconsUnicodeDecorateFolderNodes=1
 
@@ -127,13 +119,34 @@ let g:tagbar_zoomwidth=0
 "let g:tagbar_hide_nonpublic=1
 let g:tagbar_singleclick=1
 let g:tagbar_iconchars=['▸', '▾']
-"autocmd FileType java,javascript nested :TagbarOpen
-
-" Maven plugin configuration
-let g:maven_auto_chdir=1
+"augroup Tagbar
+"  autocmd!
+"  autocmd FileType java,javascript nested :TagbarOpen
+"augroup END
 
 " UltiSnips configuration
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-"let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<S-tab>'
+"let g:UltiSnipsEditSplit='vertical'
+
+" Vim-rooter configuration
+let g:rooter_use_lcd=1
+let g:rooter_resolve_links=1
+let g:rooter_change_directory_for_non_project_files='current'
+let g:rooter_patterns=['pom.xml', 'package.json', 'Makefile', 'makefile']
+let g:rooter_patterns+=['.hg/', '.git', '.git/']
+
+" Supertab configuration
+let g:SuperTabNoCompleteAfter=['^', ',', '\s']
+let g:SuperTabMappingForward='<c-space>'
+let g:SuperTabMappingBackward='<s-c-space>'
+let g:SuperTabLongestEnhanced=1
+let g:SuperTabDefaultCompletionType='context'
+let g:SuperTabContextDefaultCompletionType='<c-n>'
+let g:SuperTabRetainCompletionDuration='completion'
+
+" Vim-fullscreen configuration
+let fullscreen#enable_default_keymap=0
+nnoremap <silent> <f11> :FullscreenToggle<cr>
+inoremap <silent> <f11> <c-o>:FullscreenToggle<cr>
