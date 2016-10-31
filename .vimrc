@@ -61,16 +61,13 @@ set nowritebackup
 set undofile
 
 " Put all temporary files under ~/.vim/tmp
-function! s:mkdir(path)
-  if exists('*mkdir') && !isdirectory(a:path)
-    call mkdir(a:path)
-  endif
+function! s:mkdir(path) abort
+  if !isdirectory(a:path) | call mkdir(a:path, 'p') | endif
 endfunction
-call s:mkdir($HOME.'/.vim/tmp')
-call s:mkdir($HOME.'/.vim/tmp/swap')
-call s:mkdir($HOME.'/.vim/tmp/undo')
-call s:mkdir($HOME.'/.vim/tmp/info')
-call s:mkdir($HOME.'/.vim/tmp/backup')
+call s:mkdir($HOME . '/.vim/tmp/swap')
+call s:mkdir($HOME . '/.vim/tmp/undo')
+call s:mkdir($HOME . '/.vim/tmp/info')
+call s:mkdir($HOME . '/.vim/tmp/backup')
 set backupdir=$HOME/.vim/tmp/backup/
 set directory=$HOME/.vim/tmp/swap//
 set undodir=$HOME/.vim/tmp/undo/

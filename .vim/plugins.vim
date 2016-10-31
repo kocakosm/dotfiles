@@ -40,7 +40,7 @@ call plug#end()
 " Ahem... well... set colorscheme
 silent! colorscheme hilal
 
-" Airline configuration
+" Vim-airline configuration
 set noshowmode
 set laststatus=2
 let g:airline_theme='lucius'
@@ -125,13 +125,14 @@ let g:tagbar_iconchars=['▸', '▾']
 "augroup END
 
 " UltiSnips configuration
-let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsExpandTrigger='<c-space>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
 let g:UltiSnipsJumpBackwardTrigger='<S-tab>'
 "let g:UltiSnipsEditSplit='vertical'
 
 " Vim-rooter configuration
 let g:rooter_use_lcd=1
+let g:rooter_silent_chdir=1
 let g:rooter_resolve_links=1
 let g:rooter_change_directory_for_non_project_files='current'
 let g:rooter_patterns=['pom.xml', 'package.json', 'Makefile', 'makefile']
@@ -150,3 +151,6 @@ let g:SuperTabRetainCompletionDuration='completion'
 let fullscreen#enable_default_keymap=0
 nnoremap <silent> <f11> :FullscreenToggle<cr>
 inoremap <silent> <f11> <c-o>:FullscreenToggle<cr>
+
+" Vim-visualstar configuration
+let visualstar_extra_commands='gN'

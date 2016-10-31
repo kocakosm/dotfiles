@@ -1,3 +1,14 @@
+"----------------------------------------------------------------------"
+" auto-close.vim                                                       "
+" Copyright (c) 2016 Osman Koçak <kocakosm@gmail.com>                  "
+" Licensed under the MIT license <https://opensource.org/licenses/MIT> "
+"----------------------------------------------------------------------"
+
+if exists("g:loaded_auto_close")
+  finish
+endif
+let g:loaded_auto_close = 1
+
 function! s:auto_close()
   for i in range(1, winnr('$'))
     if getbufvar(winbufnr(i), '&modifiable') | return | endif
