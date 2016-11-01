@@ -3,8 +3,9 @@ set mousemodel=popup
 "set mousemodel=popup_setpos
 
 " GUI specific font
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-"set guifont=Deja\ Vu\ Sans\ Mono\ for\ Powerline\ 11
+set guifont=DroidSansMonoForPowerline\ Nerd\ Font\ 11
+"set guifont=DejaVuSansMonoForPowerline\ Nerd\ Font\ 11
+"set guifont=InconsolataForPowerline\ Nerd\ Font\ 13
 
 " Line spacing
 set linespace=2
