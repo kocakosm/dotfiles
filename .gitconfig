@@ -8,3 +8,6 @@ default = simple
 [core]
 editor = vim
 excludesfile = ~/.global-gitignore
+
+[alias]
+rollback = reset HEAD^
