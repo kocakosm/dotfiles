@@ -17,7 +17,6 @@ ignore = version, diff, update
 
 [alias]
 show = log -pr
-glog = log -G
 
 [color]
 status.modified = magenta bold
