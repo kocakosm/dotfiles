@@ -27,6 +27,10 @@ set autoread
 " Ask to save modified files before operations like :q
 "set confirm
 
+" Reduce delay when using escape key in a terminal
+set ttimeout
+set ttimeoutlen=10
+
 " Better display when running in a terminal
 set ttyfast
 
@@ -76,6 +80,9 @@ set viminfo='100,n$HOME/.vim/tmp/info/viminfo
 " Set the window title
 set title
 set titlestring=%F\ %m
+
+" Enable true colors support in terminal
+"set termguicolors
 
 " Don't display the intro message
 set shortmess+=I
@@ -166,6 +173,9 @@ set nostartofline
 "  autocmd InsertLeave * set list
 "augroup END
 
+" Treat underscore as a word boundary
+set iskeyword-=_
+
 " More powerful backspacing in insert mode
 set backspace=indent,eol,start
 
@@ -194,7 +204,9 @@ set shiftwidth=4
 set shiftround
 
 " Files to scan for <c-x><c-k> insert mode completions
-set dictionary=/usr/share/dict/*-english,/usr/share/dict/french
+set dictionary=/usr/share/dict/british-english
+set dictionary+=/usr/share/dict/american-english
+set dictionary+=/usr/share/dict/french
 
 " Places to scan for <c-n>, <c-p> and <c-x><c-l> insert mode completions
 "set complete=.,w,b,u,t,i,kspell,k
@@ -211,8 +223,8 @@ augroup END
 " Adjust the case of the completion match to the case of the typed text
 "set infercase
 
-" Don't show more than 10 items in the popup menu
-set pumheight=10
+" Don't show more than 15 items in the popup menu
+set pumheight=15
 
 " Automatic formatting options
 set formatoptions+=jln
