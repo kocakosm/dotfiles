@@ -1,6 +1,6 @@
 [ui]
 username = Osman Koçak <kocakosm@gmail.com>
-ignore = ~/.global-hgignore
+ignore = ~/.hgignore.global
 editor = vim
 
 [extensions]
