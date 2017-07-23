@@ -56,6 +56,6 @@ command! SmallerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)-
 "augroup END
 
 " Source a local .gvimrc, if available
-if filereadable(expand('~/.gvimrc.local'))
-  source ~/.gvimrc.local
+if filereadable(expand('~/.vim/gvimrc.local'))
+  source ~/.vim/gvimrc.local
 endif
