@@ -33,13 +33,6 @@ set guitablabel=%t\ %m
 " Enable visual bell
 set visualbell
 
-" Set window position, height and width
-augroup Window
-  autocmd!
-  autocmd GuiEnter * winpos 120 40
-  autocmd GuiEnter * set lines=33 columns=124
-augroup END
-
 " Easily change font size
 command! BiggerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)+1', '')
 command! SmallerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)-1', '')
