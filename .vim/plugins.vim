@@ -155,3 +155,15 @@ inoremap <silent> <f11> <c-o>:FullscreenToggle<cr>
 
 " Vim-visualstar configuration
 let visualstar_extra_commands='gN'
+
+" Hide cursor in Tagbar, Gundo and NerdTree buffers
+if has('gui_running')
+  augroup HideCursor
+    autocmd!
+    autocmd BufEnter * silent! call kitondro#show_cursor()
+    autocmd BufEnter __Tagbar__ silent! call kitondro#hide_cursor()
+    autocmd BufEnter __Gundo__ silent! call kitondro#hide_cursor()
+    autocmd BufEnter __Gundo_Preview__ silent! call kitondro#hide_cursor()
+    autocmd BufEnter NERD_tree_1 silent! call kitondro#hide_cursor()
+  augroup END
+endif
