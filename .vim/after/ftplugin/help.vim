@@ -1,17 +1,24 @@
-" <enter> jumps to the subject under the cursor
-nnoremap <silent> <buffer> <cr> <c-]>
+if !getbufvar(winbufnr(0), '&modifiable')
 
-" <backspace> moves the cursor back to its position before the previous jump
-nnoremap <silent> <buffer> <bs> <c-t>
+  " don't highlight any columns
+  setlocal colorcolumn=
 
-" <s> moves the cursor to the next subject
-nnoremap <silent> <buffer> s /\|\zs\S\+\ze\|<cr>
+  " <enter> jumps to the subject under the cursor
+  nnoremap <silent> <buffer> <cr> <c-]>
 
-" <S> moves the cursor to the previous subject
-nnoremap <silent> <buffer> S ?\|\zs\S\+\ze\|<cr>
+  " <backspace> moves the cursor back to its position before the previous jump
+  nnoremap <silent> <buffer> <bs> <c-t>
 
-" <o> moves the cursor to the next option
-nnoremap <silent> <buffer> o /'\l\{2,\}'<cr>
+  " <s> moves the cursor to the next subject
+  nnoremap <silent> <buffer> s /\|\zs\S\+\ze\|<cr>
 
-" <O> moves the cursor to the previous option
-nnoremap <silent> <buffer> O ?'\l\{2,\}'<cr>
+  " <S> moves the cursor to the previous subject
+  nnoremap <silent> <buffer> S ?\|\zs\S\+\ze\|<cr>
+
+  " <o> moves the cursor to the next option
+  nnoremap <silent> <buffer> o /'\l\{2,\}'<cr>
+
+  " <O> moves the cursor to the previous option
+  nnoremap <silent> <buffer> O ?'\l\{2,\}'<cr>
+
+endif

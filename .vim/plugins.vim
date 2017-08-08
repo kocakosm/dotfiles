@@ -14,6 +14,8 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 Plug 'chrisbra/NrrwRgn'
+Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
+"Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'airblade/vim-rooter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
@@ -65,9 +67,9 @@ let g:airline_left_alt_sep=''
 
 " NERDTree configuration
 nnoremap <silent> <f5> :NERDTreeToggle<cr>
-let NERDTreeMinimalUI=1
-let NERDTreeMouseMode=3
-let NERDTreeHighlightCursorline=1
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeMouseMode=3
+let g:NERDTreeHighlightCursorline=1
 
 " Gundo configuration
 nnoremap <silent> <f9> :GundoToggle<cr>
@@ -149,21 +151,31 @@ let g:SuperTabContextDefaultCompletionType='<c-n>'
 let g:SuperTabRetainCompletionDuration='completion'
 
 " Vim-fullscreen configuration
-let fullscreen#enable_default_keymap=0
+let g:fullscreen#enable_default_keymap=0
 nnoremap <silent> <f11> :FullscreenToggle<cr>
 inoremap <silent> <f11> <c-o>:FullscreenToggle<cr>
 
 " Vim-visualstar configuration
-let visualstar_extra_commands='gN'
+let g:visualstar_extra_commands='gN'
 
-" Hide cursor in Tagbar, Gundo and NerdTree buffers
+" Vim-kitondro: hide cursor in Tagbar, Gundo, NerdTree and Quickfix buffers
 if has('gui_running')
-  augroup HideCursor
+  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf']
+  function! s:set_cursor_visibility()
+    if index(s:types, getbufvar(winbufnr(0), '&filetype')) > -1
+      call kitondro#hide_cursor()
+    else
+      call kitondro#show_cursor()
+    endif
+  endfunction
+  augroup CursorVisibility
     autocmd!
-    autocmd BufEnter * silent! call kitondro#show_cursor()
-    autocmd BufEnter __Tagbar__ silent! call kitondro#hide_cursor()
-    autocmd BufEnter __Gundo__ silent! call kitondro#hide_cursor()
-    autocmd BufEnter __Gundo_Preview__ silent! call kitondro#hide_cursor()
-    autocmd BufEnter NERD_tree_1 silent! call kitondro#hide_cursor()
+    autocmd BufWinEnter,BufEnter,FileType * call <sid>set_cursor_visibility()
   augroup END
 endif
+
+" Vim-livedown configuration
+let g:livedown_autorun=1
+let g:livedown_open=1
+let g:livedown_port=10042
+let g:livedown_browser='"firefox -P livedown"'
