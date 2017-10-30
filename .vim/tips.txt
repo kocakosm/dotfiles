@@ -1,0 +1,92 @@
+Vim tips & tricks
+=================
+
+
+Useful insert mode commands
+---------------------------
+  Ctrl-o       for one time normal mode command
+  Ctrl-r<reg>  for insertion from a named register
+  Ctrl-r=      expression register (e.g. 28 + 14 --> 42)
+  <C-h>        delete back one character
+  <C-w>        delete back one word
+  <C-u>        delete back to start of line
+  <C-k>        delete forward to end of line
+
+
+Useful cursor positioning and movement commands
+-----------------------------------------------
+  zt       move text under cursor to the top
+  zz       move text under cursor to the center
+  zb       move text under cursor to the bottom
+  zl       move text under cursor one character to the left
+  zh       move text under cursor one character to the right
+  zL       move text under cursor half a screen to the left
+  zH       move text under cursor half a screen to the right
+  H        move to top of screen
+  M        move to middle of screen
+  L        move to end of screen
+  g;       move back to where you were last editing
+  mm       set a mark in the current file
+  'm       return back to 'm' mark in the current file
+  mM       set a global mark
+  'M       return back to the global 'M' mark
+  { / }    move between paragraphs
+  ( / )    move between sentences
+  ge / gE  move to the end of the previous word/WORD
+  Ctrl-e   scroll file up one line at a time
+  Ctrl-y   scroll file down one line at a time
+
+
+Completion sub-types when in insert mode (initiated with Ctrl-x)
+----------------------------------------------------------------
+  Ctrl-f  file name completion based on files in the CWD
+  Ctrl-k  dictionary completion
+  Ctrl-l  line completion
+  Ctrl-o  omni completion
+  Ctrl-]  tag completion
+
+
+Spelling commands
+-----------------
+  z=  Suggest spelling correction
+  ]s  Move to next spelling error
+  [s  Move to previous spelling error
+  zg  Add current word to dictionary
+  zw  Delete current word from dictionary
+
+
+Tag navigation
+--------------
+  Ctrl-]  find definition under cursor
+  Ctrl-o  return back from definition
+
+
+Visual mode commands
+--------------------
+  gv         repeat last visual selection
+  u / U      change visual selection to lower or upper case
+  vip / vap  visual select paragraph
+  vis / vas  visual select sentence
+  vit / vat  visual select tag
+
+
+Substitute in visual block
+--------------------------
+  '<,'>s/\%Vfoo/bar/
+
+
+Misc commands
+-------------
+  gf              go to file under cursor
+  gq              format text (to fit in 'textwidth')
+  /<term>         search forward for 'term'
+  ?<term>         search backward for 'term'
+  :%s//<new>      replace last search results with 'new'
+  :%s///n         list match count for the last search
+  :g/<pattern>    list all lines containing 'pattern'
+  :g/<pattern>/d  delete all lines containing 'pattern'
+  :v/<pattern>    list all lines NOT containing 'pattern'
+  :v/<pattern>/d  delete all lines NOT containing 'pattern'
+  cgn             replace last search match
+  dgn             delete last search match
+  .               repeat last change
