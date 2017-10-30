@@ -31,6 +31,10 @@ set autoread
 set ttimeout
 set ttimeoutlen=10
 
+" Number of milliseconds to wait after nothing is typed to write the swap file
+" to disk and trigger the CursorHold autocmd
+set updatetime=1000
+
 " Better display when running in a terminal
 set ttyfast
 
@@ -82,7 +86,7 @@ set title
 set titlestring=%F\ %m
 
 " Enable true colors support in terminal
-"set termguicolors
+set termguicolors
 
 " Don't display the intro message
 set shortmess+=I
@@ -214,10 +218,13 @@ set dictionary+=/usr/share/dict/french
 " Insert mode completion options
 set completeopt=longest,menu,preview
 
-" Enable syntax-based completion for file types that don't have custom completion scripts
+" Fallback to syntax-based omni-completion if omnifunc is not defined
 augroup SyntaxCompletion
   autocmd!
-  autocmd FileType * if &omnifunc == '' | setlocal omnifunc=syntaxcomplete#Complete | endif
+  autocmd FileType *
+        \ if &omnifunc == '' |
+        \   setlocal omnifunc=syntaxcomplete#Complete |
+        \ endif
 augroup END
 
 " Adjust the case of the completion match to the case of the typed text
