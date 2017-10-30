@@ -23,3 +23,5 @@ tmp
 target
 node_modules
 nb-configuration.xml
+sonarlint.json
++.sonarlint
