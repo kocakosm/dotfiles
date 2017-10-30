@@ -1,4 +1,4 @@
-/* do not show dotted lines around scrollable windows */
+/* removes dotted lines around scrollable windows */
 undershoot.top, undershoot.right, undershoot.bottom, undershoot.left { background-image: none; }
 
 /* sets the color of the borders around gvim's window */
