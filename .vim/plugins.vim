@@ -12,29 +12,32 @@ endif
 call plug#begin('~/.vim/bundles')
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-rooter'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 Plug 'chrisbra/NrrwRgn'
-Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
-"Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
-Plug 'airblade/vim-rooter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
-Plug 'godlygeek/csapprox', has('gui_running') ? {'on': []} : {}
 Plug 'itspriddle/ZoomWin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kocakosm/hilal'
 Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lambdalisue/vim-fullscreen'
+Plug 'ludovicchabant/vim-lawrencium'
 Plug 'majutsushi/tagbar'
+Plug 'mhinz/vim-signify'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
+Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'sjl/gundo.vim'
-Plug 'sukima/xmledit', {'for': ['xml', 'html', 'xhtml']}
+Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'thinca/vim-visualstar'
+Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim'
+Plug 'w0rp/ale'
+Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons', has('gui_running') ? {} : {'on': []}
 call plug#end()
@@ -49,7 +52,6 @@ let g:airline_theme='lucius'
 let g:airline_section_c='%t'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#wordcount#enabled=0
-let g:airline#extensions#syntastic#enabled=0
 "let g:airline#extensions#tagbar#enabled=0
 "let g:airline#extensions#tabline#enabled=1
 "let g:airline#extensions#tabline#fnamemod=':t'
@@ -60,6 +62,9 @@ let g:airline#extensions#syntastic#enabled=0
 "let g:airline#extensions#tabline#left_sep=''
 let g:airline#extensions#whitespace#checks=['indent', 'trailing', 'long']
 let g:airline#extensions#whitespace#mixed_indent_algo=2
+let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#ale#error_symbol='✗ '
+let g:airline#extensions#ale#warning_symbol='⚠️ '
 let g:airline_right_sep=''
 let g:airline_left_sep=''
 let g:airline_right_alt_sep=''
@@ -95,7 +100,7 @@ let g:indentLine_fileTypeExclude=['java', 'make', 'txt', 'help', '']
 "let g:webdevicons_enable_nerdtree=0
 "let g:webdevicons_enable_airline_tabline=0
 let g:webdevicons_enable_airline_statusline=0
-let g:WebDevIconsNerdTreeAfterGlyphPadding=' '
+let g:WebDevIconsNerdTreeAfterGlyphPadding=''
 "let g:WebDevIconsUnicodeDecorateFolderNodes=1
 
 " Open-browser configuration
@@ -160,7 +165,7 @@ let g:visualstar_extra_commands='gN'
 
 " Vim-kitondro: hide cursor in Tagbar, Gundo, NerdTree and Quickfix buffers
 if has('gui_running')
-  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf']
+  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf', 'vim-plug']
   function! s:set_cursor_visibility()
     if index(s:types, getbufvar(winbufnr(0), '&filetype')) > -1
       call kitondro#hide_cursor()
@@ -168,7 +173,7 @@ if has('gui_running')
       call kitondro#show_cursor()
     endif
   endfunction
-  augroup CursorVisibility
+  augroup Kitondro
     autocmd!
     autocmd BufWinEnter,BufEnter,FileType * call <sid>set_cursor_visibility()
   augroup END
@@ -179,3 +184,28 @@ let g:livedown_autorun=1
 let g:livedown_open=1
 let g:livedown_port=10042
 let g:livedown_browser='"firefox -P livedown"'
+
+" Vim-signify configuration
+let g:signify_vcs_list=['git', 'hg']
+let g:signify_realtime=0
+"let g:signify_disable_by_default=0
+let s:signify_sign='∙'
+"let s:signify_sign='❙'
+"let s:signify_sign='❚'
+let g:signify_sign_add=s:signify_sign
+let g:signify_sign_delete=s:signify_sign
+let g:signify_sign_delete_first_line=s:signify_sign
+let g:signify_sign_change=s:signify_sign
+let g:signify_sign_changedelete=g:signify_sign_change
+let g:signify_sign_show_count=0
+let g:signify_sign_show_text=1
+
+" ALE configuration
+let g:ale_sign_warning='⚠️'
+let g:ale_sign_error='✗'
+let g:ale_set_loclist=0
+let g:ale_set_quickfix=0
+let g:ale_history_enabled=0
+let g:ale_echo_msg_error_str='✗'
+let g:ale_echo_msg_warning_str='⚠'
+let g:ale_echo_msg_format='[%linter%] %severity% %s'
