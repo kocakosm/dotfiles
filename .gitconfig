@@ -2,12 +2,12 @@
 name = Osman Koçak
 email = kocakosm@gmail.com
 
-[push]
-default = simple
-
 [core]
 editor = vim
 excludesfile = ~/.gitignore.global
+
+[push]
+default = simple
 
 [alias]
 rollback = reset HEAD^
