@@ -13,6 +13,8 @@ trim_trailing_whitespace = true
 indent_size = 8
 indent_style = tab
 
-[{*.xml,*.html,*.json,*.yml,*.vim,*vimrc*}]
+[*.properties]
+charset = latin1
+
+[{*.xml,*.xsd,*.html,*.json,*.yml,*.vim,*vimrc*}]
 indent_size = 2
-indent_style = space
