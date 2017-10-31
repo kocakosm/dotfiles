@@ -1,4 +1,3 @@
-.gitignore
 *.o
 *.class
 *.back
@@ -22,4 +21,4 @@ target
 node_modules
 nb-configuration.xml
 sonarlint.json
-+.sonarlint
+.sonarlint
