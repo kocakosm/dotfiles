@@ -2,4 +2,4 @@
 undershoot.top, undershoot.right, undershoot.bottom, undershoot.left { background-image: none; }
 
 /* sets the color of the borders around gvim's window */
-.gtk-form { background-color: #14171a; }
+window#vim-main-window.background widget.gtk-form { background-color: #14171a; }
