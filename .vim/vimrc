@@ -218,15 +218,6 @@ set dictionary+=/usr/share/dict/french
 " Insert mode completion options
 set completeopt=longest,menu,preview
 
-" Fallback to syntax-based omni-completion if omnifunc is not defined
-augroup SyntaxCompletion
-  autocmd!
-  autocmd FileType *
-        \ if &omnifunc == '' |
-        \   setlocal omnifunc=syntaxcomplete#Complete |
-        \ endif
-augroup END
-
 " Adjust the case of the completion match to the case of the typed text
 "set infercase
 
