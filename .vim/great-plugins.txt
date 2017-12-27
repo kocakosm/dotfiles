@@ -40,6 +40,7 @@ https://github.com/fatih/vim-go
 https://github.com/garbas/vim-snipmate
 https://github.com/glanotte/vim-jasmine
 https://github.com/godlygeek/csapprox
+https://github.com/godlygeek/tabular
 https://github.com/gregsexton/VimCalc
 https://github.com/gregsexton/gitv
 https://github.com/groenewege/vim-less
@@ -131,3 +132,4 @@ https://github.com/xolox/vim-shell
 https://github.com/yuttie/comfortable-motion.vim
 https://github.com/zefei/vim-wintabs
 https://github.com/zhaocai/GoldenView.Vim
+https://github.com/zirrostig/vim-schlepp
