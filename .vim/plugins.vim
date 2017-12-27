@@ -38,6 +38,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim'
 Plug 'w0rp/ale'
 Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
+Plug 'zirrostig/vim-schlepp'
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons', has('gui_running') ? {} : {'on': []}
 call plug#end()
@@ -209,3 +210,17 @@ let g:ale_history_enabled=0
 let g:ale_echo_msg_error_str='✗'
 let g:ale_echo_msg_warning_str='⚠'
 let g:ale_echo_msg_format='[%linter%] %severity% %s'
+
+" Vim-schlepp configuration
+vmap <unique> <s-a-up> <Plug>SchleppUp
+vmap <unique> <s-a-down> <Plug>SchleppDown
+vmap <unique> <s-a-left> <Plug>SchleppLeft
+vmap <unique> <s-a-right> <Plug>SchleppRight
+vmap <unique> <s-a-d> <Plug>SchleppDup
+"let g:Schlepp#allowSquishingLines=1
+"let g:Schlepp#allowSquishingBlocks=1
+let g:Schlepp#trimWS=0
+let g:Schlepp#reindent=1
+"let g:Schlepp#dupTrimWS=1
+let g:Schlepp#dupLinesDir='down'
+let g:Schlepp#dupBlockDir='right'
