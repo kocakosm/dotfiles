@@ -224,3 +224,6 @@ let g:Schlepp#reindent=1
 "let g:Schlepp#dupTrimWS=1
 let g:Schlepp#dupLinesDir='down'
 let g:Schlepp#dupBlockDir='right'
+
+" Vstats.vim configuration
+nnoremap <silent> ++ ggVG:VStats<cr>gv
