@@ -4,7 +4,7 @@
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists("g:loaded_auto_close")
+if exists('g:loaded_auto_close')
   finish
 endif
 let g:loaded_auto_close = 1
@@ -12,7 +12,7 @@ let g:loaded_auto_close = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if has("autocmd")
+if has('autocmd')
   function! s:auto_close()
     for i in range(1, winnr('$'))
       if getbufvar(winbufnr(i), '&modifiable') | return | endif

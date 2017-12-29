@@ -4,7 +4,7 @@
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists("g:loaded_syntax_complete")
+if exists('g:loaded_syntax_complete')
   finish
 endif
 let g:loaded_syntax_complete = 1
@@ -12,7 +12,7 @@ let g:loaded_syntax_complete = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if has("autocmd") && exists("+omnifunc")
+if has('autocmd') && exists('+omnifunc')
   augroup SyntaxComplete
     autocmd!
     autocmd FileType *
