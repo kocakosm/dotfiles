@@ -136,7 +136,7 @@ let g:tagbar_iconchars=['▸', '▾']
 " UltiSnips configuration
 let g:UltiSnipsExpandTrigger='<c-space>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<S-tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 "let g:UltiSnipsEditSplit='vertical'
 
 " Vim-rooter configuration
@@ -212,11 +212,11 @@ let g:ale_echo_msg_warning_str='⚠'
 let g:ale_echo_msg_format='[%linter%] %severity% %s'
 
 " Vim-schlepp configuration
-vmap <unique> <s-a-up> <Plug>SchleppUp
-vmap <unique> <s-a-down> <Plug>SchleppDown
-vmap <unique> <s-a-left> <Plug>SchleppLeft
-vmap <unique> <s-a-right> <Plug>SchleppRight
-vmap <unique> <s-a-d> <Plug>SchleppDup
+xmap <unique> <s-a-up> <plug>SchleppUp
+xmap <unique> <s-a-down> <plug>SchleppDown
+xmap <unique> <s-a-left> <plug>SchleppLeft
+xmap <unique> <s-a-right> <plug>SchleppRight
+xmap <unique> <s-a-d> <plug>SchleppDup
 "let g:Schlepp#allowSquishingLines=1
 "let g:Schlepp#allowSquishingBlocks=1
 let g:Schlepp#trimWS=0
@@ -226,4 +226,5 @@ let g:Schlepp#dupLinesDir='down'
 let g:Schlepp#dupBlockDir='right'
 
 " Vstats.vim configuration
-nnoremap <silent> ++ ggVG:VStats<cr>gv
+xmap <silent> ++ <plug>(vstats)
+nmap <silent> ++ ggVG<plug>(vstats)
