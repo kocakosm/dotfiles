@@ -16,5 +16,5 @@ indent_style = tab
 [*.properties]
 charset = latin1
 
-[{*.xml,*.xsd,*.html,*.json,*.yml,*.vim,*vimrc*}]
+[{*.xml,*.xsd,*.html,*.json,*.yml,*.yaml,*.vim,*vimrc*}]
 indent_size = 2
