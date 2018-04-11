@@ -1,6 +1,6 @@
 "----------------------------------------------------------------------"
 " auto-close.vim                                                       "
-" Copyright (c) 2016 Osman Koçak <kocakosm@gmail.com>                  "
+" Copyright (c) 2016-2018 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -12,18 +12,31 @@ let g:loaded_auto_close = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if has('autocmd')
-  function! s:auto_close()
-    for i in range(1, winnr('$'))
-      if getbufvar(winbufnr(i), '&modifiable') | return | endif
-    endfor
-    for _ in range(winnr('$')) | q | endfor
-  endfunction
-  augroup AutoClose
-    autocmd!
-    autocmd WinEnter * call <sid>auto_close()
-  augroup END
+if !(has('autocmd') && exists('##QuitPre'))
+  call s:warn('Missing required features/options')
+  finish
 endif
+
+function! s:warn(msg) abort
+  echohl WarningMsg | echomsg '[auto-close]' a:msg | echohl None
+endfunction
+
+function! s:on_quit_pre() abort
+  if buflisted(winbufnr(winnr()))
+    let winnr = winnr('$')
+    let unlisted = filter(range(1, winnr), '!buflisted(winbufnr(v:val))')
+    if winnr - len(unlisted) == 1
+      for i in unlisted
+        execute i . 'wincmd w' | silent! quit
+      endfor
+    endif
+  endif
+endfunction
+
+augroup AutoClose
+  autocmd!
+  autocmd QuitPre * call <sid>on_quit_pre()
+augroup END
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

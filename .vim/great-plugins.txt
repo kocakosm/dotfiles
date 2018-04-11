@@ -21,6 +21,7 @@ https://github.com/Xuyuanp/nerdtree-git-plugin
 https://github.com/Yggdroot/indentLine
 https://github.com/airblade/vim-rooter
 https://github.com/ap/vim-css-color
+https://github.com/arcticicestudio/nord-vim
 https://github.com/artur-shaik/vim-javacomplete2
 https://github.com/autozimu/LanguageClient-neovim
 https://github.com/bkad/CamelCaseMotion
@@ -123,6 +124,7 @@ https://github.com/vim-scripts/octave.vim--
 https://github.com/w0ng/vim-hybrid
 https://github.com/w0rp/ale
 https://github.com/wellle/targets.vim
+https://github.com/whatyouhide/vim-gotham
 https://github.com/whatyouhide/vim-lengthmatters
 https://github.com/wincent/terminus
 https://github.com/xolox/vim-colorscheme-switcher

@@ -31,7 +31,7 @@ function! s:extract_numbers(string) abort
 endfunction
 
 function! s:warn(msg) abort
-  echohl WarningMsg | echomsg '[vstats] ' . a:msg | echohl None
+  echohl WarningMsg | echomsg '[vstats]' a:msg | echohl None
 endfunction
 
 function! s:sum(numbers) abort
@@ -59,7 +59,10 @@ function! s:max(numbers) abort
 endfunction
 
 function! s:str(number) abort
-  return printf('%g', a:number)
+  let s = printf('%.10g', a:number)
+  let i = match(s, '\.\?0\+$')
+  if i >= 0 | let s = strpart(s, 0, i) | endif
+  return s
 endfunction
 
 function! s:print_stats() abort

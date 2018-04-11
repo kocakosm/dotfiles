@@ -212,11 +212,11 @@ let g:ale_echo_msg_warning_str='⚠'
 let g:ale_echo_msg_format='[%linter%] %severity% %s'
 
 " Vim-schlepp configuration
-xmap <unique> <s-a-up> <plug>SchleppUp
-xmap <unique> <s-a-down> <plug>SchleppDown
-xmap <unique> <s-a-left> <plug>SchleppLeft
-xmap <unique> <s-a-right> <plug>SchleppRight
-xmap <unique> <s-a-d> <plug>SchleppDup
+xmap <silent> <s-a-up> <plug>SchleppUp
+xmap <silent> <s-a-down> <plug>SchleppDown
+xmap <silent> <s-a-left> <plug>SchleppLeft
+xmap <silent> <s-a-right> <plug>SchleppRight
+xmap <silent> <s-a-d> <plug>SchleppDup
 "let g:Schlepp#allowSquishingLines=1
 "let g:Schlepp#allowSquishingBlocks=1
 let g:Schlepp#trimWS=0
