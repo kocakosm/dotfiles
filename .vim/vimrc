@@ -3,8 +3,6 @@ set nocompatible
 
 " Set UTF-8 as the default encoding
 set encoding=utf-8
-set termencoding=utf-8
-setglobal fileencoding=utf-8
 
 " Disable modeline
 set nomodeline
@@ -176,9 +174,6 @@ set nostartofline
 "  autocmd InsertEnter * set nolist
 "  autocmd InsertLeave * set list
 "augroup END
-
-" Treat underscore as a word boundary
-set iskeyword-=_
 
 " More powerful backspacing in insert mode
 set backspace=indent,eol,start

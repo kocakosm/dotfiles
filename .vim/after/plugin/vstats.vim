@@ -1,7 +1,7 @@
 "----------------------------------------------------------------------"
 " vstats.vim                                                           "
-" This is a _heavily_ modified version of Damian Conway's vmath plugin."
-" This file is placed under the public domain.                         "
+" Copyright (c) 2018 Osman Koçak <kocakosm@gmail.com>                  "
+" Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
 if exists('g:loaded_vstats')
