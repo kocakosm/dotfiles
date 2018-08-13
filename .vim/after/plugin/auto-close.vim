@@ -25,7 +25,7 @@ function! s:on_quit_pre() abort
   if buflisted(winbufnr(winnr()))
     let winnr = winnr('$')
     let unlisted = filter(range(winnr, 1, -1), '!buflisted(winbufnr(v:val))')
-    if winnr - len(unlisted) == 1
+    if len(unlisted) == winnr - 1
       for i in unlisted
         execute i . 'wincmd w' | silent! quit
       endfor
