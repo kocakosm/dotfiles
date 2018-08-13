@@ -15,11 +15,17 @@ set cpo&vim
 if !(has('autocmd') && exists('+syntax')
       \ && exists('##CursorHold') && exists('##CursorHoldI'))
   call s:warn('Missing required features/options')
+  call s:restore_cpo()
   finish
 endif
 
 function! s:warn(msg) abort
   echohl WarningMsg | echomsg '[highlight-current-word]' a:msg | echohl None
+endfunction
+
+function! s:restore_cpo() abort
+  let &cpo = s:save_cpo
+  unlet s:save_cpo
 endfunction
 
 if !hlexists('CurrentWord')
@@ -40,5 +46,4 @@ augroup HighlightCurrentWord
   autocmd CursorHoldI * call <sid>match_current_word()
 augroup END
 
-let &cpo = s:save_cpo
-unlet s:save_cpo
+call s:restore_cpo()
