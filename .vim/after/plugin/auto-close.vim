@@ -14,7 +14,7 @@ set cpo&vim
 
 if !(has('autocmd') && exists('##QuitPre'))
   call s:warn('Missing required features/options')
-  call s:restore_cpo()
+  call s:on_exit()
   finish
 endif
 
@@ -22,7 +22,7 @@ function! s:warn(msg) abort
   echohl WarningMsg | echomsg '[auto-close]' a:msg | echohl None
 endfunction
 
-function! s:restore_cpo() abort
+function! s:on_exit() abort
   let &cpo = s:save_cpo
   unlet s:save_cpo
 endfunction
@@ -44,4 +44,4 @@ augroup AutoClose
   autocmd QuitPre * call <sid>on_quit_pre()
 augroup END
 
-call s:restore_cpo()
+call s:on_exit()

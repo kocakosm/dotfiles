@@ -14,17 +14,17 @@ set cpo&vim
 
 if !(has('autocmd') && exists('+omnifunc') && exists('##FileType'))
   call s:warn('Missing required features/options')
-  call s:restore_cpo()
+  call s:on_exit()
   finish
 endif
 
-function! s:restore_cpo() abort
-  let &cpo = s:save_cpo
-  unlet s:save_cpo
-endfunction
-
 function! s:warn(msg) abort
   echohl WarningMsg | echomsg '[syntax-complete]' a:msg | echohl None
+endfunction
+
+function! s:on_exit() abort
+  let &cpo = s:save_cpo
+  unlet s:save_cpo
 endfunction
 
 augroup SyntaxComplete
@@ -35,4 +35,4 @@ augroup SyntaxComplete
         \ endif
 augroup END
 
-call s:restore_cpo()
+call s:on_exit()
