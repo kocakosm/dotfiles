@@ -14,14 +14,15 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-rooter'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
+Plug 'chaoren/vim-wordmotion'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
-Plug 'chaoren/vim-wordmotion'
 Plug 'itspriddle/ZoomWin'
 Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/vim-easy-align'
 Plug 'kocakosm/hilal'
 Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lambdalisue/vim-fullscreen'
@@ -225,6 +226,10 @@ let g:Schlepp#reindent=1
 "let g:Schlepp#dupTrimWS=1
 let g:Schlepp#dupLinesDir='down'
 let g:Schlepp#dupBlockDir='right'
+
+" Vim-easy-align configuration
+xmap <silent> ga <plug>(EasyAlign)
+nmap <silent> ga <plug>(EasyAlign)
 
 " Vstats.vim configuration
 xmap <silent> ++ <plug>(vstats)
