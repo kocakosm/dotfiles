@@ -25,6 +25,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'kocakosm/hilal'
 Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lambdalisue/vim-fullscreen'
+Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-signify'
@@ -224,6 +225,17 @@ let g:Schlepp#dupBlockDir='right'
 " Vim-easy-align configuration
 xmap <silent> ga <plug>(EasyAlign)
 nmap <silent> ga <plug>(EasyAlign)
+
+" Vimtex configuration
+let g:tex_flavor='latex'
+let g:vimtex_enabled=1
+let g:vimtex_view_method='mupdf'
+let g:vimtex_quickfix_mode=0
+augroup Vimtex
+  autocmd!
+  autocmd User VimtexEventQuit call vimtex#compiler#clean(0)
+  autocmd User VimtexEventInitPost call vimtex#compiler#compile()
+augroup END
 
 " Vstats.vim configuration
 xmap <silent> ++ <plug>(vstats)
