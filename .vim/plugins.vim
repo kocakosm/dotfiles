@@ -11,7 +11,6 @@ endif
 
 call plug#begin('~/.vim/bundles')
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-rooter'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 Plug 'chaoren/vim-wordmotion'
@@ -92,11 +91,6 @@ augroup Gundo
   autocmd!
   autocmd BufNewFile __Gundo__ setlocal cursorline
 augroup END
-
-" IndentLine configuration
-let g:indentLine_char='│'
-let g:indentLine_color_gui='#1a1e22'
-let g:indentLine_fileTypeExclude=['java', 'make', 'txt', 'help', '']
 
 " Devicons configuration
 "let g:webdevicons_enable_ctrlp=0
