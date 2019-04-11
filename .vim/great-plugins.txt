@@ -5,9 +5,11 @@ A curated list of Vim plugins
 https://github.com/907th/vim-auto-save
 https://github.com/AndrewRadev/deleft.vim
 https://github.com/AndrewRadev/splitjoin.vim
+https://github.com/AndrewVos/vim-pinata
 https://github.com/FooSoft/vim-argwrap
 https://github.com/JalaiAmitahl/maven-compiler.vim
 https://github.com/LaTeX-Box-Team/LaTeX-Box
+https://github.com/PeterRincker/vim-argumentative
 https://github.com/Quramy/tsuquyomi
 https://github.com/Raimondi/delimitMate
 https://github.com/Shougo/deoplete.nvim
@@ -29,6 +31,9 @@ https://github.com/chaoren/vim-wordmotion
 https://github.com/chiel92/vim-autoformat
 https://github.com/chrisbra/NrrwRgn
 https://github.com/chrisbra/unicode.vim
+https://github.com/chriskempson/base16-vim
+https://github.com/christoomey/vim-sort-motion
+https://github.com/cohama/lexima.vim
 https://github.com/conradirwin/vim-bracketed-paste
 https://github.com/ctrlpvim/ctrlp.vim
 https://github.com/dart-lang/dart-vim-plugin
@@ -121,6 +126,7 @@ https://github.com/tpope/vim-commentary
 https://github.com/tpope/vim-dispatch
 https://github.com/tpope/vim-eunuch
 https://github.com/tpope/vim-fugitive
+https://github.com/tpope/vim-jdaddy
 https://github.com/tpope/vim-speeddating
 https://github.com/tpope/vim-surround
 https://github.com/tyru/open-browser.vim

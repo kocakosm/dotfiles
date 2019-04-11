@@ -42,6 +42,9 @@ set lazyredraw
 " Allow more than one unsaved buffer
 set hidden
 
+" Jump to the first open window that contains the specified buffer
+set switchbuf=useopen,usetab
+
 " Enhanced command-line completion
 set wildmenu
 set wildmode=longest,full
@@ -107,8 +110,8 @@ set number
 " Use 4 columns for line numbers
 set numberwidth=4
 
-" Prettier vertical split line
-set fillchars=vert:\│
+" Prettier vertical separators, fold markers and diff
+let &fillchars='vert:│,diff: ,fold: '
 
 " Open new windows below the current one
 set splitbelow
@@ -240,6 +243,12 @@ set incsearch
 " Don't highlight search results by default
 set nohlsearch
 
+" Replace each concealed block with one character
+"set conceallevel=1
+
+" Never conceal cursor line
+"set concealcursor=
+
 " Load plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -328,6 +337,10 @@ nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
 " \<space> toggles spell-checking
 nnoremap <silent> <leader><space> :setlocal spell!<cr>
 
+" <ctrl-l> picks the first suggestion for the last spelling mistake
+inoremap <silent> <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
+nnoremap <silent> <c-l> [s1z=`]
+
 " Easily replace the word under the cursor or the current visual selection
 nnoremap <leader>r :% s/\<<c-r><c-w>\>/
 xnoremap <leader>r y:% s/<c-r>"/
@@ -345,6 +358,10 @@ nnoremap <silent> ]c :cnext<cr>zz
 nnoremap <silent> [c :cprev<cr>zz
 nnoremap <silent> ]l :lnext<cr>zz
 nnoremap <silent> [l :lprev<cr>zz
+
+" Block select with control-click-and-drag
+noremap <c-leftmouse> <leftmouse><esc><c-v>
+noremap <c-leftdrag> <leftdrag>
 
 " Source a local .vimrc, if available
 if filereadable(expand('~/.vim/vimrc.local'))
