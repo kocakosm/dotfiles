@@ -1,6 +1,6 @@
 "----------------------------------------------------------------------"
 " highlight-current-word.vim                                           "
-" Copyright (c) 2017-2018 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2017-2019 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -34,7 +34,7 @@ endif
 
 function! s:match_current_word() abort
   for m in getmatches()
-    if m.group == 'CurrentWord' | call matchdelete(m.id) | endif
+    if m.group ==# 'CurrentWord' | call matchdelete(m.id) | endif
   endfor
   let cword = expand('<cword>')
   call matchadd('CurrentWord', '\V\<' . escape(cword, '\') . '\>', -10)

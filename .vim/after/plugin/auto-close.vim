@@ -1,6 +1,6 @@
 "----------------------------------------------------------------------"
 " auto-close.vim                                                       "
-" Copyright (c) 2016-2018 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2016-2019 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -28,15 +28,19 @@ function! s:on_exit() abort
 endfunction
 
 function! s:on_quit_pre() abort
-  if buflisted(winbufnr(winnr()))
-    let winnr = winnr('$')
-    let unlisted = filter(range(winnr, 1, -1), '!buflisted(winbufnr(v:val))')
-    if len(unlisted) == winnr - 1
-      for i in unlisted
-        execute i . 'wincmd w' | silent! quit
-      endfor
-    endif
+  let winnr = winnr('$')
+  let unlisted = filter(range(winnr, 1, -1), '!buflisted(winbufnr(v:val))')
+  if buflisted(bufnr('%')) && len(unlisted) ==# winnr - 1
+    call s:close_windows(unlisted)
+  elseif len(unlisted) ==# winnr
+    call s:close_windows(filter(unlisted, 'v:val !=# ' . winnr()))
   endif
+endfunction
+
+function! s:close_windows(windows) abort
+  for i in a:windows
+    execute i . 'wincmd w' | silent! quit
+  endfor
 endfunction
 
 augroup AutoClose

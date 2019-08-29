@@ -27,7 +27,7 @@ set autoread
 
 " Reduce delay when using escape key in a terminal
 set ttimeout
-set ttimeoutlen=10
+set ttimeoutlen=25
 
 " Number of milliseconds to wait after nothing is typed to write the swap file
 " to disk and trigger the CursorHold autocmd
@@ -59,19 +59,21 @@ set wildignore+=*.o,*.pyc,*.pyo,*.class
 set wildignore+=*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 set wildignore+=*.orig
 
-" Don't keep backups
-set nobackup
-set nowritebackup
+" Create a backup before overwriting a file
+set writebackup
 
-" Don't create swap files
-"set noswapfile
+" Remove the backup after the file has been successfully written
+set nobackup
+
+" Create a swapfile for every file
+set swapfile
 
 " Save undo tree to disk
 set undofile
 
 " Put all temporary files under ~/.vim/tmp
 function! s:mkdir(path) abort
-  if !isdirectory(a:path) | call mkdir(a:path, 'p') | endif
+  if !isdirectory(a:path) | call mkdir(a:path, 'p', 0700) | endif
 endfunction
 call s:mkdir($HOME . '/.vim/tmp/swap')
 call s:mkdir($HOME . '/.vim/tmp/undo')
@@ -91,6 +93,9 @@ set termguicolors
 
 " Don't display the intro message
 set shortmess+=I
+
+" Show search count
+set shortmess-=S
 
 " Display commands as they are typed
 set showcmd
@@ -211,10 +216,10 @@ set dictionary+=/usr/share/dict/american-english
 set dictionary+=/usr/share/dict/french
 
 " Places to scan for <c-n>, <c-p> and <c-x><c-l> insert mode completions
-"set complete=.,w,b,u,t,i,kspell,k
+"set complete=.,w,b,u,t,i,k
 
 " Insert mode completion options
-set completeopt=longest,menu,preview
+set completeopt=menuone,popup
 
 " Adjust the case of the completion match to the case of the typed text
 "set infercase
@@ -242,6 +247,16 @@ set incsearch
 
 " Don't highlight search results by default
 set nohlsearch
+
+" Use ag if available, otherwise use recursive grep for grepping
+if executable('ag')
+  set grepprg=ag\ -s\ --vimgrep
+else
+  set grepprg=grep\ -rn\ $*\ /dev/null
+endif
+
+" Use the internal diff with the patience algorithm
+set diffopt+=internal,algorithm:patience
 
 " Replace each concealed block with one character
 "set conceallevel=1

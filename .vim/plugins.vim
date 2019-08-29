@@ -1,7 +1,8 @@
 " Disable unused built-in plugins
 let g:loaded_2html_plugin=1
 let g:loaded_getscriptPlugin=1
-let g:loaded_netrwPlugin=1
+let g:loaded_logipat=1
+let g:loaded_rrhelper=1
 let g:loaded_vimballPlugin=1
 
 " Enable matchit (built-in plugin)
@@ -14,36 +15,41 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'airblade/vim-rooter'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 Plug 'chaoren/vim-wordmotion'
-Plug 'chrisbra/NrrwRgn'
+Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
 Plug 'itspriddle/ZoomWin'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 Plug 'kocakosm/hilal'
 Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
-Plug 'lambdalisue/vim-fullscreen'
+Plug 'lambdalisue/vim-fullscreen', {'on': 'FullscreenToggle'}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'ludovicchabant/vim-lawrencium'
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 Plug 'mhinz/vim-signify'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'tag': '5.2.8', 'on': 'NERDTreeToggle'}
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
-Plug 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'thinca/vim-visualstar'
 Plug 'tpope/vim-fugitive'
-Plug 'tyru/open-browser.vim'
+Plug 'tpope/vim-vinegar'
+Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 Plug 'w0rp/ale'
 Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
-Plug 'zirrostig/vim-schlepp'
+Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons', has('gui_running') ? {} : {'on': []}
+Plug 'ryanoasis/vim-devicons', has('gui_running') ? {'tag': 'v0.11.0'} : {'tag': 'v0.11.0', 'on': []}
 call plug#end()
+
+" Netrw configuration
+let g:netrw_home=$HOME . '/.vim/tmp/netrw'
+call mkdir(g:netrw_home, 'p', 0700)
 
 " Ahem... well... set colorscheme
 silent! colorscheme hilal
@@ -78,6 +84,20 @@ nnoremap <silent> <f5> :NERDTreeToggle<cr>
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeMouseMode=3
 let g:NERDTreeHighlightCursorline=1
+let g:NERDTreeHijackNetrw=0
+let g:NERDTreeWinSize=32
+let g:NERDTreeStatusline=''
+
+function! s:lock_nerd_tree_buffer()
+  if bufname('#') =~ 'NERD_tree'
+    exe 'silent! b#'
+  endif
+endfunction
+
+augroup NerdTree
+  autocmd!
+  autocmd BufWinEnter * call <sid>lock_nerd_tree_buffer()
+augroup END
 
 " Gundo configuration
 nnoremap <silent> <f9> :GundoToggle<cr>
@@ -98,8 +118,9 @@ augroup END
 "let g:webdevicons_enable_nerdtree=0
 "let g:webdevicons_enable_airline_tabline=0
 let g:webdevicons_enable_airline_statusline=0
+let g:WebDevIconsNerdTreeBeforeGlyphPadding=''
 let g:WebDevIconsNerdTreeAfterGlyphPadding=''
-"let g:WebDevIconsUnicodeDecorateFolderNodes=1
+let g:WebDevIconsUnicodeDecorateFolderNodes=0
 
 " Open-browser configuration
 nmap <silent> <leader>b <plug>(openbrowser-smart-search)
@@ -181,7 +202,7 @@ endif
 let g:livedown_autorun=1
 let g:livedown_open=1
 let g:livedown_port=10042
-let g:livedown_browser='"firefox -P livedown"'
+let g:livedown_browser='firefox -P livedown'
 
 " Vim-signify configuration
 let g:signify_vcs_list=['git', 'hg']

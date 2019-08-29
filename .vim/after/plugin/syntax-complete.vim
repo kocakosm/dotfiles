@@ -1,6 +1,6 @@
 "----------------------------------------------------------------------"
 " syntax-complete.vim                                                  "
-" Copyright (c) 2017-2018 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2017-2019 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -30,7 +30,7 @@ endfunction
 augroup SyntaxComplete
   autocmd!
   autocmd FileType *
-        \ if &omnifunc == '' |
+        \ if &omnifunc ==# '' |
         \   setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
 augroup END

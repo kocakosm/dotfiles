@@ -1,6 +1,6 @@
 "----------------------------------------------------------------------"
 " vstats.vim                                                           "
-" Copyright (c) 2018 Osman Koçak <kocakosm@gmail.com>                  "
+" Copyright (c) 2018-2019 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
