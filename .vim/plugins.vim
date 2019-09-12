@@ -48,7 +48,7 @@ Plug 'ryanoasis/vim-devicons', has('gui_running') ? {'tag': 'v0.11.0'} : {'tag':
 call plug#end()
 
 " Netrw configuration
-let g:netrw_home=$HOME . '/.vim/tmp/netrw'
+let g:netrw_home=expand('$HOME/.vim/tmp/netrw')
 call mkdir(g:netrw_home, 'p', 0700)
 
 " Ahem... well... set colorscheme
@@ -88,17 +88,6 @@ let g:NERDTreeHijackNetrw=0
 let g:NERDTreeWinSize=32
 let g:NERDTreeStatusline=''
 
-function! s:lock_nerd_tree_buffer()
-  if bufname('#') =~ 'NERD_tree'
-    exe 'silent! b#'
-  endif
-endfunction
-
-augroup NerdTree
-  autocmd!
-  autocmd BufWinEnter * call <sid>lock_nerd_tree_buffer()
-augroup END
-
 " Gundo configuration
 nnoremap <silent> <f9> :GundoToggle<cr>
 let g:gundo_help=0
@@ -133,6 +122,17 @@ let g:nrrw_rgn_pad=6
 let g:nrrw_rgn_wdth=12
 let g:nrrw_topbot_leftright='botright'
 xmap <silent> <f3> <plug>NrrwrgnDo
+
+" CtrlP configuration
+let g:ctrlp_line_prefix=' '
+let g:ctrlp_cache_dir=expand('$HOME/.vim/tmp/ctrlp')
+call mkdir(g:ctrlp_cache_dir, 'p', 0700)
+if executable('ag')
+  let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching=0
+else
+  let g:ctrlp_clear_cache_on_exit=1
+endif
 
 " Tagbar configuration
 nnoremap <silent> <f10> :TagbarToggle<cr>
@@ -173,6 +173,13 @@ let g:SuperTabLongestEnhanced=1
 let g:SuperTabDefaultCompletionType='context'
 let g:SuperTabContextDefaultCompletionType='<c-n>'
 let g:SuperTabRetainCompletionDuration='completion'
+let g:SuperTabContextTextMemberPatterns=['.*']
+
+" Auto-pairs configuration
+augroup AutoPairs
+  autocmd!
+  autocmd Filetype vim let b:AutoPairs=filter(g:AutoPairs, "v:key !~# '\"'")
+augroup END
 
 " Vim-fullscreen configuration
 let g:fullscreen#enable_default_keymap=0
@@ -182,11 +189,11 @@ inoremap <silent> <f11> <c-o>:FullscreenToggle<cr>
 " Vim-visualstar configuration
 let g:visualstar_extra_commands='gN'
 
-" Vim-kitondro: hide cursor in Tagbar, Gundo, NerdTree and Quickfix buffers
+" Vim-kitondro configuration
 if has('gui_running')
-  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf', 'vim-plug']
+  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf', 'vim-plug', 'netrw', 'ctrlp']
   function! s:set_cursor_visibility()
-    if index(s:types, getbufvar(winbufnr(0), '&filetype')) > -1
+    if index(s:types, getbufvar('%', '&filetype')) > -1
       call kitondro#hide_cursor()
     else
       call kitondro#show_cursor()
@@ -210,7 +217,6 @@ let g:signify_realtime=0
 "let g:signify_disable_by_default=0
 let s:signify_sign='∙'
 "let s:signify_sign='❙'
-"let s:signify_sign='❚'
 let g:signify_sign_add=s:signify_sign
 let g:signify_sign_delete=s:signify_sign
 let g:signify_sign_delete_first_line=s:signify_sign

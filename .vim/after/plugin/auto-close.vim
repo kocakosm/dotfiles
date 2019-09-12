@@ -29,12 +29,16 @@ endfunction
 
 function! s:on_quit_pre() abort
   let winnr = winnr('$')
-  let unlisted = filter(range(winnr, 1, -1), '!buflisted(winbufnr(v:val))')
-  if buflisted(bufnr('%')) && len(unlisted) ==# winnr - 1
-    call s:close_windows(unlisted)
-  elseif len(unlisted) ==# winnr
-    call s:close_windows(filter(unlisted, 'v:val !=# ' . winnr()))
+  let non_ordinary = filter(range(winnr, 1, -1), '!s:is_ordinary(winbufnr(v:val))')
+  if s:is_ordinary(bufnr('%')) && len(non_ordinary) ==# winnr - 1
+    call s:close_windows(non_ordinary)
+  elseif len(non_ordinary) ==# winnr
+    call s:close_windows(filter(non_ordinary, 'v:val !=# ' . winnr()))
   endif
+endfunction
+
+function! s:is_ordinary(bufnr) abort
+  return buflisted(a:bufnr) && getbufvar(a:bufnr, '&buftype') ==# ''
 endfunction
 
 function! s:close_windows(windows) abort

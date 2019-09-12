@@ -7,6 +7,7 @@ https://github.com/AndrewRadev/splitjoin.vim
 https://github.com/AndrewVos/vim-pinata
 https://github.com/FooSoft/vim-argwrap
 https://github.com/JalaiAmitahl/maven-compiler.vim
+https://github.com/Konfekt/vim-alias
 https://github.com/LaTeX-Box-Team/LaTeX-Box
 https://github.com/PeterRincker/vim-argumentative
 https://github.com/Quramy/tsuquyomi
@@ -21,6 +22,7 @@ https://github.com/Valloric/MatchTagAlways
 https://github.com/Xuyuanp/nerdtree-git-plugin
 https://github.com/Yggdroot/indentLine
 https://github.com/airblade/vim-rooter
+https://github.com/andymass/vim-matchup
 https://github.com/ap/vim-css-color
 https://github.com/arcticicestudio/nord-vim
 https://github.com/artur-shaik/vim-javacomplete2
@@ -42,6 +44,7 @@ https://github.com/davidhalter/jedi-vim
 https://github.com/dense-analysis/ale
 https://github.com/dhruvasagar/vim-table-mode
 https://github.com/donRaphaco/neotex
+https://github.com/dyng/ctrlsf.vim
 https://github.com/easymotion/vim-easymotion
 https://github.com/editorconfig/editorconfig-vim
 https://github.com/elzr/vim-json
@@ -57,6 +60,7 @@ https://github.com/gregsexton/gitv
 https://github.com/groenewege/vim-less
 https://github.com/honza/vim-snippets
 https://github.com/inside/vim-search-pulse
+https://github.com/itchyny/calendar.vim
 https://github.com/itchyny/lightline.vim
 https://github.com/itchyny/thumbnail.vim
 https://github.com/itspriddle/ZoomWin
@@ -88,7 +92,9 @@ https://github.com/lambdalisue/vim-fullscreen
 https://github.com/lervag/vimtex
 https://github.com/ludovicchabant/vim-gutentags
 https://github.com/ludovicchabant/vim-lawrencium
+https://github.com/machakann/vim-columnmove
 https://github.com/machakann/vim-highlightedyank
+https://github.com/machakann/vim-sandwich
 https://github.com/majutsushi/tagbar
 https://github.com/mattn/calendar-vim
 https://github.com/mattn/vim-terminal
@@ -109,6 +115,7 @@ https://github.com/pgdouyon/vim-accio
 https://github.com/pgdouyon/vim-evanesco
 https://github.com/plasticboy/vim-markdown
 https://github.com/prabirshrestha/vim-lsp
+https://github.com/rbong/vim-flog
 https://github.com/rhysd/git-messenger.vim
 https://github.com/roxma/nvim-completion-manager
 https://github.com/rustushki/JavaImp.vim
@@ -146,6 +153,7 @@ https://github.com/tpope/vim-speeddating
 https://github.com/tpope/vim-surround
 https://github.com/tpope/vim-unimpaired
 https://github.com/tpope/vim-vinegar
+https://github.com/tyru/capture.vim
 https://github.com/tyru/open-browser.vim
 https://github.com/vim-airline/vim-airline
 https://github.com/vim-airline/vim-airline-themes

@@ -1,3 +1,6 @@
+" Better defaults
+unlet! skip_defaults_vim | source $VIMRUNTIME/defaults.vim
+
 " Disable vi compatibility
 set nocompatible
 
@@ -73,12 +76,13 @@ set undofile
 
 " Put all temporary files under ~/.vim/tmp
 function! s:mkdir(path) abort
-  if !isdirectory(a:path) | call mkdir(a:path, 'p', 0700) | endif
+  let dir = expand(a:path)
+  if !isdirectory(dir) | call mkdir(dir, 'p', 0700) | endif
 endfunction
-call s:mkdir($HOME . '/.vim/tmp/swap')
-call s:mkdir($HOME . '/.vim/tmp/undo')
-call s:mkdir($HOME . '/.vim/tmp/info')
-call s:mkdir($HOME . '/.vim/tmp/backup')
+call s:mkdir('$HOME/.vim/tmp/swap')
+call s:mkdir('$HOME/.vim/tmp/undo')
+call s:mkdir('$HOME/.vim/tmp/info')
+call s:mkdir('$HOME/.vim/tmp/backup')
 set backupdir=$HOME/.vim/tmp/backup/
 set directory=$HOME/.vim/tmp/swap//
 set undodir=$HOME/.vim/tmp/undo/
@@ -134,7 +138,8 @@ set colorcolumn=+1
 set nowrap
 
 " Add a ↪ at the start of lines that have been wrapped
-let &showbreak='↪ '
+"let &showbreak='↪ '
+let &showbreak='↳ '
 
 " Visually indent wrapped lines
 set breakindent
@@ -146,7 +151,7 @@ set breakindentopt=shift:1
 set linebreak
 
 " Show as much as possible of the last line
-set display+=lastline
+set display=lastline
 
 " Highlight matching brackets
 set showmatch
@@ -264,19 +269,19 @@ set diffopt+=internal,algorithm:patience
 " Never conceal cursor line
 "set concealcursor=
 
-" Load plugins
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
-endif
-source $HOME/.vim/plugins.vim
-
 " Enable file type detection
 filetype plugin indent on
 
 " Enable syntax highlighting
 syntax on
+
+" Load plugins
+if empty(expand('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+source $HOME/.vim/plugins.vim
 
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
