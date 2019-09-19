@@ -1,3 +1,4 @@
+scriptencoding utf-8
 "----------------------------------------------------------------------"
 " syntax-complete.vim                                                  "
 " Copyright (c) 2017-2019 Osman Koçak <kocakosm@gmail.com>             "

@@ -7,6 +7,9 @@ set nocompatible
 " Set UTF-8 as the default encoding
 set encoding=utf-8
 
+" Specify the encoding used in this script
+scriptencoding utf-8
+
 " Disable modeline
 set nomodeline
 

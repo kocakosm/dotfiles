@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " Disable unused built-in plugins
 let g:loaded_2html_plugin=1
 let g:loaded_getscriptPlugin=1
@@ -7,7 +9,7 @@ let g:loaded_vimballPlugin=1
 
 " Enable matchit (built-in plugin)
 if !exists('g:loaded_matchit')
-  runtime macros/matchit.vim
+  packadd! matchit
 endif
 
 call plug#begin('~/.vim/bundles')
@@ -133,6 +135,15 @@ if executable('ag')
 else
   let g:ctrlp_clear_cache_on_exit=1
 endif
+let g:ctrlp_extensions=['tag', 'quickfix', 'line', 'changes', 'autoignore']
+"let g:ctrlp_match_window='top,order:ttb,min:0,max:20'
+let g:ctrlp_max_history=0
+let g:ctrlp_match_current_file=1
+"let g:ctrlp_lazy_update=1
+function! ForceBufWinEnter() abort
+  call feedkeys(":doautocmd BufWinEnter | echo ''\<cr>")
+endfunction
+let g:ctrlp_buffer_func={'exit': 'ForceBufWinEnter'}
 
 " Tagbar configuration
 nnoremap <silent> <f10> :TagbarToggle<cr>
@@ -146,10 +157,6 @@ let g:tagbar_zoomwidth=0
 "let g:tagbar_hide_nonpublic=1
 let g:tagbar_singleclick=1
 let g:tagbar_iconchars=['▸', '▾']
-"augroup Tagbar
-"  autocmd!
-"  autocmd FileType java,javascript nested :TagbarOpen
-"augroup END
 
 " UltiSnips configuration
 let g:UltiSnipsExpandTrigger='<c-space>'
@@ -163,7 +170,7 @@ let g:rooter_silent_chdir=1
 let g:rooter_resolve_links=1
 let g:rooter_change_directory_for_non_project_files='current'
 let g:rooter_patterns=['pom.xml', 'package.json', 'Makefile', 'makefile']
-let g:rooter_patterns+=['.hg/', '.git', '.git/']
+let g:rooter_patterns+=['.hg/', '.git/']
 
 " Supertab configuration
 let g:SuperTabNoCompleteAfter=['^', ',', '\s']
@@ -267,3 +274,6 @@ augroup END
 " Vstats.vim configuration
 xmap <silent> ++ <plug>(vstats)
 nmap <silent> ++ ggVG<plug>(vstats)
+
+" Sticky-buffers.vim configuration
+let g:sticky_buffers_exclude_filetypes=['help', 'netrw']

@@ -1,3 +1,4 @@
+scriptencoding utf-8
 "----------------------------------------------------------------------"
 " highlight-current-word.vim                                           "
 " Copyright (c) 2017-2019 Osman Koçak <kocakosm@gmail.com>             "

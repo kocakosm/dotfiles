@@ -1,3 +1,4 @@
+scriptencoding utf-8
 "----------------------------------------------------------------------"
 " vstats.vim                                                           "
 " Copyright (c) 2018-2019 Osman Koçak <kocakosm@gmail.com>             "

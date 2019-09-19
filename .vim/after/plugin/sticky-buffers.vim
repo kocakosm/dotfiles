@@ -1,3 +1,4 @@
+scriptencoding utf-8
 "----------------------------------------------------------------------"
 " sticky-buffers.vim                                                   "
 " Copyright (c) 2018-2019 Osman Koçak <kocakosm@gmail.com>             "
@@ -12,7 +13,8 @@ let g:loaded_sticky_buffers = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !(has('autocmd') && exists('##BufWinEnter') && exists('##FileType'))
+if !(has('autocmd') && exists('##BufWinEnter')
+      \ && exists('##BufEnter') && exists('##FileType'))
   call s:warn('Missing required features/options')
   call s:on_exit()
   finish
@@ -27,33 +29,43 @@ function! s:on_exit() abort
   unlet s:save_cpo
 endfunction
 
+if !exists('g:sticky_buffers_exclude_filetypes')
+  let g:sticky_buffers_exclude_filetypes = []
+endif
+
 let s:sticky_buffers = {}
-let s:ignored_file_types = ['help', 'netrw']
 
 function! s:on_buf_win_enter() abort
-  call filter(s:sticky_buffers, 'win_id2win(v:key) !=# 0')
-  let buf_nr = bufnr()
-  let win_id = win_getid()
-  if has_key(s:sticky_buffers, win_id)
-    call feedkeys(":silent! b" . s:sticky_buffers[win_id] . " | echo ''\<cr>")
-  elseif getbufvar(buf_nr, '&buftype') !=# '' || !buflisted(buf_nr)
-    let s:sticky_buffers[win_id] = buf_nr
+  let win = win_getid()
+  if has_key(s:sticky_buffers, win)
+    let buf = s:sticky_buffers[win]
+    if buf !=# winbufnr(win)
+      call feedkeys(":silent! b" . buf . " | echo ''\<cr>")
+    endif
   endif
 endfunction
 
-function! s:on_file_type() abort
+function! s:update_sticky_buffers() abort
+  call filter(s:sticky_buffers, 'win_id2win(v:key) !=# 0')
   for [win, buf] in items(s:sticky_buffers)
-    if index(s:ignored_file_types, getbufvar(buf, '&filetype')) > -1
-      call remove(s:sticky_buffers, win)
-    endif
+    if !s:is_sticky(buf) | call remove(s:sticky_buffers, win) | endif
   endfor
+  let win = win_getid()
+  if !has_key(s:sticky_buffers, win)
+    let buf = winbufnr(win)
+    if s:is_sticky(buf) | let s:sticky_buffers[win] = buf | endif
+  endif
+endfunction
+
+function! s:is_sticky(buf) abort
+  return (getbufvar(a:buf, '&buftype') !=# '' || !buflisted(a:buf))
+        \ && index(g:sticky_buffers_exclude_filetypes, getbufvar(a:buf, '&filetype')) ==# -1
 endfunction
 
 augroup StickyBuffers
   autocmd!
-  autocmd FileType * call <sid>on_file_type()
   autocmd BufWinEnter * call <sid>on_buf_win_enter()
-  autocmd User NERDTreeInit ++once call <sid>on_buf_win_enter()
+  autocmd Filetype,BufEnter * call <sid>update_sticky_buffers()
 augroup END
 
 call s:on_exit()

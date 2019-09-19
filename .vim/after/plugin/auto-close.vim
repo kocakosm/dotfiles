@@ -1,3 +1,4 @@
+scriptencoding utf-8
 "----------------------------------------------------------------------"
 " auto-close.vim                                                       "
 " Copyright (c) 2016-2019 Osman Koçak <kocakosm@gmail.com>             "
