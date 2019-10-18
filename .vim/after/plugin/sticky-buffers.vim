@@ -58,8 +58,13 @@ function! s:update_sticky_buffers() abort
 endfunction
 
 function! s:is_sticky(buf) abort
-  return (getbufvar(a:buf, '&buftype') !=# '' || !buflisted(a:buf))
-        \ && index(g:sticky_buffers_exclude_filetypes, getbufvar(a:buf, '&filetype')) ==# -1
+  return bufexists(a:buf)
+        \ && !s:is_excluded(getbufvar(a:buf, '&filetype'))
+        \ && (getbufvar(a:buf, '&buftype') !=# '' || !buflisted(a:buf))
+endfunction
+
+function! s:is_excluded(ft) abort
+  return index(g:sticky_buffers_exclude_filetypes, a:ft) !=# -1
 endfunction
 
 augroup StickyBuffers
