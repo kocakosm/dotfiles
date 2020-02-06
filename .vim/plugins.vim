@@ -32,8 +32,8 @@ Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'ludovicchabant/vim-lawrencium'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 Plug 'mhinz/vim-signify'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', {'tag': '5.2.8', 'on': 'NERDTreeToggle'}
+Plug 'preservim/nerdcommenter'
+Plug 'preservim/nerdtree', {'tag': '6.5.0', 'on': 'NERDTreeToggle'}
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}

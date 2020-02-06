@@ -1,3 +1,5 @@
 .vim/autoload
 .vim/bundles
 .vim/*.local
+.config/gtk-3.0/*
+.fonts/*

@@ -1,6 +1,0 @@
-" Set window position, height and width
-augroup Window
-  autocmd!
-  autocmd GuiEnter * winpos 120 40
-  autocmd GuiEnter * set lines=33 columns=124
-augroup END
