@@ -1,0 +1,6 @@
+*.back
+*.bak
+*.orig
+*.old
+TODO
+tmp

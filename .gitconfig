@@ -4,7 +4,6 @@ email = kocakosm@gmail.com
 
 [core]
 editor = vim
-excludesfile = ~/.gitignore.global
 
 [push]
 default = simple
