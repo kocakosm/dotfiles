@@ -37,7 +37,7 @@ set ttimeoutlen=25
 
 " Number of milliseconds to wait after nothing is typed to write the swap file
 " to disk and trigger the CursorHold autocmd
-set updatetime=1000
+set updatetime=400
 
 " Better display when running in a terminal
 set ttyfast
@@ -119,8 +119,11 @@ set ruler
 " Show line numbers
 set number
 
-" Use 4 columns for line numbers
-set numberwidth=4
+" Use 3 columns for line numbers
+set numberwidth=3
+
+" Display signs in the number column
+"set signcolumn=number
 
 " Prettier vertical separators, fold markers and diff
 let &fillchars='vert:│,diff: ,fold: '
@@ -256,9 +259,13 @@ set incsearch
 " Don't highlight search results by default
 set nohlsearch
 
-" Use ag if available, otherwise use recursive grep for grepping
-if executable('ag')
-  set grepprg=ag\ -s\ --vimgrep
+" Use rg or ag if available, otherwise use recursive grep for grepping
+if executable('rg')
+  set grepprg=rg\ -S\ --hidden\ --vimgrep
+  set grepformat=%f:%l:%c:%m
+elseif executable('ag')
+  set grepprg=ag\ -S\ --hidden\ --vimgrep
+  set grepformat=%f:%l:%c:%m
 else
   set grepprg=grep\ -rn\ $*\ /dev/null
 endif
@@ -277,6 +284,11 @@ filetype plugin indent on
 
 " Enable syntax highlighting
 syntax on
+
+augroup CommandLineWindow
+  autocmd!
+  autocmd CmdwinEnter [:/?] setlocal nonu | setlocal tw=0 | setlocal cursorline
+augroup END
 
 " Load plugins
 if empty(glob('~/.vim/autoload/plug.vim'))

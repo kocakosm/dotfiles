@@ -1,33 +1,17 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " sticky-buffers.vim                                                   "
-" Copyright (c) 2018-2019 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2018-2020 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_sticky_buffers')
+if exists('g:loaded_sticky_buffers') || v:version <# 800 || &cp
   finish
 endif
 let g:loaded_sticky_buffers = 1
 
-let s:save_cpo = &cpo
+let s:cpo = &cpo
 set cpo&vim
-
-if !(has('autocmd') && exists('##BufWinEnter')
-      \ && exists('##BufEnter') && exists('##FileType'))
-  call s:warn('Missing required features/options')
-  call s:on_exit()
-  finish
-endif
-
-function! s:warn(msg) abort
-  echohl WarningMsg | echomsg '[sticky-buffers]' a:msg | echohl None
-endfunction
-
-function! s:on_exit() abort
-  let &cpo = s:save_cpo
-  unlet s:save_cpo
-endfunction
 
 if !exists('g:sticky_buffers_exclude_filetypes')
   let g:sticky_buffers_exclude_filetypes = []
@@ -73,4 +57,5 @@ augroup StickyBuffers
   autocmd Filetype,BufEnter * call <sid>update_sticky_buffers()
 augroup END
 
-call s:on_exit()
+let &cpo = s:cpo
+unlet! s:cpo

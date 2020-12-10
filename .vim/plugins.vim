@@ -4,6 +4,7 @@ scriptencoding utf-8
 let g:loaded_2html_plugin=1
 let g:loaded_getscriptPlugin=1
 let g:loaded_logipat=1
+let g:loaded_netrwPlugin=1
 let g:loaded_rrhelper=1
 let g:loaded_vimballPlugin=1
 
@@ -13,45 +14,50 @@ if !exists('g:loaded_matchit')
 endif
 
 call plug#begin('~/.vim/bundles')
+Plug 'Lenovsky/nuake'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'airblade/vim-rooter'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 Plug 'chaoren/vim-wordmotion'
 Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
+Plug 'cocopon/iceberg.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
+Plug 'habamax/vim-polar'
+Plug 'hauleth/vim-backscratch', {'on': ['Scratch', 'Scratchify']}
 Plug 'itspriddle/ZoomWin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
+Plug 'justinmk/vim-dirvish'
 Plug 'kocakosm/hilal'
 Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lambdalisue/vim-fullscreen', {'on': 'FullscreenToggle'}
 Plug 'lervag/vimtex', {'for': ['tex']}
-Plug 'ludovicchabant/vim-lawrencium'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
-Plug 'preservim/nerdcommenter'
-Plug 'preservim/nerdtree', {'tag': '6.5.0', 'on': 'NERDTreeToggle'}
+Plug 'preservim/nerdtree', {'tag': '6.9.10', 'on': 'NERDTreeToggle'}
+Plug 'romainl/vim-cool'
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
-Plug 'terryma/vim-multiple-cursors'
 Plug 'thinca/vim-visualstar'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-vinegar'
 Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 Plug 'w0rp/ale'
 Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons', has('gui_running') ? {'tag': 'v0.11.0'} : {'tag': 'v0.11.0', 'on': []}
+Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
 call plug#end()
 
 " Netrw configuration
-let g:netrw_home=expand('$HOME/.vim/tmp/netrw')
-call mkdir(g:netrw_home, 'p', 0700)
+"let g:netrw_browsex_viewer='firefox'
+"let g:netrw_home=expand('$HOME/.vim/tmp/netrw')
+"call mkdir(g:netrw_home, 'p', 0700)
 
 " Ahem... well... set colorscheme
 silent! colorscheme hilal
@@ -114,8 +120,8 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding=''
 let g:WebDevIconsUnicodeDecorateFolderNodes=0
 
 " Open-browser configuration
-nmap <silent> <leader>b <plug>(openbrowser-smart-search)
-xmap <silent> <leader>b <plug>(openbrowser-smart-search)
+nmap <silent> gx <plug>(openbrowser-smart-search)
+xmap <silent> gx <plug>(openbrowser-smart-search)
 
 " NrrwRgn configuration
 let g:nrrw_rgn_nohl=1
@@ -131,6 +137,9 @@ let g:ctrlp_cache_dir=expand('$HOME/.vim/tmp/ctrlp')
 call mkdir(g:ctrlp_cache_dir, 'p', 0700)
 if executable('ag')
   let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching=0
+elseif executable('fdfind')
+  let g:ctrlp_user_command='fdfind -H -L -E ".git" -c never "" %s'
   let g:ctrlp_use_caching=0
 else
   let g:ctrlp_clear_cache_on_exit=1
@@ -165,7 +174,7 @@ let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 "let g:UltiSnipsEditSplit='vertical'
 
 " Vim-rooter configuration
-let g:rooter_use_lcd=1
+let g:rooter_cd_cmd='lcd'
 let g:rooter_silent_chdir=1
 let g:rooter_resolve_links=1
 let g:rooter_change_directory_for_non_project_files='current'
@@ -198,8 +207,8 @@ let g:visualstar_extra_commands='gN'
 
 " Vim-kitondro configuration
 if has('gui_running')
-  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf', 'vim-plug', 'netrw', 'ctrlp']
-  function! s:set_cursor_visibility()
+  let s:types = ['nerdtree', 'tagbar', 'gundo', 'diff', 'qf', 'vim-plug', 'netrw', 'ctrlp', 'dirvish']
+  function! s:set_cursor_visibility() abort
     if index(s:types, getbufvar('%', '&filetype')) > -1
       call kitondro#hide_cursor()
     else
@@ -271,9 +280,26 @@ augroup Vimtex
   autocmd User VimtexEventInitPost call vimtex#compiler#compile()
 augroup END
 
+" Nuake configuration
+let g:nuake_position='top'
+let g:nuake_size=0.33
+let g:nuake_per_tab=0
+nnoremap <f4> :Nuake<cr>
+inoremap <f4> <c-\><c-n>:Nuake<cr>
+tnoremap <f4> <c-\><c-n>:Nuake<cr>
+
 " Vstats.vim configuration
 xmap <silent> ++ <plug>(vstats)
 nmap <silent> ++ ggVG<plug>(vstats)
 
 " Sticky-buffers.vim configuration
-let g:sticky_buffers_exclude_filetypes=['help', 'netrw']
+let g:sticky_buffers_exclude_filetypes=['help', 'netrw', 'dirvish']
+
+" Vim-dirvish configuration
+augroup Dirvish
+  autocmd!
+  autocmd FileType dirvish setlocal nonumber | setlocal signcolumn=yes
+augroup END
+
+" Vim-cool configuration
+set hlsearch

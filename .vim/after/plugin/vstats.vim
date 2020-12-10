@@ -1,16 +1,16 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " vstats.vim                                                           "
-" Copyright (c) 2018-2019 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2018-2020 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_vstats')
+if exists('g:loaded_vstats') || v:version <# 704 || &cp
   finish
 endif
 let g:loaded_vstats = 1
 
-let s:save_cpo = &cpo
+let s:cpo = &cpo
 set cpo&vim
 
 let s:report_gap = 4
@@ -46,7 +46,7 @@ endfunction
 function! s:min(numbers) abort
   let min = a:numbers[0]
   for n in a:numbers[1:]
-    if n < min | let min = n | endif
+    if n <# min | let min = n | endif
   endfor
   return min
 endfunction
@@ -54,7 +54,7 @@ endfunction
 function! s:max(numbers) abort
   let max = a:numbers[0]
   for n in a:numbers[1:]
-    if n > max | let max = n | endif
+    if n ># max | let max = n | endif
   endfor
   return max
 endfunction
@@ -84,4 +84,5 @@ endfunction
 
 noremap <silent> <script> <plug>(vstats) :<c-u>call <sid>print_stats()<cr>
 
-let &cpo = s:save_cpo
+let &cpo = s:cpo
+unlet! s:cpo

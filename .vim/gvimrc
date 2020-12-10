@@ -3,7 +3,7 @@ set mousemodel=popup
 "set mousemodel=popup_setpos
 
 " GUI specific font
-set guifont=NotoMono\ Nerd\ Font\ Mono\ 12
+set guifont=RobotoMono\ Nerd\ Font\ 12
 
 " Line spacing
 set linespace=2

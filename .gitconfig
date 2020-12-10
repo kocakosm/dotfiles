@@ -5,6 +5,12 @@ email = kocakosm@gmail.com
 [core]
 editor = vim
 
+[init]
+defaultBranch = main
+
+[diff]
+noprefix = true
+
 [push]
 default = simple
 

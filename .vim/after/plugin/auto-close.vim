@@ -1,32 +1,17 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " auto-close.vim                                                       "
-" Copyright (c) 2016-2019 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2016-2020 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_auto_close')
+if exists('g:loaded_auto_close') || v:version <# 704 || &cp
   finish
 endif
 let g:loaded_auto_close = 1
 
-let s:save_cpo = &cpo
+let s:cpo = &cpo
 set cpo&vim
-
-if !(has('autocmd') && exists('##QuitPre'))
-  call s:warn('Missing required features/options')
-  call s:on_exit()
-  finish
-endif
-
-function! s:warn(msg) abort
-  echohl WarningMsg | echomsg '[auto-close]' a:msg | echohl None
-endfunction
-
-function! s:on_exit() abort
-  let &cpo = s:save_cpo
-  unlet s:save_cpo
-endfunction
 
 function! s:on_quit_pre() abort
   let winnr = winnr('$')
@@ -53,4 +38,5 @@ augroup AutoClose
   autocmd QuitPre * call <sid>on_quit_pre()
 augroup END
 
-call s:on_exit()
+let &cpo = s:cpo
+unlet! s:cpo
