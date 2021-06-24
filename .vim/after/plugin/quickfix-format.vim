@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " quickfix-format.vim                                                  "
-" Copyright (c) 2020 Osman Koçak <kocakosm@gmail.com>                  "
+" Copyright (c) 2020-2021 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -38,8 +38,8 @@ function! s:reformat_items(items) abort
       call extend(item, {'location': ''})
     endif
   endfor
-  let fmt = '%-' . max_location_len . 's' . '%s'
-  return map(a:items, 'printf(fmt, v:val.location, " " . trim(v:val.text))')
+  let fmt = '%-' . max_location_len . 'S %S'
+  return map(a:items, 'printf(fmt, v:val.location, trim(v:val.text))')
 endfunction
 
 augroup QuickFixFormat

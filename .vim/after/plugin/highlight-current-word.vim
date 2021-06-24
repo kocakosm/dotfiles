@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " highlight-current-word.vim                                           "
-" Copyright (c) 2017-2020 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2017-2021 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -44,8 +44,7 @@ function! s:disable_plugin() abort
   call s:clear_matches()
 endfunction
 
-if exists('g:highlight_current_word_enabled')
-      \ && g:highlight_current_word_enabled !=# 0
+if get(g:, 'highlight_current_word_enabled', 0) !=# 0
  call s:enable_plugin()
 endif
 

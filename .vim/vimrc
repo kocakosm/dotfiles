@@ -1,5 +1,7 @@
 " Better defaults
-unlet! skip_defaults_vim | source $VIMRUNTIME/defaults.vim
+if !has('nvim')
+  unlet! skip_defaults_vim | source $VIMRUNTIME/defaults.vim
+endif
 
 " Disable vi compatibility
 set nocompatible
@@ -77,19 +79,32 @@ set swapfile
 " Save undo tree to disk
 set undofile
 
-" Put all temporary files under ~/.vim/tmp
-function! s:mkdir(path) abort
-  let dir = expand(a:path)
-  if !isdirectory(dir) | call mkdir(dir, 'p', 0700) | endif
-endfunction
-call s:mkdir('$HOME/.vim/tmp/swap')
-call s:mkdir('$HOME/.vim/tmp/undo')
-call s:mkdir('$HOME/.vim/tmp/info')
-call s:mkdir('$HOME/.vim/tmp/backup')
-set backupdir=$HOME/.vim/tmp/backup/
-set directory=$HOME/.vim/tmp/swap//
-set undodir=$HOME/.vim/tmp/undo/
-set viminfo='100,n$HOME/.vim/tmp/info/viminfo
+" Define XDG environment variables
+if !exists('$XDG_CONFIG_HOME')
+  let $XDG_CONFIG_HOME = expand('$HOME/.config')
+endif
+if !exists('$XDG_CACHE_HOME')
+  let $XDG_CACHE_HOME = expand('$HOME/.cache')
+endif
+if !exists('$XDG_DATA_HOME')
+  let $XDG_DATA_HOME = expand('$HOME/.local/share')
+endif
+
+" Put all temporary files under $XDG_DATA_HOME/vim ($HOME/.local/share/vim)
+if !has('nvim')
+  function! s:mkdir(path) abort
+    let dir = expand(a:path)
+    if !isdirectory(dir) | call mkdir(dir, 'p', 0700) | endif
+  endfunction
+  call s:mkdir('$XDG_DATA_HOME/vim/swap')
+  call s:mkdir('$XDG_DATA_HOME/vim/undo')
+  call s:mkdir('$XDG_DATA_HOME/vim/info')
+  call s:mkdir('$XDG_DATA_HOME/vim/backup')
+  set backupdir=$XDG_DATA_HOME/vim/backup/
+  set directory=$XDG_DATA_HOME/vim/swap//
+  set undodir=$XDG_DATA_HOME/vim/undo/
+  set viminfo='100,n$XDG_DATA_HOME/vim/info/viminfo
+endif
 
 " Set the window title
 set title
@@ -100,6 +115,9 @@ set termguicolors
 
 " Don't display the intro message
 set shortmess+=I
+
+" don't give the file info when editing a file
+set shortmess+=F
 
 " Show search count
 set shortmess-=S
@@ -127,6 +145,9 @@ set numberwidth=3
 
 " Prettier vertical separators, fold markers and diff
 let &fillchars='vert:│,diff: ,fold: '
+if has('nvim')
+  let &fillchars=&fillchars . ',eob:-'
+endif
 
 " Open new windows below the current one
 set splitbelow
@@ -230,7 +251,11 @@ set dictionary+=/usr/share/dict/french
 "set complete=.,w,b,u,t,i,k
 
 " Insert mode completion options
-set completeopt=menuone,popup
+if has('nvim')
+  set completeopt=menuone,preview
+else
+  set completeopt=menuone,popup
+endif
 
 " Adjust the case of the completion match to the case of the typed text
 "set infercase
@@ -288,6 +313,11 @@ syntax on
 augroup CommandLineWindow
   autocmd!
   autocmd CmdwinEnter [:/?] setlocal nonu | setlocal tw=0 | setlocal cursorline
+augroup END
+
+augroup PreviewWindow
+  autocmd!
+  autocmd WinEnter * if &previewwindow | setlocal nonu | endif
 augroup END
 
 " Load plugins
