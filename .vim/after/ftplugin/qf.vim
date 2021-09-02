@@ -6,3 +6,6 @@ setlocal cursorline
 
 " Move the window to the very bottom, using the full width of the screen
 wincmd J
+
+" Unlist the quickfix buffer
+let &buflisted=0

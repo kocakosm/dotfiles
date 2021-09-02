@@ -23,10 +23,12 @@ endfunction
 
 function! s:zoom_in() abort
   if winnr('$') ># 1
+    silent doautocmd User ZoomInPre
     let t:zoom_zoomed_bufnr = winbufnr(winnr())
     let t:zoom_saved_view = s:get_current_view()
     call s:close_other_windows()
     let t:zoom_zoomed = v:true
+    silent doautocmd User ZoomInPost
   else
     call s:warn('Already only one window')
   endif
@@ -34,9 +36,11 @@ endfunction
 
 function! s:zoom_out() abort
   if s:is_zoomed()
+    silent doautocmd User ZoomOutPre
     call s:restore_view(t:zoom_saved_view)
     let t:zoom_zoomed = v:false
     unlet! t:zoom_saved_view t:zoom_zoomed_bufnr
+    silent doautocmd User ZoomOutPost
   else
     call s:warn('Not zoomed')
   endif
@@ -55,7 +59,7 @@ function! s:get_current_view() abort
     \ win_layout: s:replace_winid_by_bufnr(winlayout()),
     \ win_resize_cmd: winrestcmd(),
     \ cursor: #{
-      \ winnr: winnr(),
+      \ win_nr: winnr(),
       \ position: getcurpos()
     \}
   \}
@@ -78,7 +82,7 @@ function! s:restore_view(view) abort
   call s:close_other_windows()
   call s:restore_layout(a:view.win_layout)
   execute a:view.win_resize_cmd
-  call s:go_to_win(a:view.cursor.winnr)
+  call s:go_to_win(a:view.cursor.win_nr)
   call setpos('.', a:view.cursor.position)
 endfunction
 
@@ -119,8 +123,9 @@ endfunction
 function! s:lock_zoomed_window() abort
   if s:is_zoomed() && s:is_ordinary(winbufnr(0))
     let windows = range(winnr('$'), 1, -1)
-    let ordinary = windows->filter({_, win -> s:is_ordinary(winbufnr(win))})
-    if len(ordinary) ># 1
+          \ ->filter({_, win -> s:win_exists(win)})
+          \ ->filter({_, win -> s:is_ordinary(winbufnr(win))})
+    if len(windows) ># 1
       quit
       call s:warn('Cannot split zoomed window')
     elseif winbufnr(0) !=# t:zoom_zoomed_bufnr
@@ -130,9 +135,12 @@ function! s:lock_zoomed_window() abort
   endif
 endfunction
 
+function! s:win_exists(win_nr) abort
+  return win_getid(a:win_nr) !=# 0
+endfunction
+
 function! s:is_ordinary(bufnr) abort
-  return bufexists(a:bufnr) && buflisted(a:bufnr)
-        \ && getbufvar(a:bufnr, '&buftype') ==# ''
+  return buflisted(a:bufnr) && getbufvar(a:bufnr, '&buftype') ==# ''
 endfunction
 
 augroup Zoom

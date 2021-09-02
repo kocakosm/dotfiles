@@ -44,11 +44,26 @@ function! s:is_excluded(ft) abort
   return index(get(g:, 'sticky_buffers_exclude_filetypes', []), a:ft) !=# -1
 endfunction
 
-augroup StickyBuffers
-  autocmd!
-  autocmd BufEnter * call <sid>on_buf_enter()
-  autocmd BufLeave * call <sid>on_buf_leave()
-augroup END
+function! s:enable_plugin() abort
+  augroup StickyBuffers
+    autocmd!
+    autocmd BufEnter * call <sid>on_buf_enter()
+    autocmd BufLeave * call <sid>on_buf_leave()
+  augroup END
+endfunction
+
+function! s:disable_plugin() abort
+  augroup StickyBuffers
+    autocmd!
+  augroup END
+endfunction
+
+if get(g:, 'sticky_buffers_enabled', 1) !=# 0
+ call s:enable_plugin()
+endif
+
+command! StickyBuffersEnable call <sid>enable_plugin()
+command! StickyBuffersDisable call <sid>disable_plugin()
 
 let &cpo = s:cpo
 unlet! s:cpo

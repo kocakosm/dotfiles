@@ -30,13 +30,12 @@ Plug 'hauleth/vim-backscratch', {'on': ['Scratch', 'Scratchify']}
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 Plug 'justinmk/vim-dirvish'
-Plug 'justinmk/vim-sneak'
 Plug 'kocakosm/hilal'
 Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
-Plug 'preservim/nerdtree', {'tag': '6.9.12', 'on': 'NERDTreeToggle'}
+Plug 'preservim/nerdtree', {'tag': '6.10.11', 'on': 'NERDTreeToggle'}
 Plug 'romainl/vim-cool'
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
@@ -88,7 +87,12 @@ let g:airline_right_alt_sep=''
 let g:airline_left_alt_sep=''
 
 " NERDTree configuration
-nnoremap <silent> <f5> :NERDTreeToggle<cr>
+function! s:toggle_nerd_tree() abort
+  StickyBuffersDisable
+  NERDTreeToggle
+  StickyBuffersEnable
+endfunction
+nnoremap <silent> <f5> :call <sid>toggle_nerd_tree()<cr>
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeMouseMode=3
 let g:NERDTreeHighlightCursorline=1
@@ -130,13 +134,14 @@ elseif executable('fdfind')
 else
   let g:ctrlp_clear_cache_on_exit=1
 endif
-let g:ctrlp_extensions=['tag', 'quickfix', 'line', 'changes', 'autoignore']
+let g:ctrlp_types = ['fil']
+let g:ctrlp_extensions=['tag', 'quickfix', 'line', 'changes']
 "let g:ctrlp_match_window='top,order:ttb,min:0,max:20'
 let g:ctrlp_max_history=0
 let g:ctrlp_match_current_file=1
 "let g:ctrlp_lazy_update=1
 function! s:force_buf_win_enter() abort
-  call feedkeys(":doautocmd BufWinEnter | echo ''\<cr>")
+  call feedkeys(":doautocmd BufWinEnter | echo \<cr>")
 endfunction
 let g:ctrlp_buffer_func={'exit': expand('<SID>') . 'force_buf_win_enter'}
 
@@ -245,13 +250,6 @@ augroup Dirvish
   autocmd FileType dirvish setlocal nonumber | setlocal signcolumn=yes
 augroup END
 
-" Vim-sneak configuration
-let g:sneak#label=1
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
-
 " Vim-cool configuration
 set hlsearch
 
@@ -262,6 +260,11 @@ nmap <silent> ++ ggVG<plug>(vstats)
 " Zoom.vim configuration
 nmap <silent> <c-w>o <plug>(zoom)
 nmap <silent> <c-w><c-o> <plug>(zoom)
+augroup ZoomOut
+  autocmd!
+  autocmd User ZoomOutPre :StickyBuffersDisable
+  autocmd User ZoomOutPost :StickyBuffersEnable
+augroup END
 
 " Sticky-buffers.vim configuration
 let g:sticky_buffers_exclude_filetypes=['help', 'netrw', 'dirvish']

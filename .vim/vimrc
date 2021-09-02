@@ -177,6 +177,9 @@ set breakindentopt=shift:1
 " Only wrap at a character in the 'breakat' option
 set linebreak
 
+" Do not insert two spaces after a '.', '?' and '!' with a join command
+set nojoinspaces
+
 " Show as much as possible of the last line
 set display=lastline
 
@@ -364,8 +367,8 @@ nnoremap <silent> K i<cr><esc>
 nnoremap <silent> Y y$
 
 " <ctrl>-t opens a new tab
-noremap <silent> <c-t> :tabnew<cr>
-inoremap <silent> <c-t> <c-o>:tabnew<cr>
+"noremap <silent> <c-t> :tabnew<cr>
+"inoremap <silent> <c-t> <c-o>:tabnew<cr>
 
 " <alt>-<up> switches to the next tab
 noremap <silent> <a-up> gt
@@ -411,7 +414,7 @@ nnoremap <leader>r :% s/\<<c-r><c-w>\>/
 xnoremap <leader>r y:% s/<c-r>"/
 
 " Easier buffer switching
-nnoremap <leader>l :buffer<space>
+nnoremap <leader>l :ls<cr>:buffer<space>
 
 " Quit using <c-q>
 noremap <silent> <c-q> :q<cr>
