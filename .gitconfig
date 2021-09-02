@@ -4,15 +4,19 @@ email = kocakosm@gmail.com
 
 [core]
 editor = vim
+autocrlf = input
 
 [init]
 defaultBranch = main
 
-[diff]
-noprefix = true
+[pull]
+ff = only
 
 [push]
 default = simple
+
+[diff]
+noprefix = true
 
 [alias]
 rollback = reset HEAD^
