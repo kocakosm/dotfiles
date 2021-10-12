@@ -287,17 +287,6 @@ set incsearch
 " Don't highlight search results by default
 set nohlsearch
 
-" Use rg or ag if available, otherwise use recursive grep for grepping
-if executable('rg')
-  set grepprg=rg\ -S\ --hidden\ --vimgrep
-  set grepformat=%f:%l:%c:%m
-elseif executable('ag')
-  set grepprg=ag\ -S\ --hidden\ --vimgrep
-  set grepformat=%f:%l:%c:%m
-else
-  set grepprg=grep\ -rn\ $*\ /dev/null
-endif
-
 " Use the internal diff with the patience algorithm
 set diffopt+=internal,algorithm:patience
 
@@ -323,13 +312,17 @@ augroup PreviewWindow
   autocmd WinEnter * if &previewwindow | setlocal nonu | endif
 augroup END
 
-" Load plugins
+" Install vim-plug if not already installed
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
+
+" Source additional config files
 source $HOME/.vim/plugins.vim
+source $HOME/.vim/grep.vim
+source $HOME/.vim/quickfix.vim
 
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
@@ -369,6 +362,10 @@ nnoremap <silent> Y y$
 " <ctrl>-t opens a new tab
 "noremap <silent> <c-t> :tabnew<cr>
 "inoremap <silent> <c-t> <c-o>:tabnew<cr>
+
+" <tab> / <shift-tab> navigates between windows in normal mode
+nnoremap <silent> <tab> <C-w>w
+nnoremap <silent> <s-tab> <C-w>W
 
 " <alt>-<up> switches to the next tab
 noremap <silent> <a-up> gt

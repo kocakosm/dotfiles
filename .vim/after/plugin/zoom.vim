@@ -149,7 +149,7 @@ augroup Zoom
   autocmd ExitPre * call <sid>zoom_out_on_exit()
 augroup END
 
-noremap <silent> <script> <plug>(zoom) :<c-u>call <sid>toggle_zoom()<cr>
+noremap <silent> <script> <plug>(zoom#toggle) :<c-u>call <sid>toggle_zoom()<cr>
 
 let &cpo = s:cpo
 unlet! s:cpo

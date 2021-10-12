@@ -62,8 +62,8 @@ if get(g:, 'sticky_buffers_enabled', 1) !=# 0
  call s:enable_plugin()
 endif
 
-command! StickyBuffersEnable call <sid>enable_plugin()
-command! StickyBuffersDisable call <sid>disable_plugin()
+command! StickyBuffersOn call <sid>enable_plugin()
+command! StickyBuffersOff call <sid>disable_plugin()
 
 let &cpo = s:cpo
 unlet! s:cpo

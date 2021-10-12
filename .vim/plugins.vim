@@ -35,7 +35,7 @@ Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
-Plug 'preservim/nerdtree', {'tag': '6.10.11', 'on': 'NERDTreeToggle'}
+Plug 'preservim/nerdtree', {'tag': '6.10.15', 'on': 'NERDTreeToggle'}
 Plug 'romainl/vim-cool'
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
@@ -88,9 +88,9 @@ let g:airline_left_alt_sep=''
 
 " NERDTree configuration
 function! s:toggle_nerd_tree() abort
-  StickyBuffersDisable
+  StickyBuffersOff
   NERDTreeToggle
-  StickyBuffersEnable
+  StickyBuffersOn
 endfunction
 nnoremap <silent> <f5> :call <sid>toggle_nerd_tree()<cr>
 let g:NERDTreeMinimalUI=1
@@ -134,7 +134,7 @@ elseif executable('fdfind')
 else
   let g:ctrlp_clear_cache_on_exit=1
 endif
-let g:ctrlp_types = ['fil']
+let g:ctrlp_types = ['fil', 'buf']
 let g:ctrlp_extensions=['tag', 'quickfix', 'line', 'changes']
 "let g:ctrlp_match_window='top,order:ttb,min:0,max:20'
 let g:ctrlp_max_history=0
@@ -240,9 +240,14 @@ augroup END
 let g:nuake_position='top'
 let g:nuake_size=0.33
 let g:nuake_per_tab=0
-nnoremap <f4> :Nuake<cr>
-inoremap <f4> <c-\><c-n>:Nuake<cr>
-tnoremap <f4> <c-\><c-n>:Nuake<cr>
+function! s:toggle_nuake() abort
+  StickyBuffersOff
+  Nuake
+  StickyBuffersOn
+endfunction
+nnoremap <silent> <f4> :call <sid>toggle_nuake()<cr>
+inoremap <silent> <f4> <c-\><c-n>:call <sid>toggle_nuake()<cr>
+tnoremap <silent> <f4> <c-\><c-n>:call <sid>toggle_nuake()<cr>
 
 " Vim-dirvish configuration
 augroup Dirvish
@@ -258,12 +263,12 @@ xmap <silent> ++ <plug>(vstats)
 nmap <silent> ++ ggVG<plug>(vstats)
 
 " Zoom.vim configuration
-nmap <silent> <c-w>o <plug>(zoom)
-nmap <silent> <c-w><c-o> <plug>(zoom)
+nmap <silent> <c-w>o <plug>(zoom#toggle)
+nmap <silent> <c-w><c-o> <plug>(zoom#toggle)
 augroup ZoomOut
   autocmd!
-  autocmd User ZoomOutPre :StickyBuffersDisable
-  autocmd User ZoomOutPost :StickyBuffersEnable
+  autocmd User ZoomOutPre :StickyBuffersOff
+  autocmd User ZoomOutPost :StickyBuffersOn
 augroup END
 
 " Sticky-buffers.vim configuration

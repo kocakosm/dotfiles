@@ -48,8 +48,8 @@ if get(g:, 'highlight_current_word_enabled', 0) !=# 0
  call s:enable_plugin()
 endif
 
-command! HighlightCurrentWordEnable call <sid>enable_plugin()
-command! HighlightCurrentWordDisable call <sid>disable_plugin()
+command! HighlightCurrentWordOn call <sid>enable_plugin()
+command! HighlightCurrentWordOff call <sid>disable_plugin()
 
 let &cpo = s:cpo
 unlet! s:cpo
