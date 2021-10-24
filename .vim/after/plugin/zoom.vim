@@ -126,10 +126,10 @@ function! s:lock_zoomed_window() abort
           \ ->filter({_, win -> s:win_exists(win)})
           \ ->filter({_, win -> s:is_ordinary(winbufnr(win))})
     if len(windows) ># 1
-      quit
+      quit | doautocmd BufWinEnter
       call s:warn('Cannot split zoomed window')
     elseif winbufnr(0) !=# t:zoom_zoomed_bufnr
-      execute "silent! buffer " . t:zoom_zoomed_bufnr
+      execute "silent! buffer " . t:zoom_zoomed_bufnr | doautocmd BufWinEnter
       call s:warn('Cannot switch buffer in zoomed window')
     endif
   endif

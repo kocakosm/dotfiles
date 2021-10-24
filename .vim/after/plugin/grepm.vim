@@ -7,7 +7,7 @@ scriptencoding utf-8
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_grepm') || v:version <# 802 || &cp
+if exists('g:loaded_grepm') || (v:version <# 802 && !has('nvim-0.5')) || &cp
   finish
 endif
 let g:loaded_grepm = 1
@@ -15,49 +15,60 @@ let g:loaded_grepm = 1
 let s:cpo = &cpo
 set cpo&vim
 
-let s:cmd = ''
+let s:has_result = 0
 
 function! s:grep(...) abort
-  let s:cmd = join([&grepprg] + [expandcmd(join(a:000, ' '))], ' ')
-  return system(s:cmd)
+  let cmd = join([&grepprg] + [expandcmd(join(a:000, ' '))], ' ')
+  let result = system(cmd)
+  let s:has_result = !empty(result)
+  if !s:has_result
+    call s:warn('No result for "' . cmd . '"')
+  endif
+  return result
 endfunction
 
 function! s:on_grep() abort
-  if empty(getqflist())
-    cclose
-    call s:warn('[grep] No result for "' . s:cmd . '"')
-    doautocmd BufWinEnter
-  else
-    call setqflist([], 'a', {'title': s:cmd})
-    copen
-  endif
+  call setqflist([], 'a', {'title': ''})
+  cwindow | doautocmd BufWinEnter
 endfunction
 
 function! s:on_lgrep() abort
-  if empty(getloclist(0))
-    lclose
-    call s:warn('[lgrep] No result for "' . s:cmd . '"')
-    doautocmd BufWinEnter
-  else
-    call setloclist(0, [], 'a', {'title': s:cmd})
-    lopen
-  endif
+  call setloclist(0, [], 'a', {'title': ''})
+  lwindow | doautocmd BufWinEnter
+endfunction
+
+function! s:on_grepadd() abort
+  if s:has_result | call s:on_grep() | endif
+endfunction
+
+function! s:on_lgrepadd() abort
+  if s:has_result | call s:on_lgrep() | endif
 endfunction
 
 function! s:warn(msg) abort
-  echohl WarningMsg | echomsg a:msg | echohl None
+  echohl WarningMsg | echomsg '[grepm]' a:msg | echohl None
 endfunction
 
 command! -nargs=+ -complete=file_in_path -bar Grep cgetexpr <sid>grep(<f-args>)
+command! -nargs=+ -complete=file_in_path -bar Grepadd caddexpr <sid>grep(<f-args>)
 command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr <sid>grep(<f-args>)
+command! -nargs=+ -complete=file_in_path -bar LGrepadd laddexpr <sid>grep(<f-args>)
 
 cnoreabbrev <expr> grep (getcmdtype() ==# ':' && getcmdline() ==# 'grep') ? 'Grep' : 'grep'
+cnoreabbrev <expr> grepa (getcmdtype() ==# ':' && getcmdline() ==# 'grepa') ? 'Grepa' : 'grepa'
+cnoreabbrev <expr> grepad (getcmdtype() ==# ':' && getcmdline() ==# 'grepad') ? 'Grepad' : 'grepad'
+cnoreabbrev <expr> grepadd (getcmdtype() ==# ':' && getcmdline() ==# 'grepadd') ? 'Grepadd' : 'grepadd'
 cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+cnoreabbrev <expr> lgrepa (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepa') ? 'LGrepa' : 'lgrepa'
+cnoreabbrev <expr> lgrepad (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepad') ? 'LGrepad' : 'lgrepad'
+cnoreabbrev <expr> lgrepadd (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepadd') ? 'LGrepadd' : 'lgrepadd'
 
 augroup Grepm
   autocmd!
   autocmd QuickFixCmdPost cgetexpr call <sid>on_grep()
+  autocmd QuickFixCmdPost caddexpr call <sid>on_grepadd()
   autocmd QuickFixCmdPost lgetexpr call <sid>on_lgrep()
+  autocmd QuickFixCmdPost laddexpr call <sid>on_lgrepadd()
 augroup END
 
 let &cpo = s:cpo

@@ -4,8 +4,11 @@ setlocal nonumber
 " Highlight the current line
 setlocal cursorline
 
-" Move the window to the very bottom, using the full width of the screen
-wincmd J
+" Hide the quickfix buffer when it is no longer displayed
+setlocal bufhidden=hide
 
 " Unlist the quickfix buffer
-let &buflisted=0
+setlocal nobuflisted
+
+" Move the window to the very bottom, using the full width of the screen
+wincmd J

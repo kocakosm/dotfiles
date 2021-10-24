@@ -327,7 +327,7 @@ source $HOME/.vim/quickfix.vim
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
 inoremap <silent> <space> <space><c-g>u
-inoremap <silent> <return> <return><c-g>u
+inoremap <silent> <cr> <cr><c-g>u
 
 " Finer-grained scrolling with mouse wheel
 "noremap <silent> <scrollwheelup> <c-y><c-y>
@@ -343,15 +343,19 @@ inoremap <silent> <return> <return><c-g>u
 "noremap <silent> <s-scrollwheeldown> <c-d>
 "inoremap <silent> <s-scrollwheeldown> <c-o><c-d>
 
-" Make <up>/<down> move by virtual lines in insert mode
-inoremap <up> <c-o>gk
-inoremap <down> <c-o>gj
-
-" Make j/k/<up>/<down> move by virtual lines unless when used with a count
-"noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+" Make j/k/<up>/<down> move by virtual lines (when not used with a count)
+"inoremap <up> <c-o>gk
+"inoremap <down> <c-o>gj
+"noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
 "noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 "noremap <silent> <expr> <down> (v:count == 0 ? 'gj' : 'j')
-"noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
+"noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+
+" Make <home>/<end> move by virtual lines
+"inoremap <home> <c-o>g<home>
+"inoremap <end> <c-o>g<end>
+"noremap <home> g<home>
+"noremap <end> g<end>
 
 " K splits the current line (opposite of J)
 nnoremap <silent> K i<cr><esc>

@@ -62,7 +62,7 @@ endfunction
 function! s:str(number) abort
   let s = printf('%.10g', a:number)
   let i = match(s, '\.\?0\+$')
-  return i < 0 ? s : strpart(s, 0, i)
+  return i <# 0 ? s : strpart(s, 0, i)
 endfunction
 
 function! s:print_stats() abort
