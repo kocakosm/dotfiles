@@ -39,7 +39,7 @@ set ttimeoutlen=25
 
 " Number of milliseconds to wait after nothing is typed to write the swap file
 " to disk and trigger the CursorHold autocmd
-set updatetime=400
+set updatetime=1000
 
 " Better display when running in a terminal
 set ttyfast
@@ -258,6 +258,7 @@ if has('nvim')
   set completeopt=menuone,preview
 else
   set completeopt=menuone,popup
+  set completepopup+=border:off
 endif
 
 " Adjust the case of the completion match to the case of the typed text
@@ -287,8 +288,11 @@ set incsearch
 " Don't highlight search results by default
 set nohlsearch
 
-" Use the internal diff with the patience algorithm
-set diffopt+=internal,algorithm:patience
+" Start diff mode with vertical splits
+set diffopt+=vertical
+
+" Use the internal diff with the histogram algorithm
+set diffopt+=internal,algorithm:histogram
 
 " Replace each concealed block with one character
 "set conceallevel=1

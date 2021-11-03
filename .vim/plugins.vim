@@ -7,11 +7,12 @@ let g:loaded_logipat=1
 let g:loaded_netrwPlugin=1
 let g:loaded_rrhelper=1
 let g:loaded_vimballPlugin=1
+let g:loaded_matchit=1
 
 " Enable matchit
-if !exists('g:loaded_matchit')
-  packadd! matchit
-endif
+" if !exists('g:loaded_matchit')
+"   packadd! matchit
+" endif
 
 " Enable man pages viewer
 if exists(":Man") != 2
@@ -21,6 +22,7 @@ endif
 call plug#begin('~/.vim/bundles')
 Plug 'Lenovsky/nuake'
 Plug 'airblade/vim-rooter'
+Plug 'andymass/vim-matchup'
 Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 Plug 'chaoren/vim-wordmotion'
 Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
@@ -40,10 +42,12 @@ Plug 'romainl/vim-cool'
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'thinca/vim-visualstar'
+Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 Plug 'w0rp/ale'
+Plug 'wellle/targets.vim'
 Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
@@ -258,6 +262,9 @@ augroup END
 " Vim-cool configuration
 set hlsearch
 
+" Vim-matchup configuration
+let g:matchup_matchparen_offscreen={}
+
 " Vstats.vim configuration
 xmap <silent> ++ <plug>(vstats)
 nmap <silent> ++ ggVG<plug>(vstats)
@@ -270,6 +277,10 @@ augroup ZoomOut
   autocmd User ZoomOutPre :StickyBuffersOff
   autocmd User ZoomOutPost :StickyBuffersOn
 augroup END
+
+" Cursor-hold-delay.vim configuration
+set updatetime=10000
+let g:cursor_hold_delay=100
 
 " Sticky-buffers.vim configuration
 let g:sticky_buffers_exclude_filetypes=['help', 'netrw', 'dirvish']
