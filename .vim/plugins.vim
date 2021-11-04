@@ -37,6 +37,9 @@ Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
+Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'preservim/nerdtree', {'tag': '6.10.15', 'on': 'NERDTreeToggle'}
 Plug 'romainl/vim-cool'
 Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
@@ -46,7 +49,6 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
-Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
@@ -201,16 +203,6 @@ let g:signify_sign_changedelete=g:signify_sign_change
 let g:signify_sign_show_count=0
 let g:signify_sign_show_text=1
 
-" ALE configuration
-let g:ale_sign_warning='⚠'
-let g:ale_sign_error='✗'
-let g:ale_set_loclist=0
-let g:ale_set_quickfix=0
-let g:ale_history_enabled=0
-let g:ale_echo_msg_error_str='✗'
-let g:ale_echo_msg_warning_str='⚠'
-let g:ale_echo_msg_format='[%linter%] %severity% %s'
-
 " Vim-schlepp configuration
 xmap <silent> <s-a-up> <plug>SchleppUp
 xmap <silent> <s-a-down> <plug>SchleppDown
@@ -284,3 +276,42 @@ let g:cursor_hold_delay=100
 
 " Sticky-buffers.vim configuration
 let g:sticky_buffers_exclude_filetypes=['help', 'netrw', 'dirvish']
+
+" Vim-lsp-settings configuration
+let g:lsp_settings_servers_dir=expand('$XDG_DATA_HOME/lsp/servers')
+let g:lsp_settings_global_settings_dir=expand('$XDG_DATA_HOME/vim/lsp')
+call mkdir(g:lsp_settings_servers_dir, 'p', 0700)
+call mkdir(g:lsp_settings_global_settings_dir, 'p', 0700)
+
+" Vim-lsp configuration
+let g:lsp_diagnostics_enabled=1
+let g:lsp_diagnostics_echo_cursor=0
+let g:lsp_diagnostics_float_cursor=1
+let g:lsp_diagnostics_highlights_enabled=1
+let g:lsp_diagnostics_signs_enabled=1
+let g:lsp_diagnostics_signs_error={'text': '✗'}
+let g:lsp_diagnostics_signs_warning={'text': '⚠'}
+let g:lsp_diagnostics_signs_information={'text': '🛈'}
+let g:lsp_diagnostics_signs_hint={'text': '🛈'}
+let g:lsp_diagnostics_signs_priority=20
+let g:lsp_document_code_action_signs_enabled=1
+let g:lsp_document_code_action_signs_hint={'text': '💡'}
+let g:lsp_document_highlight_enabled=1
+let g:lsp_fold_enabled=0
+highlight lspReference gui=BOLD
+highlight link LspErrorHighlight SpellBad
+"highlight link LspWarningHighlight SpellBad
+"highlight link LspInformationHighlight SpellBad
+"highlight link LspHintHighlight SpellBad
+highlight link LspErrorText ErrorMsg
+highlight link LspWarningText WarningMsg
+highlight link LspInformationText ErrorMsg
+highlight link LspHintText ErrorMsg
+
+" Asyncomplete configuration
+set shortmess+=c
+let g:asyncomplete_auto_popup=0
+let g:asyncomplete_popup_delay=0
+let g:asyncomplete_auto_completeopt=0
+inoremap <silent><expr> <c-space> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
+inoremap <silent><expr> <c-s-space> pumvisible() ? "\<C-p>" : asyncomplete#force_refresh()
