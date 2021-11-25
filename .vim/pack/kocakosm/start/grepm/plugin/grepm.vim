@@ -1,7 +1,8 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " grepm.vim                                                            "
-" Inspired by romainl's wonderful 'Instant grep + quickfix' gist       "
+" All credit goes to Romain Lafourcade (romainl)                       "
+" This plugin is based on his wonderful 'Instant grep + quickfix' gist "
 " https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3     "
 " Copyright (c) 2020-2021 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "

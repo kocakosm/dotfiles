@@ -13,7 +13,6 @@ let g:loaded_vstats = 1
 let s:cpo = &cpo
 set cpo&vim
 
-let s:report_gap = 4
 let s:temporary_register = 'a'
 let s:number_pattern = '^[+-]\?\d\+\%([.]\d\+\)\?\([eE][+-]\?\d\+\)\?$'
 
@@ -72,10 +71,10 @@ function! s:print_stats() abort
     let avg = 1.0 * sum / max([len(numbers), 1])
     let min = s:min(numbers)
     let max = s:max(numbers)
-    let gap = repeat(' ', s:report_gap)
-    echo 'sum: ' . s:str(sum) . gap
-    echon 'avg: ' . s:str(avg) . gap
-    echon 'min: ' . s:str(min) . gap
+    let separator = get(g:, 'vstats_separator', '    ')
+    echo 'sum: ' . s:str(sum) . separator
+    echon 'avg: ' . s:str(avg) . separator
+    echon 'min: ' . s:str(min) . separator
     echon 'max: ' . s:str(max)
   else
     call s:warn('No numbers could be extracted from this visual selection')

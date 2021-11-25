@@ -1,5 +1,9 @@
 scriptencoding utf-8
 
+"--------------------------------------"
+"---------  Built-in plugins  ---------"
+"--------------------------------------"
+
 " Disable unused built-in plugins
 let g:loaded_2html_plugin=1
 let g:loaded_getscriptPlugin=1
@@ -19,243 +23,36 @@ if exists(":Man") != 2
   runtime ftplugin/man.vim
 endif
 
-call plug#begin('~/.vim/bundles')
-Plug 'Lenovsky/nuake'
-Plug 'airblade/vim-rooter'
-Plug 'andymass/vim-matchup'
-Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
-Plug 'chaoren/vim-wordmotion'
-Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'hauleth/vim-backscratch', {'on': ['Scratch', 'Scratchify']}
-Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
-Plug 'justinmk/vim-dirvish'
-Plug 'kocakosm/hilal'
-Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
-Plug 'lervag/vimtex', {'for': ['tex']}
-Plug 'mg979/vim-visual-multi'
-Plug 'mhinz/vim-signify'
-Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'preservim/nerdtree', {'tag': '6.10.15', 'on': 'NERDTreeToggle'}
-Plug 'romainl/vim-cool'
-Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
-Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
-Plug 'thinca/vim-visualstar'
-Plug 'tommcdo/vim-exchange'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
-Plug 'wellle/targets.vim'
-Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
-Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
-call plug#end()
-
 " Netrw configuration
-if g:loaded_netrwPlugin
-  nnoremap gx :!xdg-open <cWORD> &<cr><cr>
+if g:loaded_netrwPlugin && executable('xdg-open')
+  " emulate ntrw's gx with xdg-open
+  function! s:xdg_open(url) abort
+    silent! let result = systemlist('xdg-open ' . a:url)
+    if v:shell_error
+      let msg = trim(split(join(result, ' '), ':')[-1])
+      echohl ErrorMsg | echomsg msg | echohl None
+    endif
+  endfunction
+  function! s:get_last_visual_selection() abort
+    let tmp_register = 'a'
+    let register_content = getreg(tmp_register)
+    let register_type = getregtype(tmp_register)
+    execute 'silent! normal! gv"' . tmp_register . 'ygv'
+    let selection = getreg(tmp_register)
+    call setreg(tmp_register, register_content, register_type)
+    return selection
+  endfunction
+  nnoremap <silent> gx :call <sid>xdg_open(expand('<cWORD>'))<cr>
+  xnoremap <silent> gx :<c-u> call <sid>xdg_open(<sid>get_last_visual_selection())<cr>
 else
   let g:netrw_browsex_viewer='firefox'
   let g:netrw_home=expand('$XDG_DATA_HOME/vim/netrw')
   call mkdir(g:netrw_home, 'p', 0700)
 endif
 
-" Ahem... well... set colorscheme
-silent! colorscheme hilal
-
-" Vim-airline configuration
-set noshowmode
-set laststatus=2
-let g:airline_theme='base16'
-let g:airline_section_c='%t'
-let g:airline_powerline_fonts=1
-let g:airline#extensions#wordcount#enabled=0
-"let g:airline#extensions#tabline#enabled=1
-"let g:airline#extensions#tabline#fnamemod=':t'
-"let g:airline#extensions#tabline#tab_nr_type=1
-"let g:airline#extensions#tabline#show_close_button=0
-"let g:airline#extensions#tabline#formatter='unique_tail_improved'
-"let g:airline#extensions#tabline#left_alt_sep=''
-"let g:airline#extensions#tabline#left_sep=''
-let g:airline#extensions#whitespace#checks=['indent', 'trailing', 'long']
-let g:airline#extensions#whitespace#mixed_indent_algo=2
-let g:airline#extensions#hunks#enabled=0
-let g:airline#extensions#ale#error_symbol='✗ '
-let g:airline#extensions#ale#warning_symbol='⚠ '
-let g:airline_right_sep=''
-let g:airline_left_sep=''
-let g:airline_right_alt_sep=''
-let g:airline_left_alt_sep=''
-
-" NERDTree configuration
-function! s:toggle_nerd_tree() abort
-  StickyBuffersOff
-  NERDTreeToggle
-  StickyBuffersOn
-endfunction
-nnoremap <silent> <f5> :call <sid>toggle_nerd_tree()<cr>
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeMouseMode=3
-let g:NERDTreeHighlightCursorline=1
-let g:NERDTreeHijackNetrw=0
-let g:NERDTreeWinSize=32
-let g:NERDTreeStatusline=''
-
-" Devicons configuration
-"let g:webdevicons_enable_ctrlp=0
-"let g:webdevicons_enable_nerdtree=0
-"let g:webdevicons_enable_airline_tabline=0
-let g:webdevicons_enable_airline_statusline=0
-let g:WebDevIconsNerdTreeBeforeGlyphPadding=''
-let g:WebDevIconsNerdTreeAfterGlyphPadding=''
-let g:WebDevIconsUnicodeDecorateFolderNodes=0
-
-" Open-browser configuration
-nmap <silent> gw <plug>(openbrowser-smart-search)
-xmap <silent> gw <plug>(openbrowser-smart-search)
-
-" NrrwRgn configuration
-let g:nrrw_rgn_nohl=1
-"let g:nrrw_rgn_vert=1
-let g:nrrw_rgn_pad=6
-let g:nrrw_rgn_wdth=12
-let g:nrrw_topbot_leftright='botright'
-xmap <silent> <f3> <plug>NrrwrgnDo
-
-" CtrlP configuration
-let g:ctrlp_line_prefix=' '
-let g:ctrlp_cache_dir=expand('$XDG_DATA_HOME/vim/ctrlp')
-call mkdir(g:ctrlp_cache_dir, 'p', 0700)
-if executable('ag')
-  let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching=0
-elseif executable('fdfind')
-  let g:ctrlp_user_command='fdfind -H -L -E ".git" -c never "" %s'
-  let g:ctrlp_use_caching=0
-else
-  let g:ctrlp_clear_cache_on_exit=1
-endif
-let g:ctrlp_types = ['fil', 'buf']
-let g:ctrlp_extensions=['tag', 'quickfix', 'line', 'changes']
-"let g:ctrlp_match_window='top,order:ttb,min:0,max:20'
-let g:ctrlp_max_history=0
-let g:ctrlp_match_current_file=1
-"let g:ctrlp_lazy_update=1
-function! s:force_buf_win_enter() abort
-  call feedkeys(":doautocmd BufWinEnter | echo \<cr>")
-endfunction
-let g:ctrlp_buffer_func={'exit': expand('<SID>') . 'force_buf_win_enter'}
-
-" Vim-rooter configuration
-let g:rooter_cd_cmd='lcd'
-let g:rooter_silent_chdir=1
-let g:rooter_resolve_links=1
-let g:rooter_change_directory_for_non_project_files='current'
-let g:rooter_patterns=['pom.xml', 'package.json', 'Makefile', 'makefile']
-let g:rooter_patterns+=['.hg/', '.git/']
-
-" Auto-pairs configuration
-augroup AutoPairs
-  autocmd!
-  autocmd Filetype vim let b:AutoPairs=filter(g:AutoPairs, "v:key !~# '\"'")
-augroup END
-
-" Vim-visualstar configuration
-let g:visualstar_extra_commands='gN'
-
-" Vim-kitondro configuration
-if has('gui_running')
-  let s:types = ['nerdtree', 'diff', 'qf', 'vim-plug', 'netrw', 'ctrlp', 'dirvish']
-  function! s:set_cursor_visibility() abort
-    if index(s:types, getbufvar('%', '&filetype')) > -1
-      call kitondro#hide_cursor()
-    else
-      call kitondro#show_cursor()
-    endif
-  endfunction
-  augroup Kitondro
-    autocmd!
-    autocmd BufWinEnter,BufEnter,FileType * call <sid>set_cursor_visibility()
-  augroup END
-endif
-
-" Vim-livedown configuration
-let g:livedown_autorun=1
-let g:livedown_open=1
-let g:livedown_port=10042
-let g:livedown_browser='firefox -P livedown'
-
-" Vim-signify configuration
-let g:signify_vcs_list=['git', 'hg']
-"let g:signify_disable_by_default=0
-let s:signify_sign='∙'
-"let s:signify_sign='❙'
-let g:signify_sign_add=s:signify_sign
-let g:signify_sign_delete=s:signify_sign
-let g:signify_sign_delete_first_line=s:signify_sign
-let g:signify_sign_change=s:signify_sign
-let g:signify_sign_changedelete=g:signify_sign_change
-let g:signify_sign_show_count=0
-let g:signify_sign_show_text=1
-
-" Vim-schlepp configuration
-xmap <silent> <s-a-up> <plug>SchleppUp
-xmap <silent> <s-a-down> <plug>SchleppDown
-xmap <silent> <s-a-left> <plug>SchleppLeft
-xmap <silent> <s-a-right> <plug>SchleppRight
-xmap <silent> <s-a-d> <plug>SchleppDup
-"let g:Schlepp#allowSquishingLines=1
-"let g:Schlepp#allowSquishingBlocks=1
-let g:Schlepp#trimWS=0
-let g:Schlepp#reindent=1
-"let g:Schlepp#dupTrimWS=1
-let g:Schlepp#dupLinesDir='down'
-let g:Schlepp#dupBlockDir='right'
-
-" Vim-easy-align configuration
-xmap <silent> ga <plug>(EasyAlign)
-nmap <silent> ga <plug>(EasyAlign)
-
-" Vimtex configuration
-let g:tex_flavor='latex'
-let g:vimtex_enabled=1
-let g:vimtex_view_method='mupdf'
-let g:vimtex_quickfix_mode=0
-augroup Vimtex
-  autocmd!
-  autocmd User VimtexEventQuit call vimtex#compiler#clean(0)
-  autocmd User VimtexEventInitPost call vimtex#compiler#compile()
-augroup END
-
-" Nuake configuration
-let g:nuake_position='top'
-let g:nuake_size=0.33
-let g:nuake_per_tab=0
-function! s:toggle_nuake() abort
-  StickyBuffersOff
-  Nuake
-  StickyBuffersOn
-endfunction
-nnoremap <silent> <f4> :call <sid>toggle_nuake()<cr>
-inoremap <silent> <f4> <c-\><c-n>:call <sid>toggle_nuake()<cr>
-tnoremap <silent> <f4> <c-\><c-n>:call <sid>toggle_nuake()<cr>
-
-" Vim-dirvish configuration
-augroup Dirvish
-  autocmd!
-  autocmd FileType dirvish setlocal nonumber | setlocal signcolumn=yes
-augroup END
-
-" Vim-cool configuration
-set hlsearch
-
-" Vim-matchup configuration
-let g:matchup_matchparen_offscreen={}
+"------------------------------------"
+"---------  Custom plugins  ---------"
+"------------------------------------"
 
 " Vstats.vim configuration
 xmap <silent> ++ <plug>(vstats)
@@ -275,43 +72,59 @@ set updatetime=10000
 let g:cursor_hold_delay=100
 
 " Sticky-buffers.vim configuration
-let g:sticky_buffers_exclude_filetypes=['help', 'netrw', 'dirvish']
+let g:sticky_buffers_exclude_filetypes=['help', 'dirvish']
 
-" Vim-lsp-settings configuration
-let g:lsp_settings_servers_dir=expand('$XDG_DATA_HOME/lsp/servers')
-let g:lsp_settings_global_settings_dir=expand('$XDG_DATA_HOME/vim/lsp')
-call mkdir(g:lsp_settings_servers_dir, 'p', 0700)
-call mkdir(g:lsp_settings_global_settings_dir, 'p', 0700)
+"-----------------------------------------"
+"---------  Third-party plugins  ---------"
+"-----------------------------------------"
 
-" Vim-lsp configuration
-let g:lsp_diagnostics_enabled=1
-let g:lsp_diagnostics_echo_cursor=0
-let g:lsp_diagnostics_float_cursor=1
-let g:lsp_diagnostics_highlights_enabled=1
-let g:lsp_diagnostics_signs_enabled=1
-let g:lsp_diagnostics_signs_error={'text': '✗'}
-let g:lsp_diagnostics_signs_warning={'text': '⚠'}
-let g:lsp_diagnostics_signs_information={'text': '🛈'}
-let g:lsp_diagnostics_signs_hint={'text': '🛈'}
-let g:lsp_diagnostics_signs_priority=20
-let g:lsp_document_code_action_signs_enabled=1
-let g:lsp_document_code_action_signs_hint={'text': '💡'}
-let g:lsp_document_highlight_enabled=1
-let g:lsp_fold_enabled=0
-highlight lspReference gui=BOLD
-highlight link LspErrorHighlight SpellBad
-"highlight link LspWarningHighlight SpellBad
-"highlight link LspInformationHighlight SpellBad
-"highlight link LspHintHighlight SpellBad
-highlight link LspErrorText ErrorMsg
-highlight link LspWarningText WarningMsg
-highlight link LspInformationText ErrorMsg
-highlight link LspHintText ErrorMsg
+" Install vim-plug if not already installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
-" Asyncomplete configuration
-set shortmess+=c
-let g:asyncomplete_auto_popup=0
-let g:asyncomplete_popup_delay=0
-let g:asyncomplete_auto_completeopt=0
-inoremap <silent><expr> <c-space> pumvisible() ? "\<C-n>" : asyncomplete#force_refresh()
-inoremap <silent><expr> <c-s-space> pumvisible() ? "\<C-p>" : asyncomplete#force_refresh()
+call plug#begin('$XDG_DATA_HOME/vim/plugins')
+Plug 'Lenovsky/nuake', {'on': 'Nuake'}
+Plug 'airblade/vim-rooter'
+Plug 'andymass/vim-matchup'
+Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
+Plug 'chaoren/vim-wordmotion'
+Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
+Plug 'justinmk/vim-dirvish'
+Plug 'kocakosm/hilal'
+Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
+Plug 'lervag/vimtex', {'for': ['tex']}
+Plug 'mg979/vim-visual-multi'
+Plug 'mhinz/vim-signify'
+Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'| Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
+Plug 'romainl/vim-cool'
+Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
+Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
+Plug 'thinca/vim-visualstar'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
+Plug 'wellle/targets.vim'
+Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
+Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
+call plug#end()
+
+for plugin in keys(g:plugs)
+  let plugin_name = substitute(tolower(plugin), '^\(n\)\?vim-', '', '')
+  let plugin_name = substitute(plugin_name, '[\.-]\(n\)\?vim$', '', '')
+  let plugin_conf = expand($HOME . '/.vim/plugins/' . plugin_name .'.vim')
+  if filereadable(plugin_conf)
+    execute 'source ' . plugin_conf
+  endif
+endfor
