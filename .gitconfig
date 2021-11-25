@@ -16,7 +16,9 @@ ff = only
 default = simple
 
 [diff]
+tool = gvimdiff
 noprefix = true
+algorithm = histogram
 
 [alias]
 rollback = reset HEAD^
