@@ -1,6 +1,9 @@
 " Indent anonymous classes correctly
 setlocal cinoptions+=j1
 
+" Indent JavaScript object declarations correctly
+setlocal cinoptions+=J1
+
 " Use 2 * 'shifwidth' to indent continuation lines
 setlocal cinoptions+=+2s
 

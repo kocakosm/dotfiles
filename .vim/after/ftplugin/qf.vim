@@ -12,3 +12,6 @@ setlocal nobuflisted
 
 " Move the window to the very bottom, using the full width of the screen
 wincmd J
+
+" Undo commands
+let b:undo_ftplugin = 'setlocal number< cursorline< bufhidden< buflisted<'

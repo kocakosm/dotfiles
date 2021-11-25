@@ -1,4 +1,4 @@
-if &buftype ==? 'help'
+if &buftype ==# 'help'
   " don't highlight any columns
   if exists('+colorcolumn')
     setlocal colorcolumn=
@@ -21,3 +21,7 @@ else
     setlocal conceallevel=0
   endif
 endif
+
+" Undo commands
+let b:undo_ftplugin = 'mapclear <buffer>'
+let b:undo_ftplugin += ' | setlocal conceallevel< colorcolumn<'

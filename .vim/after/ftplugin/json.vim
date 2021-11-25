@@ -12,3 +12,6 @@ if executable('jq')
   endfunction
   command! -buffer -bar Format call <sid>jq_format()
 endif
+
+" Undo commands
+let b:undo_ftplugin = 'delcommand Format'
