@@ -5,8 +5,8 @@ all: dotfiles dotconfig vim-plug fonts
 
 .PHONY: dotfiles
 dotfiles:
-	@for file in $(shell find $(CURDIR) -mindepth 1 -maxdepth 1 \
-			-name ".*" -not -name ".fonts" -not -name ".config" \
+	@for file in $(shell find $(CURDIR) -mindepth 1 -maxdepth 1 -name ".*" \
+			-not -name ".fonts" -not -name ".config" -not -name ".tags" \
 			-not -regex ".*\.git\(ignore\)?"); \
 	do \
 		ln -sfn $$file $(HOME)/$$(basename $$file); \
