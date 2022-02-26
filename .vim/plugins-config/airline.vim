@@ -1,5 +1,3 @@
-scriptencoding utf-8
-
 set noshowmode
 set laststatus=2
 

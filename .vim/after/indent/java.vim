@@ -20,4 +20,4 @@ setlocal cinoptions+=m1
 setlocal cinoptions+=l1
 
 " Undo commands
-let b:undo_indent = 'setlocal cinoptions<'
+call indent#append_undo_cmd('setlocal cinoptions<')

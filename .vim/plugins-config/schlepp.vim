@@ -1,5 +1,3 @@
-scriptencoding utf-8
-
 let g:Schlepp#trimWS=0
 let g:Schlepp#reindent=1
 "let g:Schlepp#dupTrimWS=1

@@ -1,14 +1,14 @@
 scriptencoding utf-8
-"----------------------------------------------------------------------"
-" grepm.vim                                                            "
-" All credit goes to Romain Lafourcade (romainl)                       "
-" This plugin is based on his wonderful 'Instant grep + quickfix' gist "
-" https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3     "
-" Copyright (c) 2020-2021 Osman Koçak <kocakosm@gmail.com>             "
-" Licensed under the MIT license <https://opensource.org/licenses/MIT> "
-"----------------------------------------------------------------------"
+"---------------------------------------------------------------------------"
+" grepm.vim                                                                 "
+" Varius improvements to the built-in grep command                          "
+" Based on https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3 "
+" All credit goes to Romain Lafourcade                                      "
+" Copyright (c) 2020-2022 Osman Koçak <kocakosm@gmail.com>                  "
+" Licensed under the MIT license <https://opensource.org/licenses/MIT>      "
+"---------------------------------------------------------------------------"
 
-if exists('g:loaded_grepm') || (v:version <# 802 && !has('nvim-0.5')) || &cp
+if exists('g:loaded_grepm') || (v:version < 802 && !has('nvim-0.5')) || &cp
   finish
 endif
 let g:loaded_grepm = 1
@@ -30,12 +30,12 @@ endfunction
 
 function! s:on_grep() abort
   call setqflist([], 'a', {'title': ''})
-  cwindow | doautocmd BufWinEnter
+  cwindow
 endfunction
 
 function! s:on_lgrep() abort
   call setloclist(0, [], 'a', {'title': ''})
-  lwindow | doautocmd BufWinEnter
+  lwindow
 endfunction
 
 function! s:on_grepadd() abort

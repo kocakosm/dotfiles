@@ -1,11 +1,11 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " cursor-word.vim                                                      "
-" Copyright (c) 2017-2021 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2017-2022 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_cursor_word') || v:version <# 704 || &cp
+if exists('g:loaded_cursor_word') || v:version < 704 || &cp
   finish
 endif
 let g:loaded_cursor_word = 1
@@ -44,7 +44,7 @@ function! s:disable_plugin() abort
   call s:clear_matches()
 endfunction
 
-if get(g:, 'cursor_word_enabled', 1) !=# 0
+if get(g:, 'cursor_word_enabled', 1)
   call s:enable_plugin()
 endif
 

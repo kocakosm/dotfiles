@@ -1,10 +1,8 @@
-scriptencoding utf-8
-
 if !has('gui_running')
   finish
 endif
 
-let s:types = ['nerdtree', 'diff', 'qf', 'vim-plug', 'ctrlp', 'dirvish']
+let s:types = ['nerdtree', 'diff', 'qf', 'vim-plug', 'ctrlp', 'dirvish', 'man']
 
 function! s:set_cursor_visibility() abort
   if index(s:types, &filetype) ># -1

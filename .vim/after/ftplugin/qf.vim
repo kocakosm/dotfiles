@@ -14,4 +14,4 @@ setlocal nobuflisted
 wincmd J
 
 " Undo commands
-let b:undo_ftplugin = 'setlocal number< cursorline< bufhidden< buflisted<'
+call ftplugin#append_undo_cmd('setlocal number< cursorline< bufhidden< buflisted<')

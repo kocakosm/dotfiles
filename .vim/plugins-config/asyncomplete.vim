@@ -1,5 +1,3 @@
-scriptencoding utf-8
-
 set shortmess+=c
 
 let g:asyncomplete_auto_popup=0

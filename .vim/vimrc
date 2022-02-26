@@ -1,3 +1,7 @@
+"------------------------------"
+"---------  Settings  ---------"
+"------------------------------"
+
 " Set UTF-8 as the default encoding
 set encoding=utf-8
 
@@ -87,27 +91,16 @@ set swapfile
 " Save undo tree to disk
 set undofile
 
-" Define XDG environment variables
-if !exists('$XDG_CONFIG_HOME')
-  let $XDG_CONFIG_HOME = expand('$HOME/.config')
-endif
-if !exists('$XDG_CACHE_HOME')
-  let $XDG_CACHE_HOME = expand('$HOME/.cache')
-endif
-if !exists('$XDG_DATA_HOME')
-  let $XDG_DATA_HOME = expand('$HOME/.local/share')
-endif
-
-" Put all temporary files under $XDG_DATA_HOME/vim
+" Put all temporary files in a more sensible place
 if !has('nvim')
-  call mkdir(expand('$XDG_DATA_HOME/vim/swap'), 'p', 0700)
-  call mkdir(expand('$XDG_DATA_HOME/vim/undo'), 'p', 0700)
-  call mkdir(expand('$XDG_DATA_HOME/vim/info'), 'p', 0700)
-  call mkdir(expand('$XDG_DATA_HOME/vim/backup'), 'p', 0700)
-  set backupdir=$XDG_DATA_HOME/vim/backup/
-  set directory=$XDG_DATA_HOME/vim/swap//
-  set undodir=$XDG_DATA_HOME/vim/undo/
-  set viminfo='100,n$XDG_DATA_HOME/vim/info/viminfo
+  call system#mkdir(system#USER_DATA_HOME . 'vim/swap')
+  call system#mkdir(system#USER_DATA_HOME . 'vim/undo')
+  call system#mkdir(system#USER_DATA_HOME . 'vim/info')
+  call system#mkdir(system#USER_DATA_HOME . 'vim/backup')
+  let &backupdir=system#USER_DATA_HOME . 'vim/backup/'
+  let &directory=system#USER_DATA_HOME . 'vim/swap//'
+  let &undodir=system#USER_DATA_HOME . '/vim/undo/'
+  let &viminfo="'100,n" . system#USER_DATA_HOME . 'vim/info/viminfo'
 endif
 
 " Set the window title
@@ -194,9 +187,6 @@ set matchtime=3
 " Disable folding by default
 set nofoldenable
 
-" Fold using indentation
-set foldmethod=indent
-
 " Show folding marks
 "set foldcolumn=1
 
@@ -217,13 +207,6 @@ let &listchars='tab:▸ ,extends:⧽,precedes:⧼,trail:·,nbsp:⎵,eol:¬'
 "let &listchars='tab:┊ '
 "let &listchars='trail:•'
 
-" Show 'listchars' in all modes except insert mode
-"augroup ListChars
-"  autocmd!
-"  autocmd InsertEnter * set nolist
-"  autocmd InsertLeave * set list
-"augroup END
-
 " More powerful backspacing in insert mode
 set backspace=indent,eol,start
 
@@ -233,15 +216,13 @@ set whichwrap=<,>,h,l,[,]
 " Enable virtual editing in visual block mode
 set virtualedit=block
 
-" Smart automatic indentation
+" Automatic indentation
 set autoindent
-set smartindent
 
 " Expand tabulations to spaces
 set expandtab
 
 " Use 4 characters-wide tabulations by default
-set softtabstop=4
 set tabstop=4
 set smarttab
 
@@ -250,9 +231,6 @@ set shiftwidth=4
 
 " >> indents to next multiple of 'shiftwidth'
 set shiftround
-
-" Filenames for the tag command
-setglobal tags-=./tags tags-=./tags; tags^=./tags;
 
 " Files to scan for <c-x><c-k> insert mode completions
 set dictionary=/usr/share/dict/british-english
@@ -315,15 +293,27 @@ filetype plugin indent on
 " Enable syntax highlighting
 syntax on
 
-augroup CommandLineWindow
+"----------------------------------"
+"---------  Autocommands  ---------"
+"----------------------------------"
+
+augroup Vimrc
   autocmd!
-  autocmd CmdwinEnter [:/?] setlocal nonu | setlocal tw=0
 augroup END
 
-augroup PreviewWindow
-  autocmd!
-  autocmd WinEnter * if &previewwindow | setlocal nonu | endif
-augroup END
+" Highlight the current line in insert mode
+" autocmd Vimrc InsertEnter * set cursorline
+" autocmd Vimrc InsertLeave * set nocursorline
+
+" Show 'listchars' in all modes except insert mode
+" autocmd Vimrc InsertEnter * set nolist
+" autocmd Vimrc InsertLeave * set list
+
+" Command-line window customization
+autocmd Vimrc CmdwinEnter [:/?] setlocal nonu | setlocal tw=0
+
+" Preview window customization
+autocmd Vimrc WinEnter * if &previewwindow | setlocal nonu | endif
 
 " When opening a file, jump to the last known cursor position if possible
 function! s:jump_to_last_position() abort
@@ -331,34 +321,35 @@ function! s:jump_to_last_position() abort
     execute "normal! g`\""
   endif
 endfunction
-augroup OpenFile
-  autocmd!
-  autocmd BufReadPost * call <sid>jump_to_last_position()
-augroup END
+autocmd Vimrc BufReadPost * call <sid>jump_to_last_position()
 
 " Make read-only mode really read-only
-augroup EnforceReadOnly
-  autocmd!
-  autocmd OptionSet readonly setlocal nomodifiable
-  autocmd BufEnter * ++once if &readonly | setlocal nomodifiable | endif
-augroup END
+autocmd Vimrc OptionSet readonly let &l:modifiable=!&readonly
+autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
+
+"------------------------------"
+"---------  Commands  ---------"
+"------------------------------"
 
 " Diffs the current buffer and the file it was loaded from
-if !exists(":Diff")
-  function! s:diff() abort
-    vertical new
-    setlocal bufhidden=wipe buftype=nofile nobuflisted noswapfile
-    read ++edit #
-    silent 0d_
-    diffthis | wincmd p | diffthis
-  endfunction
-  command! Diff call <sid>diff()
-endif
+function! s:diff_origin() abort
+  if empty(bufname('%'))
+    call message#warn('The current buffer has not been loaded from a file')
+    return
+  endif
+  vertical new
+  setlocal bufhidden=wipe buftype=nofile nobuflisted noswapfile
+  read ++edit #
+  let &filetype = getbufvar('#', '&filetype')
+  silent 0d_
+  setlocal readonly
+  diffthis | wincmd p | diffthis
+endfunction
+command! DiffOrigin call <sid>diff_origin()
 
-" Source additional config files
-source $HOME/.vim/plugins.vim
-source $HOME/.vim/grep.vim
-source $HOME/.vim/quickfix.vim
+"------------------------------"
+"---------  Mappings  ---------"
+"------------------------------"
 
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
@@ -385,27 +376,36 @@ inoremap <silent> <c-w> <c-g>u<c-w>
 "inoremap <silent> <s-scrollwheeldown> <c-o><c-d>
 
 " Make j/k/<up>/<down> move by virtual lines (when not used with a count)
-"inoremap <up> <c-o>gk
-"inoremap <down> <c-o>gj
-"noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
-"noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-"noremap <silent> <expr> <down> (v:count == 0 ? 'gj' : 'j')
-"noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+" inoremap <silent> <up> <c-o>gk
+" inoremap <silent> <down> <c-o>gj
+" noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
+" noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+" noremap <silent> <expr> <down> (v:count == 0 ? 'gj' : 'j')
+" noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 
-" Make <home>/<end> move by virtual lines
-"inoremap <home> <c-o>g<home>
-"inoremap <end> <c-o>g<end>
-"noremap <home> g<home>
-"noremap <end> g<end>
+" Make <home>/<end>/0/^/$ move by virtual lines
+" inoremap <silent> <home> <c-o>g<home>
+" inoremap <silent> <end> <c-o>g<end>
+" noremap <silent> <home> g<home>
+" noremap <silent> <end> g<end>
+" noremap <silent> 0 g0
+" noremap <silent> ^ g^
+" noremap <silent> $ g$
 
 " K splits the current line (opposite of J)
-nnoremap <silent> K i<cr><esc>
+" nnoremap <silent> K i<cr><esc>
 
 " Y yanks from the cursor to the end of the line
 nnoremap <silent> Y y$
 
 " Do not move the cursor after a visual yank
-vnoremap <expr>y "my\"" . v:register . "y`y"
+vnoremap <expr>y 'my"' . v:register . 'y`y'
+
+" Duplicate the current line
+nnoremap <silent> <c-s-up> m`yyP==``k
+nnoremap <silent> <c-s-down> m`yyp==``j
+inoremap <silent> <c-s-up> <c-o>:<c-u>normal m`yyP==``k<cr>
+inoremap <silent> <c-s-down> <c-o>:<c-u>normal m`yyp==``j<cr>
 
 " <ctrl>-t opens a new tab
 "noremap <silent> <c-t> :tabnew<cr>
@@ -476,26 +476,113 @@ nnoremap <silent> [l :lprev<cr>zz
 noremap <c-leftmouse> <leftmouse><esc><c-v>
 noremap <c-leftdrag> <leftdrag>
 
-function! s:conditional_imap(condition, lhs, rhs) abort
-  let old_rhs = maparg(a:lhs, 'i')
-  if empty(old_rhs)
-    let old_rhs = a:lhs
-  endif
-  if old_rhs !~ a:rhs
-    execute 'inoremap <silent> <expr> ' . a:lhs . ' '
-          \ . a:condition . ' ? "' . a:rhs . '" : "' . old_rhs . '"'
-  endif
-endfunction
-
 " Insert mode completion mappings
-call s:conditional_imap('pumvisible()', '<up>', '<C-p>')
-call s:conditional_imap('pumvisible()', '<down>', '<C-n>')
-call s:conditional_imap('pumvisible()', '<esc>', '<C-e>')
-call s:conditional_imap('pumvisible()', '<cr>', '<C-y>')
-inoremap <C-Space> <C-x><C-o>
-inoremap <C-@> <C-Space>
+inoremap <c-space> <c-x><c-o>
+imap <c-@> <c-space>
+call keymap#conditional_imap('pumvisible()', '<c-space>', '<c-n>')
+call keymap#conditional_imap('pumvisible()', '<down>', '<c-n>')
+call keymap#conditional_imap('pumvisible()', '<up>', '<c-p>')
+call keymap#conditional_imap('pumvisible()', '<esc>', '<c-e>')
+call keymap#conditional_imap('pumvisible()', '<cr>', '<c-y>')
 
-" Source a local .vimrc, if available
-if filereadable(expand('~/.vim/vimrc.local'))
-  source ~/.vim/vimrc.local
+"--------------------------------------"
+"---------  Built-in plugins  ---------"
+"--------------------------------------"
+
+" Disable unused built-in plugins
+let g:loaded_2html_plugin=1
+let g:loaded_getscriptPlugin=1
+let g:loaded_logipat=1
+let g:loaded_netrwPlugin=1
+let g:loaded_rrhelper=1
+let g:loaded_vimballPlugin=1
+let g:loaded_matchit=1
+
+" Enable matchit
+" if !exists('g:loaded_matchit')
+"   packadd! matchit
+" endif
+
+" Enable man pages viewer
+if exists(':Man') != 2
+  runtime ftplugin/man.vim
 endif
+
+" Netrw configuration
+if get(g:, 'loaded_netrwPlugin', 0)
+  " emulate ntrw's gx
+  nnoremap <silent> gx :call system#open(expand('<cWORD>'))<cr>
+  xnoremap <silent> gx :<c-u> call system#open(buffer#selected_text(1))<cr>
+else
+  let g:netrw_browsex_viewer='firefox'
+  let g:netrw_home=system#USER_DATA_HOME . 'vim/netrw'
+  call system#mkdir(g:netrw_home)
+endif
+
+"--------------------------------------"
+"---------  Personal plugins  ---------"
+"--------------------------------------"
+
+" Vstats.vim configuration
+xmap <silent> ++ <plug>(vstats)
+nmap <silent> ++ ggVG<plug>(vstats)
+
+" Zoom.vim configuration
+nmap <silent> <c-w>o <plug>(zoom#toggle)
+nmap <silent> <c-w><c-o> <plug>(zoom#toggle)
+
+" Cursor-hold-delay.vim configuration
+set updatetime=10000
+let g:cursor_hold_delay=100
+
+" Sticky-buffers.vim configuration
+let g:sticky_buffers_ignored_buftypes=['help']
+let g:sticky_buffers_ignored_filetypes=['dirvish']
+
+"-----------------------------------------"
+"---------  Third-party plugins  ---------"
+"-----------------------------------------"
+
+call plug#begin(system#USER_DATA_HOME . 'vim/plugins')
+Plug 'Lenovsky/nuake', {'on': 'Nuake'}
+Plug 'airblade/vim-rooter'
+Plug 'andymass/vim-matchup'
+Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
+Plug 'chaoren/vim-wordmotion'
+Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
+Plug 'justinmk/vim-dirvish'
+Plug 'kocakosm/hilal'
+Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
+Plug 'lervag/vimtex', {'for': ['tex']}
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'mg979/vim-visual-multi'
+Plug 'mhinz/vim-signify'
+Plug 'natebosch/vim-lsc'
+Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
+Plug 'romainl/vim-cool'
+Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
+Plug 'sukima/xmledit', {'for': ['xml', 'xsd', 'html', 'xhtml']}
+Plug 'thinca/vim-visualstar'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
+Plug 'wellle/targets.vim'
+Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
+Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
+call plug#end()
+
+for s:plugin in keys(g:plugs)
+  let s:plugin_name = substitute(tolower(s:plugin), '^\(n\)\?vim-', '', '')
+  let s:plugin_name = substitute(s:plugin_name, '[\.-]\(n\)\?vim$', '', '')
+  let s:plugin_conf = system#VIM_CONFIG_HOME . 'plugins-config/' . s:plugin_name . '.vim'
+  if filereadable(s:plugin_conf)
+    execute 'source ' . s:plugin_conf
+  endif
+endfor

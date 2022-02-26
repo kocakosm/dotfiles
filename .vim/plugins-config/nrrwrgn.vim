@@ -1,5 +1,3 @@
-scriptencoding utf-8
-
 let g:nrrw_rgn_nohl=1
 "let g:nrrw_rgn_vert=1
 let g:nrrw_rgn_pad=6

@@ -1,11 +1,11 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " zoom.vim                                                             "
-" Copyright (c) 2020-2021 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2020-2022 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_zoom') || v:version <# 802 || &cp
+if exists('g:loaded_zoom') || v:version < 802 || &cp
   finish
 endif
 let g:loaded_zoom = 1
@@ -22,7 +22,7 @@ function! s:toggle_zoom() abort
 endfunction
 
 function! s:zoom_in() abort
-  if winnr('$') ># 1
+  if winnr('$') > 1
     silent doautocmd User ZoomInPre
     let t:zoom_zoomed_bufnr = winbufnr(winnr())
     let t:zoom_saved_view = s:get_current_view()
@@ -56,12 +56,9 @@ endfunction
 
 function! s:get_current_view() abort
   return #{
-    \ win_layout: s:replace_winid_by_bufnr(winlayout()),
-    \ win_resize_cmd: winrestcmd(),
-    \ cursor: #{
-      \ win_nr: winnr(),
-      \ position: getcurpos()
-    \}
+  \  win_layout: s:replace_winid_by_bufnr(winlayout()),
+  \  win_resize_cmd: winrestcmd(),
+  \  active_winnr: winnr()
   \}
 endfunction
 
@@ -82,8 +79,7 @@ function! s:restore_view(view) abort
   call s:close_other_windows()
   call s:restore_layout(a:view.win_layout)
   execute a:view.win_resize_cmd
-  call s:go_to_win(a:view.cursor.win_nr)
-  call setpos('.', a:view.cursor.position)
+  call s:go_to_win(a:view.active_winnr)
 endfunction
 
 function! s:restore_layout(layout) abort
@@ -125,18 +121,18 @@ function! s:lock_zoomed_window() abort
     let windows = range(winnr('$'), 1, -1)
           \ ->filter({_, win -> s:win_exists(win)})
           \ ->filter({_, win -> s:is_ordinary(winbufnr(win))})
-    if len(windows) ># 1
-      quit | doautocmd BufWinEnter
+    if len(windows) > 1
+      quit
       call s:warn('Cannot split zoomed window')
-    elseif winbufnr(0) !=# t:zoom_zoomed_bufnr
-      execute "silent! buffer " . t:zoom_zoomed_bufnr | doautocmd BufWinEnter
+    elseif winbufnr(0) != t:zoom_zoomed_bufnr
+      execute 'silent! buffer ' . t:zoom_zoomed_bufnr
       call s:warn('Cannot switch buffer in zoomed window')
     endif
   endif
 endfunction
 
 function! s:win_exists(win_nr) abort
-  return win_getid(a:win_nr) !=# 0
+  return win_getid(a:win_nr) != 0
 endfunction
 
 function! s:is_ordinary(bufnr) abort

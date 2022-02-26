@@ -5,4 +5,4 @@ setlocal formatoptions+=r
 setlocal formatoptions+=o
 
 " Undo commands
-let b:undo_ftplugin = 'setlocal formatoptions<'
+call ftplugin#append_undo_cmd('setlocal formatoptions<')

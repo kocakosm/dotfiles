@@ -14,4 +14,4 @@ if executable('jq')
 endif
 
 " Undo commands
-let b:undo_ftplugin = 'delcommand Format'
+call ftplugin#append_undo_cmd('delcommand Format')

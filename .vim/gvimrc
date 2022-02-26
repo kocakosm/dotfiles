@@ -6,7 +6,7 @@ set mousemodel=popup
 set guifont=RobotoMono\ Nerd\ Font\ 12
 
 " Line spacing
-set linespace=2
+" set linespace=2
 
 " Remove the toolbar
 set guioptions-=T
@@ -38,15 +38,3 @@ command! SmallerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)-
 "inoremap <silent> <c-scrollwheelup> <c-o>:BiggerFont<cr>
 "nnoremap <silent> <c-scrollwheeldown> :SmallerFont<cr>
 "inoremap <silent> <c-scrollwheeldown> <c-o>:SmallerFont<cr>
-
-" Highlight the current line in insert mode
-"augroup HighlightLine
-"  autocmd!
-"  autocmd InsertEnter * set cursorline
-"  autocmd InsertLeave * set nocursorline
-"augroup END
-
-" Source a local .gvimrc, if available
-if filereadable(expand('~/.vim/gvimrc.local'))
-  source ~/.vim/gvimrc.local
-endif

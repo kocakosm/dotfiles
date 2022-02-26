@@ -3,12 +3,12 @@ scriptencoding utf-8
 " cursor-hold-delay.vim                                                "
 " Decouples CursorHold and CursorHoldI autocmd events from updatetime  "
 " Based on https://github.com/antoinemadec/FixCursorHold.nvim          "
-" All credit goes to Antoine Madec (antoinemadec)                      "
-" Copyright (c) 2021 Osman Koçak <kocakosm@gmail.com>                  "
+" All credit goes to Antoine Madec                                     "
+" Copyright (c) 2021-2022 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_cursor_hold_delay') || v:version <# 800 || &cp
+if exists('g:loaded_cursor_hold_delay') || v:version < 800 || &cp
   finish
 endif
 let g:loaded_cursor_hold_delay = 1
@@ -23,13 +23,13 @@ function! s:get_cursor_hold_delay() abort
   return get(g:, 'cursor_hold_delay', &updatetime)
 endfunction
 
-function! s:fire_cursor_hold(timer_id) abort
+function! s:fire_cursor_hold(...) abort
   set eventignore-=CursorHold
   silent doautocmd CursorHold
   set eventignore+=CursorHold
 endfunction
 
-function! s:fire_cursor_hold_i(timer_id) abort
+function! s:fire_cursor_hold_i(...) abort
   set eventignore-=CursorHoldI
   silent doautocmd CursorHoldI
   set eventignore+=CursorHoldI
