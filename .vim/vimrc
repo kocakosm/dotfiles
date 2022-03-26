@@ -5,9 +5,6 @@
 " Set UTF-8 as the default encoding
 set encoding=utf-8
 
-" Specify the encoding used in this script
-scriptencoding utf-8
-
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 set nrformats-=octal
 
@@ -57,7 +54,7 @@ set ttimeoutlen=50
 set ttyfast
 
 " Don't redraw when running macros
-set lazyredraw
+"set lazyredraw
 
 " Allow more than one unsaved buffer
 set hidden
@@ -73,11 +70,11 @@ set wildmode=longest,full
 set wildignorecase
 
 " Don't try to open these files/directories
-set wildignore+=.hg,.git,.svn
+set wildignore+=*/.hg/**,*/.git/**
+set wildignore+=*.tags,*.orig,*.tar*
 set wildignore+=*.png,*.jpg,*.jpeg,*.gif
-set wildignore+=*.o,*.pyc,*.pyo,*.class
-set wildignore+=*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
-set wildignore+=*.orig
+set wildignore+=*.o,*.pyc,*.pyo,*.class,*.min.*
+set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 
 " Create a backup before overwriting a file
 set writebackup
@@ -113,17 +110,20 @@ set termguicolors
 " Don't display the intro message
 set shortmess+=I
 
-" don't give the file info when editing a file
+" Don't give the file info when editing a file
 set shortmess+=F
 
 " Show search count
 set shortmess-=S
 
+" Don't show 'search hit bottom, continuing at top' messages
+set shortmess+=s
+
 " Display commands as they are typed
 set showcmd
 
 " Show the current mode
-set showmode
+"set showmode
 
 " Always show the status line
 set laststatus=2
@@ -310,14 +310,14 @@ augroup END
 " autocmd Vimrc InsertLeave * set list
 
 " Command-line window customization
-autocmd Vimrc CmdwinEnter [:/?] setlocal nonu | setlocal tw=0
+autocmd Vimrc CmdwinEnter [:/?] setlocal nonumber textwidth=0
 
 " Preview window customization
-autocmd Vimrc WinEnter * if &previewwindow | setlocal nonu | endif
+autocmd Vimrc WinEnter * if &previewwindow | setlocal nonumber | endif
 
 " When opening a file, jump to the last known cursor position if possible
 function! s:jump_to_last_position() abort
-  if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  if line("'\"") >= 1 && line("'\"") <= line("$") && &filetype !~# 'commit'
     execute "normal! g`\""
   endif
 endfunction
@@ -416,12 +416,12 @@ nnoremap <silent> <tab> <C-w>w
 nnoremap <silent> <s-tab> <C-w>W
 
 " <alt>-<up> switches to the next tab
-noremap <silent> <a-up> gt
-inoremap <silent> <a-up> <c-o>gt
+"noremap <silent> <a-up> gt
+"inoremap <silent> <a-up> <c-o>gt
 
 " <alt>-<down> switches to the previous tab
-noremap <silent> <a-down> gT
-inoremap <silent> <a-down> <c-o>gT
+"noremap <silent> <a-down> gT
+"inoremap <silent> <a-down> <c-o>gT
 
 " <alt>-<right> switches to the next buffer
 noremap <silent> <a-right> :bn!<cr>
@@ -432,7 +432,7 @@ noremap <silent> <a-left> :bp!<cr>
 inoremap <silent> <a-left> <c-o>:bp!<cr>
 
 " <space> centers the current line
-noremap <silent> <space> zz
+"noremap <silent> <space> zz
 
 " gp reselects last pasted text
 nnoremap <silent> <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -442,10 +442,10 @@ xnoremap <silent> < <gv
 xnoremap <silent> > >gv
 
 " \s sorts the current visual selection
-xnoremap <silent> <leader>s :sort<cr>
+"xnoremap <silent> <leader>s :sort<cr>
 
 " \h toggles search results highlighting
-nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
+"nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
 
 " \<space> toggles spell-checking
 nnoremap <silent> <leader><space> :setlocal spell!<cr>
@@ -473,8 +473,8 @@ nnoremap <silent> ]l :lnext<cr>zz
 nnoremap <silent> [l :lprev<cr>zz
 
 " Block select with control-click-and-drag
-noremap <c-leftmouse> <leftmouse><esc><c-v>
-noremap <c-leftdrag> <leftdrag>
+"noremap <c-leftmouse> <leftmouse><esc><c-v>
+"noremap <c-leftdrag> <leftdrag>
 
 " Insert mode completion mappings
 inoremap <c-space> <c-x><c-o>

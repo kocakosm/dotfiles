@@ -5,13 +5,16 @@ scriptencoding utf-8
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:loaded_zoom') || v:version < 802 || &cp
+if exists('g:loaded_zoom') || (v:version < 802 && !has('nvim-0.6.1')) || &cp
   finish
 endif
 let g:loaded_zoom = 1
 
 let s:cpo = &cpo
 set cpo&vim
+
+" TODO: autoload
+" TODO: support 'inception mode'
 
 function! s:toggle_zoom() abort
   if s:is_zoomed()
@@ -51,12 +54,14 @@ function! s:is_zoomed() abort
 endfunction
 
 function! s:close_other_windows() abort
-  silent! wincmd o
+  silent! only
 endfunction
 
 function! s:get_current_view() abort
   return #{
   \  win_layout: s:replace_winid_by_bufnr(winlayout()),
+  \  fixheight_windows: range(1, winnr('$'))->filter({_, v -> getwinvar(v, '&winfixheight')}),
+  \  fixwidth_windows: range(1, winnr('$'))->filter({_, v -> getwinvar(v, '&winfixwidth')}),
   \  win_resize_cmd: winrestcmd(),
   \  active_winnr: winnr()
   \}
@@ -79,6 +84,13 @@ function! s:restore_view(view) abort
   call s:close_other_windows()
   call s:restore_layout(a:view.win_layout)
   execute a:view.win_resize_cmd
+  " winfixheight/winfixwidth must be restored after windows have been resized
+  for win in a:view.fixheight_windows
+    call setwinvar(win, '&winfixheight', 1)
+  endfor
+  for win in a:view.fixwidth_windows
+    call setwinvar(win, '&winfixwidth', 1)
+  endfor
   call s:go_to_win(a:view.active_winnr)
 endfunction
 
@@ -92,7 +104,7 @@ function! s:restore_layout(layout) abort
     let windows = [win_getid()]
     for i in range(len(a:layout[1]) - 1)
       execute split_cmd
-      let windows = windows->add(win_getid())
+      eval windows->add(win_getid())
     endfor
     for i in range(len(windows))
       call win_gotoid(windows[i])
@@ -117,31 +129,41 @@ function! s:zoom_out_on_exit() abort
 endfunction
 
 function! s:lock_zoomed_window() abort
-  if s:is_zoomed() && s:is_ordinary(winbufnr(0))
-    let windows = range(winnr('$'), 1, -1)
-          \ ->filter({_, win -> s:win_exists(win)})
+  let bufnr = bufnr()
+  if s:is_zoomed() && s:is_ordinary(bufnr)
+    let windows = range(winnr('$'), 2, -1)
           \ ->filter({_, win -> s:is_ordinary(winbufnr(win))})
-    if len(windows) > 1
-      quit
+    if len(windows) > 0
+      call s:close_windows(windows)
       call s:warn('Cannot split zoomed window')
-    elseif winbufnr(0) != t:zoom_zoomed_bufnr
+    elseif bufnr != t:zoom_zoomed_bufnr
       execute 'silent! buffer ' . t:zoom_zoomed_bufnr
       call s:warn('Cannot switch buffer in zoomed window')
     endif
   endif
 endfunction
 
-function! s:win_exists(win_nr) abort
-  return win_getid(a:win_nr) != 0
+function! s:close_windows(windows) abort
+  for i in a:windows
+    execute i . 'wincmd w' | silent! quit
+  endfor
 endfunction
 
 function! s:is_ordinary(bufnr) abort
   return buflisted(a:bufnr) && getbufvar(a:bufnr, '&buftype') ==# ''
 endfunction
 
-augroup Zoom
+function! s:async(cmd) abort
+  call timer_start(0, {-> execute(a:cmd)})
+endfunction
+
+augroup __Zoom__
   autocmd!
-  autocmd SafeState * call <sid>lock_zoomed_window()
+  if has('nvim')
+    autocmd WinNew,BufWinEnter * call <sid>async('call s:lock_zoomed_window()')
+  else
+    autocmd SafeState * call <sid>lock_zoomed_window()
+  endif
   autocmd ExitPre * call <sid>zoom_out_on_exit()
 augroup END
 

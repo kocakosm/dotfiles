@@ -1,6 +1,8 @@
 let g:signify_vcs_list=['git', 'hg']
 "let g:signify_disable_by_default=0
-let s:signify_sign='∙'
+let s:signify_sign='┃'
+"let s:signify_sign='│'
+"let s:signify_sign='∙'
 "let s:signify_sign='❙'
 let g:signify_sign_add=s:signify_sign
 let g:signify_sign_delete=s:signify_sign

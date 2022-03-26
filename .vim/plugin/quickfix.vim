@@ -25,17 +25,13 @@ function! s:loclist_cmds() abort
   return s:qf_cmds->map({_, c -> 'l' . (c[0] ==# 'c' ? c[1:] : c)})->join(',')
 endfunction
 
-function! s:execute_with_delay(delay, cmd) abort
-  call timer_start(a:delay, {-> execute(a:cmd)})
-endfunction
-
 augroup Quickfix
   autocmd!
   " Automatically open the location/quickfix window
   execute 'autocmd QuickFixCmdPost ' . s:quickfix_cmds() .
-        \ " nested call <sid>execute_with_delay(5, 'cwindow | doautocmd BufWinEnter')"
+        \ " nested call ex#execute_with_delay(1, 'cwindow | doautocmd BufWinEnter')"
   execute 'autocmd QuickFixCmdPost ' . s:loclist_cmds() .
-        \ " nested call <sid>execute_with_delay(5, 'silent! lwindow | doautocmd BufWinEnter')"
+        \ " nested call ex#execute_with_delay(1, 'silent! lwindow | doautocmd BufWinEnter')"
   autocmd VimEnter * nested if count(v:argv, '-q') | cwindow | endif
   " Close the corresponding location list when quitting a window
   autocmd QuitPre * nested if &filetype != 'qf' | silent! lclose | endif

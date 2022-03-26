@@ -13,7 +13,7 @@ let g:loaded_syntax_complete = 1
 let s:cpo = &cpo
 set cpo&vim
 
-augroup SyntaxComplete
+augroup __SyntaxComplete__
   autocmd!
   autocmd FileType *
         \ if &omnifunc ==# '' |

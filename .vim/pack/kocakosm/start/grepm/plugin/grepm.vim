@@ -64,7 +64,7 @@ cnoreabbrev <expr> lgrepa (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepa') ? 
 cnoreabbrev <expr> lgrepad (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepad') ? 'LGrepad' : 'lgrepad'
 cnoreabbrev <expr> lgrepadd (getcmdtype() ==# ':' && getcmdline() ==# 'lgrepadd') ? 'LGrepadd' : 'lgrepadd'
 
-augroup Grepm
+augroup __Grepm__
   autocmd!
   autocmd QuickFixCmdPost cgetexpr call <sid>on_grep()
   autocmd QuickFixCmdPost caddexpr call <sid>on_grepadd()

@@ -49,7 +49,7 @@ function! s:on_cursor_moved_i() abort
   let s:timer = timer_start(delay, funcref('s:fire_cursor_hold_i'))
 endfunction
 
-augroup CursorHoldDelay
+augroup __CursorHoldDelay__
   autocmd!
   autocmd CursorMoved * call <sid>on_cursor_moved()
   autocmd CursorMovedI * call <sid>on_cursor_moved_i()

@@ -13,9 +13,7 @@ let g:loaded_cursor_word = 1
 let s:cpo = &cpo
 set cpo&vim
 
-if !hlexists('CursorWord')
-  highlight CursorWord gui=BOLD cterm=BOLD
-endif
+highlight default CursorWord gui=BOLD cterm=BOLD
 
 function! s:clear_matches() abort
   for m in getmatches()

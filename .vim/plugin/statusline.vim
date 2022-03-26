@@ -25,15 +25,26 @@ let g:skyline = #{
 \        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
 \      ]
 \    },
-\    'terminal':#{default: ['Type', 'Bufname']},
-\    'help': #{default: ['Type', 'Filename', 'Spacer', 'Ruler']},
-\    'qf': #{default: ['Type', 'QuickfixTitle', 'Spacer', 'Ruler']},
-\    'man': #{default: ['Type', 'Filename']},
-\    'nerdtree': #{default: ['Type']},
-\    'vim-plug': #{default: ['Type']},
-\    'dirvish': #{default: ['Type', 'Bufname', 'Spacer', 'Ruler']}
+\    'terminal':#{default: ['Type', 'Bufname', 'Spacer']},
+\    'help': #{default: ['Type', 'Filename', 'SearchCount', 'Spacer', 'Ruler']},
+\    'qf': #{default: ['Type', 'QuickfixTitle', 'SearchCount', 'Spacer', 'Ruler']},
+\    'man': #{default: ['Type', 'Filename', 'SearchCount', 'Spacer']},
+\    'nerdtree': #{default: ['Type', 'Spacer']},
+\    'vim-plug': #{default: ['Type', 'Spacer']},
+\    'fugitive': #{default: ['Type', 'GitHead', 'SearchCount', 'Spacer']},
+\    'dirvish': #{default: ['Type', 'Bufname', 'SearchCount', 'Spacer', 'Ruler']}
 \  }
 \}
 
 set noshowmode
+set shortmess+=S
 set statusline=%!skyline#get_statusline()
+
+if exists('g:colors_name')
+  call skyline#set_theme(g:colors_name)
+endif
+
+augroup Statusline
+  autocmd!
+  autocmd ColorScheme * call skyline#set_theme(expand('<amatch>'))
+augroup END

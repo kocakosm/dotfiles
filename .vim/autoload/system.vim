@@ -6,7 +6,7 @@ endfunction
 const system#USER_CACHE_HOME = s:expand('$XDG_CACHE_HOME', '$HOME/.cache')
 const system#USER_CONFIG_HOME = s:expand('$XDG_CONFIG_HOME', '$HOME/.config')
 const system#USER_DATA_HOME = s:expand('$XDG_DATA_HOME', '$HOME/.local/share')
-const system#VIM_CONFIG_HOME = expand('$HOME' . '/.vim/')
+const system#VIM_CONFIG_HOME = expand('$HOME/.vim/')
 
 function! system#mkdir(path, ...) abort
   if a:0 > 1
@@ -22,7 +22,9 @@ function! system#open(location) abort
   endif
   silent! let result = systemlist('xdg-open ' . a:location)
   if v:shell_error
-    let msg = trim(split(join(result, ' '), ':')[-1])
-    call message#warn(msg)
+    let msg = empty(result)
+          \ ? 'Can''t open ' . a:location
+          \ : trim(split(join(result, ' '), ':')[-1])
+    call message#warn('system#open: ' . msg)
   endif
 endfunction

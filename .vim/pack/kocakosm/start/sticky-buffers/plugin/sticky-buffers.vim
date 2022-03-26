@@ -58,7 +58,7 @@ function! s:contains(list, element) abort
 endfunction
 
 function! s:enable_plugin() abort
-  augroup StickyBuffers
+  augroup __StickyBuffers__
     autocmd!
     autocmd WinNew * call <sid>on_win_new()
     autocmd BufWinEnter * call <sid>on_buf_win_enter()
@@ -68,7 +68,7 @@ function! s:enable_plugin() abort
 endfunction
 
 function! s:disable_plugin() abort
-  augroup StickyBuffers
+  augroup __StickyBuffers__
     autocmd!
   augroup END
 endfunction
