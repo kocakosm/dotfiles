@@ -4,24 +4,25 @@ let g:skyline = #{
 \    Mode: '%( %{statusline#mode()} %)',
 \    Type: '%( %{statusline#type()} %)',
 \    GitHead: '%( %{statusline#git_head()} %)',
+\    SpellLang: '%( %{statusline#spell_lang()} %)',
 \    FileInfo: '%( %{statusline#file_info()} %)',
 \    Filename: '%( %{statusline#filename()} %)',
 \    Bufname: '%( %{bufname()} %)',
 \    FileType: '%( %{statusline#file_type()} %)',
 \    FileFormatAndEncoding: '%( %{statusline#file_format_and_encoding()} %)',
-\    Ruler: ' %l/%L %p%%',
-\    RulerWithColumns: ' %l/%L:%02.v %p%%',
+\    Ruler: ' %l/%L %p%% ',
+\    RulerWithColumns: ' %l/%L:%02.v %p%% ',
 \    QuickfixTitle: '%( %{statusline#qf_title()} %)',
 \    SearchCount: '%( %{statusline#search_count()} %)'
 \  },
 \  statuslines: {
 \    '': #{
 \      active: [
-\        'Mode', 'GitHead', 'FileInfo', 'SearchCount', 'Spacer',
+\        'Mode', 'GitHead', 'FileInfo', 'SpellLang', 'SearchCount', 'Spacer',
 \        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
 \      ],
 \      inactive: [
-\        'FileInfo', 'Spacer',
+\        'FileInfo', 'SpellLang', 'Spacer',
 \        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
 \      ]
 \    },

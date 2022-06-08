@@ -1,4 +1,4 @@
-"	Automatically insert the comment leader after hitting <Enter> in insert mode
+" Automatically insert the comment leader after hitting <Enter> in insert mode
 setlocal formatoptions+=r
 
 " Automatically insert the comment leader after hitting 'o'/'O' in normal mode

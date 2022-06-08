@@ -1,9 +1,5 @@
-Vim tips & tricks
-=================
-
-
-Useful insert mode commands
----------------------------
+Insert mode commands
+--------------------
   Ctrl-o       for one time normal mode command
   Ctrl-r<reg>  for insertion from a named register
   Ctrl-r=      expression register (e.g. 28 + 14 --> 42)
@@ -13,8 +9,8 @@ Useful insert mode commands
   <C-k>        delete forward to end of line
 
 
-Useful cursor positioning and movement commands
------------------------------------------------
+Cursor positioning and movement commands
+----------------------------------------
   zt       move text under cursor to the top
   zz       move text under cursor to the center
   zb       move text under cursor to the bottom
@@ -37,8 +33,8 @@ Useful cursor positioning and movement commands
   Ctrl-y   scroll file down one line at a time
 
 
-Completion sub-types when in insert mode (initiated with Ctrl-x)
-----------------------------------------------------------------
+Insert mode completion (initiated with Ctrl-x)
+----------------------------------------------
   Ctrl-f  file name completion based on files in the CWD
   Ctrl-k  dictionary completion
   Ctrl-l  line completion
@@ -90,3 +86,15 @@ Misc commands
   cgn             replace last search match
   dgn             delete last search match
   .               repeat last change
+
+
+Online resources
+----------------
+https://github.com/iggredible/Learn-Vim
+https://github.com/mhinz/vim-galore
+https://fabi1cazenave.github.io/slides/2017-vim-ducklings [fr]
+https://learnvimscriptthehardway.stevelosh.com
+http://vimcasts.org
+https://moolenaar.net/habits.html
+https://romainl.github.io/the-patient-vimmer
+https://gist.github.com/romainl/edd054cf7c07436c2c0c35cc61a184e6 [fr]

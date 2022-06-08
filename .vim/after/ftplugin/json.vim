@@ -4,7 +4,7 @@ if executable('jq')
     let cmd = printf('jq %s .', &expandtab ? '--indent ' . &shiftwidth : '--tab')
     silent! let result = systemlist(cmd, getline(1, '$'))
     if v:shell_error
-      echohl ErrorMsg | echomsg join(result, ' ') | echohl None
+      call message#error(join(result, ' '))
     else
       silent! normal! gg_dG
       call setline(1, result)

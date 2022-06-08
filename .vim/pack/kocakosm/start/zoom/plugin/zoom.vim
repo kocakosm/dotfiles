@@ -14,7 +14,8 @@ let s:cpo = &cpo
 set cpo&vim
 
 " TODO: autoload
-" TODO: support 'inception mode'
+" TODO: support multiple zoom levels (aka 'inception mode')
+" FIXME: echomsg doesn't work when called from an async function
 
 function! s:toggle_zoom() abort
   if s:is_zoomed()

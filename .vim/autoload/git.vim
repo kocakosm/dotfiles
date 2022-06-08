@@ -12,6 +12,9 @@ function! s:get_git_head() abort
   let dir = expand('%:p:h')
   let head = s:execute('git -C ' . dir . ' branch --show-current')
   if empty(head)
+    let head = s:execute('git -C ' . dir . ' name-rev --name-only --tags HEAD')
+  endif
+  if empty(head) || head ==# 'undefined'
     let head = s:execute('git -C ' . dir . ' rev-parse --short=7 HEAD')
   endif
   return head
@@ -24,5 +27,5 @@ endfunction
 
 augroup GitHead
   autocmd!
-  autocmd BufEnter,DirChanged * let b:git_head = <sid>get_git_head()
+  autocmd BufEnter,DirChanged,FocusGained * let b:git_head = <sid>get_git_head()
 augroup END

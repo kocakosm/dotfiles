@@ -90,14 +90,14 @@ set undofile
 
 " Put all temporary files in a more sensible place
 if !has('nvim')
-  call system#mkdir(system#USER_DATA_HOME . 'vim/swap')
-  call system#mkdir(system#USER_DATA_HOME . 'vim/undo')
-  call system#mkdir(system#USER_DATA_HOME . 'vim/info')
-  call system#mkdir(system#USER_DATA_HOME . 'vim/backup')
-  let &backupdir=system#USER_DATA_HOME . 'vim/backup/'
-  let &directory=system#USER_DATA_HOME . 'vim/swap//'
-  let &undodir=system#USER_DATA_HOME . '/vim/undo/'
-  let &viminfo="'100,n" . system#USER_DATA_HOME . 'vim/info/viminfo'
+  call system#mkdir(system#USER_DATA_DIR . 'vim/swap')
+  call system#mkdir(system#USER_DATA_DIR . 'vim/undo')
+  call system#mkdir(system#USER_DATA_DIR . 'vim/info')
+  call system#mkdir(system#USER_DATA_DIR . 'vim/backup')
+  let &backupdir=system#USER_DATA_DIR . 'vim/backup/'
+  let &directory=system#USER_DATA_DIR . 'vim/swap//'
+  let &undodir=system#USER_DATA_DIR . 'vim/undo/'
+  let &viminfo="'100,n" . system#USER_DATA_DIR . 'vim/info/viminfo'
 endif
 
 " Set the window title
@@ -455,8 +455,8 @@ inoremap <silent> <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
 nnoremap <silent> <c-l> [s1z=`]
 
 " Easily replace the word under the cursor or the current visual selection
-nnoremap <leader>r :% s/\<<c-r><c-w>\>/
-xnoremap <leader>r y:% s/<c-r>"/
+nnoremap <leader>r :% s/\<<c-r><c-w>\>//g<left><left>
+xnoremap <leader>r y:% s/<c-r>"//g<left><left>
 
 " Easier buffer switching
 nnoremap <leader>l :ls<cr>:buffer<space>
@@ -472,6 +472,9 @@ nnoremap <silent> [c :cprev<cr>zz
 nnoremap <silent> ]l :lnext<cr>zz
 nnoremap <silent> [l :lprev<cr>zz
 
+" 'Smart' <home>
+noremap <silent> <expr> <home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+
 " Block select with control-click-and-drag
 "noremap <c-leftmouse> <leftmouse><esc><c-v>
 "noremap <c-leftdrag> <leftdrag>
@@ -479,11 +482,11 @@ nnoremap <silent> [l :lprev<cr>zz
 " Insert mode completion mappings
 inoremap <c-space> <c-x><c-o>
 imap <c-@> <c-space>
-call keymap#conditional_imap('pumvisible()', '<c-space>', '<c-n>')
-call keymap#conditional_imap('pumvisible()', '<down>', '<c-n>')
-call keymap#conditional_imap('pumvisible()', '<up>', '<c-p>')
-call keymap#conditional_imap('pumvisible()', '<esc>', '<c-e>')
-call keymap#conditional_imap('pumvisible()', '<cr>', '<c-y>')
+call keymap#conditional_map('i', v:false, 'pumvisible()', '<c-space>', '<c-n>')
+call keymap#conditional_map('i', v:false, 'pumvisible()', '<down>', '<c-n>')
+call keymap#conditional_map('i', v:false, 'pumvisible()', '<up>', '<c-p>')
+call keymap#conditional_map('i', v:false, 'pumvisible()', '<esc>', '<c-e>')
+call keymap#conditional_map('i', v:false, 'pumvisible()', '<cr>', '<c-y>')
 
 "--------------------------------------"
 "---------  Built-in plugins  ---------"
@@ -515,7 +518,7 @@ if get(g:, 'loaded_netrwPlugin', 0)
   xnoremap <silent> gx :<c-u> call system#open(buffer#selected_text(1))<cr>
 else
   let g:netrw_browsex_viewer='firefox'
-  let g:netrw_home=system#USER_DATA_HOME . 'vim/netrw'
+  let g:netrw_home=system#USER_DATA_DIR . 'vim/netrw'
   call system#mkdir(g:netrw_home)
 endif
 
@@ -543,7 +546,8 @@ let g:sticky_buffers_ignored_filetypes=['dirvish']
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
 
-call plug#begin(system#USER_DATA_HOME . 'vim/plugins')
+call plug#begin(system#USER_DATA_DIR . 'vim/plugins')
+Plug 'hrsh7th/vim-vsnip'
 Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 Plug 'airblade/vim-rooter'
 Plug 'andymass/vim-matchup'
@@ -580,7 +584,7 @@ call plug#end()
 for s:plugin in keys(g:plugs)
   let s:plugin_name = substitute(tolower(s:plugin), '^\(n\)\?vim-', '', '')
   let s:plugin_name = substitute(s:plugin_name, '[\.-]\(n\)\?vim$', '', '')
-  let s:plugin_conf = system#VIM_CONFIG_HOME . 'plugins-config/' . s:plugin_name . '.vim'
+  let s:plugin_conf = system#USER_VIM_DIR . 'plugins-config/' . s:plugin_name . '.vim'
   if filereadable(s:plugin_conf)
     execute 'source ' . s:plugin_conf
   endif

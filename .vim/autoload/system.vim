@@ -3,10 +3,12 @@ function! s:expand(var, default)
   return strcharpart(dir, strchars(dir) - 1, 1) ==# '/' ? dir : dir . '/'
 endfunction
 
-const system#USER_CACHE_HOME = s:expand('$XDG_CACHE_HOME', '$HOME/.cache')
-const system#USER_CONFIG_HOME = s:expand('$XDG_CONFIG_HOME', '$HOME/.config')
-const system#USER_DATA_HOME = s:expand('$XDG_DATA_HOME', '$HOME/.local/share')
-const system#VIM_CONFIG_HOME = expand('$HOME/.vim/')
+const system#USER_CACHE_DIR = s:expand('$XDG_CACHE_HOME', '$HOME/.cache')
+const system#USER_CONFIG_DIR = s:expand('$XDG_CONFIG_HOME', '$HOME/.config')
+const system#USER_DATA_DIR = s:expand('$XDG_DATA_HOME', '$HOME/.local/share')
+const system#USER_STATE_DIR = s:expand('$XDG_STATE_HOME', '$HOME/.local/state')
+const system#USER_BIN_DIR = expand('$HOME/.local/bin/')
+const system#USER_VIM_DIR = expand('$HOME/.vim/')
 
 function! system#mkdir(path, ...) abort
   if a:0 > 1

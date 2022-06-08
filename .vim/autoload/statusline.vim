@@ -1,17 +1,17 @@
 let s:modes = {
-\  'n'    : 'NORMAL',
-\  'v'    : 'VISUAL',
-\  'V'    : 'V·LINE',
-\  ''   : 'V·BLOCK',
-\  's'    : 'SELECT',
-\  'S'    : 'S·LINE',
-\  ''   : 'S·BLOCK',
-\  'i'    : 'INSERT',
-\  'R'    : 'REPLACE',
-\  'c'    : 'COMMAND',
-\  'r'    : 'PROMPT',
-\  '!'    : 'SHELL',
-\  't'    : 'TERMINAL'
+\  'n'  : 'NORMAL',
+\  'v'  : 'VISUAL',
+\  'V'  : 'V·LINE',
+\  '' : 'V·BLOCK',
+\  's'  : 'SELECT',
+\  'S'  : 'S·LINE',
+\  '' : 'S·BLOCK',
+\  'i'  : 'INSERT',
+\  'R'  : 'REPLACE',
+\  'c'  : 'COMMAND',
+\  'r'  : 'PROMPT',
+\  '!'  : 'SHELL',
+\  't'  : 'TERMINAL'
 \}
 
 function! statusline#mode() abort
@@ -35,11 +35,11 @@ endfunction
 
 function! statusline#type() abort
   if &buftype ==# 'quickfix'
-    return s:is_location_list(win_getid()) ? 'LOCATION LIST' : 'QUICKFIX'
+    return s:is_location_list(win_getid()) ? 'Location List' : 'Quickfix'
   elseif index(['help', 'terminal'], &buftype) > -1
-    return toupper(&buftype)
+    return string#capitalize(&buftype)
   elseif !empty(&buftype)
-    return toupper(&filetype)
+    return string#capitalize(&filetype)
   endif
   return ''
 endfunction
@@ -67,8 +67,13 @@ function! statusline#search_count() abort
   if v:hlsearch
     let c = searchcount(#{maxcount: 0})
     if !empty(c)
-      return printf('/%s [%s/%s]', @/, c.current, c.incomplete ? '??' : c.total)
+      let searched = string#abbreviate(@/, 16, '...')
+      return printf('/%s [%s/%s]', searched, c.current, c.incomplete ? '??' : c.total)
     endif
   endif
   return ''
+endfunction
+
+function! statusline#spell_lang() abort
+  return &spell ? toupper(&spelllang) : ''
 endfunction

@@ -5,7 +5,7 @@ scriptencoding utf-8
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:autoloaded_skyline') || (v:version < 802 && !has('nvim-0.7')) || &cp
+if exists('g:autoloaded_skyline') || (v:version < 802 && !has('nvim-0.6')) || &cp
   finish
 endif
 let g:autoloaded_skyline = 1
@@ -15,6 +15,7 @@ set cpo&vim
 
 let g:qf_disable_statusline = 1
 
+" FIXME: reload theme on Colorscheme event
 " TODO: cleanup
 " TODO: check and cache config
 " TODO: in a given status line, show/hide components depending on winwidth
@@ -115,7 +116,7 @@ endfunction
 function! s:get_statusline_components(winid, active) abort
   let statuslines = g:->get('skyline', {})->get('statuslines', {})
   let statusline = {}
-  for ft in reverse(s:get_filetypes(a:winid))
+  for ft in s:get_filetypes(a:winid)
     let statusline = statuslines->get(ft, {})
     if !(statusline->empty()) | break | endif
   endfor
@@ -135,7 +136,7 @@ endfunction
 
 function! s:get_filetypes(winid) abort
   let ft = a:winid->getwinvar('&filetype')
-  return ft->split('\.')->map({_, s -> s->trim()->tolower()})
+  return ft->split('\.')->map({_, s -> s->trim()->tolower()})->reverse()
 endfunction
 
 function! s:get_hl_group_suffixes(active, mode) abort

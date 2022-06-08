@@ -1,5 +1,5 @@
 function! message#info(msg) abort
-  echomsg a:msg
+  echohl None | echomsg a:msg
 endfunction
 
 function! message#warn(msg) abort
