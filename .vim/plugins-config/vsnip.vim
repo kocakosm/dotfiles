@@ -1,9 +1,10 @@
 let g:vsnip_snippet_dir = system#USER_VIM_DIR . 'snippets'
 
-call keymap#conditional_map('i', v:true, 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)')
-call keymap#conditional_map('s', v:true, 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)')
-call keymap#conditional_map('i', v:true, 'vsnip#jumpable(-1)', '<s-tab>', '<plug>(vsnip-jump-prev)')
-call keymap#conditional_map('s', v:true, 'vsnip#jumpable(-1)', '<s-tab>', '<plug>(vsnip-jump-prev)')
+let options = #{recursive: 1}
+call keymap#conditional_map('i', 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)', options)
+call keymap#conditional_map('s', 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)', options)
+call keymap#conditional_map('i', 'vsnip#jumpable(-1)', '<s-tab>', '<plug>(vsnip-jump-prev)', options)
+call keymap#conditional_map('s', 'vsnip#jumpable(-1)', '<s-tab>', '<plug>(vsnip-jump-prev)', options)
 
 nmap s <plug>(vsnip-select-text)
 xmap s <plug>(vsnip-select-text)

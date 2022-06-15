@@ -1,8 +1,12 @@
 function! git#head() abort
   if !exists('b:git_head')
-    let b:git_head = s:get_git_head()
+    call s:update_git_head()
   endif
   return b:git_head
+endfunction
+
+function! s:update_git_head() abort
+  let b:git_head = s:get_git_head()
 endfunction
 
 function! s:get_git_head() abort
@@ -27,5 +31,5 @@ endfunction
 
 augroup GitHead
   autocmd!
-  autocmd BufEnter,DirChanged,FocusGained * let b:git_head = <sid>get_git_head()
+  autocmd BufEnter,DirChanged,FocusGained * call s:update_git_head()
 augroup END

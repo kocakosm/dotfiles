@@ -12,11 +12,3 @@ nnoremap <silent> <buffer> l <nop>
 
 " Undo commands
 call ftplugin#append_undo_cmd('setlocal bufhidden<')
-call ftplugin#append_undo_cmd('nunmap <buffer> <up>')
-call ftplugin#append_undo_cmd('nunmap <buffer> <down>')
-call ftplugin#append_undo_cmd('nunmap <buffer> <left>')
-call ftplugin#append_undo_cmd('nunmap <buffer> <right>')
-call ftplugin#append_undo_cmd('nunmap <buffer> k')
-call ftplugin#append_undo_cmd('nunmap <buffer> j')
-call ftplugin#append_undo_cmd('nunmap <buffer> h')
-call ftplugin#append_undo_cmd('nunmap <buffer> l')

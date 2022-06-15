@@ -13,7 +13,5 @@ if executable('xmlstarlet')
     endif
   endfunction
   command! -buffer -bar Format call <sid>xmlstarlet_format()
+  call ftplugin#append_undo_cmd('delcommand Format')
 endif
-
-" Undo commands
-call ftplugin#append_undo_cmd('delcommand Format')

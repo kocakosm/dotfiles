@@ -482,11 +482,11 @@ noremap <silent> <expr> <home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^
 " Insert mode completion mappings
 inoremap <c-space> <c-x><c-o>
 imap <c-@> <c-space>
-call keymap#conditional_map('i', v:false, 'pumvisible()', '<c-space>', '<c-n>')
-call keymap#conditional_map('i', v:false, 'pumvisible()', '<down>', '<c-n>')
-call keymap#conditional_map('i', v:false, 'pumvisible()', '<up>', '<c-p>')
-call keymap#conditional_map('i', v:false, 'pumvisible()', '<esc>', '<c-e>')
-call keymap#conditional_map('i', v:false, 'pumvisible()', '<cr>', '<c-y>')
+call keymap#conditional_map('i', 'pumvisible()', '<c-space>', '<c-n>')
+call keymap#conditional_map('i', 'pumvisible()', '<down>', '<c-n>')
+call keymap#conditional_map('i', 'pumvisible()', '<up>', '<c-p>')
+call keymap#conditional_map('i', 'pumvisible()', '<esc>', '<c-e>')
+call keymap#conditional_map('i', 'pumvisible()', '<cr>', '<c-y>')
 
 "--------------------------------------"
 "---------  Built-in plugins  ---------"
