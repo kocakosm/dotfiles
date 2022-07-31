@@ -52,7 +52,7 @@ function! statusline#qf_title() abort
 endfunction
 
 function! s:is_location_list(winid) abort
-  return getwininfo(a:winid)[0].loclist
+  return win_gettype(a:winid) ==# 'loclist'
 endfunction
 
 function! statusline#file_type() abort
