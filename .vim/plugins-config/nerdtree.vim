@@ -5,4 +5,4 @@ let g:NERDTreeHijackNetrw=0
 let g:NERDTreeWinSize=40
 let g:NERDTreeStatusline=''
 
-nnoremap <silent> <f5> :NERDTreeToggle<cr>
+nnoremap <silent> <f5> <cmd>NERDTreeToggle<cr>

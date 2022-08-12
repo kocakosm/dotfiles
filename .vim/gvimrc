@@ -1,12 +1,15 @@
 " Enable right-click's contextual menu
 set mousemodel=popup
-"set mousemodel=popup_setpos
+" set mousemodel=popup_setpos
 
 " GUI specific font
 set guifont=RobotoMono\ Nerd\ Font\ 12
 
 " Line spacing
 " set linespace=2
+
+" Prefer dark theme variant
+set guioptions+=d
 
 " Remove the toolbar
 set guioptions-=T
@@ -32,9 +35,9 @@ set guitablabel=%t\ %m
 set visualbell
 
 " Easily change font size
-command! BiggerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)+1', '')
-command! SmallerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)-1', '')
-"nnoremap <silent> <c-scrollwheelup> :BiggerFont<cr>
-"inoremap <silent> <c-scrollwheelup> <c-o>:BiggerFont<cr>
-"nnoremap <silent> <c-scrollwheeldown> :SmallerFont<cr>
-"inoremap <silent> <c-scrollwheeldown> <c-o>:SmallerFont<cr>
+" command! BiggerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)+1', '')
+" command! SmallerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)-1', '')
+" nnoremap <silent> <c-scrollwheelup> <cmd>BiggerFont<cr>
+" inoremap <silent> <c-scrollwheelup> <cmd>BiggerFont<cr>
+" nnoremap <silent> <c-scrollwheeldown> <cmd>SmallerFont<cr>
+" inoremap <silent> <c-scrollwheeldown> <cmd>SmallerFont<cr>

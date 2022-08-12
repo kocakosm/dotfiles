@@ -65,6 +65,7 @@ set switchbuf=uselast
 " Enhanced command-line completion
 set wildmenu
 set wildmode=longest,full
+set wildoptions=pum,fuzzy
 
 " Case insensitive command-line completion
 set wildignorecase
@@ -143,11 +144,8 @@ set numberwidth=3
 " Display signs in the number column
 "set signcolumn=number
 
-" Prettier vertical separators, fold markers and diff
-let &fillchars='vert:│,diff: ,fold:·'
-if has('nvim')
-  let &fillchars=&fillchars . ',eob:-'
-endif
+" Prettier vertical separators, fold markers...
+let &fillchars='vert:│,diff: ,fold:·,eob:-'
 
 " Open new windows below the current one
 set splitbelow
@@ -284,6 +282,10 @@ set diffopt+=vertical
 " Use the internal diff with the histogram algorithm
 set diffopt+=internal,algorithm:histogram
 
+" When spell-checking a camel cased word, every upper-case character that
+" comes after a lower case character is treated as the start of a new word
+set spelloptions=camel
+
 " Replace each concealed block with one character
 "set conceallevel=1
 
@@ -366,21 +368,21 @@ inoremap <silent> <c-w> <c-g>u<c-w>
 
 " Finer-grained scrolling with mouse wheel
 "noremap <silent> <scrollwheelup> <c-y><c-y>
-"inoremap <silent> <scrollwheelup> <c-o><c-y><c-o><c-y>
+"inoremap <silent> <scrollwheelup> <cmd>normal<c-y><c-y><cr>
 "noremap <silent> <scrollwheeldown> <c-e><c-e>
-"inoremap <silent> <scrollwheeldown> <c-o><c-e><c-o><c-e>
+"inoremap <silent> <scrollwheeldown> <cmd>normal<c-e><c-e><cr>
 "noremap <silent> <c-scrollwheelup> <c-y>
-"inoremap <silent> <c-scrollwheelup> <c-o><c-y>
+"inoremap <silent> <c-scrollwheelup> <cmd>normal<c-y><cr>
 "noremap <silent> <c-scrollwheeldown> <c-e>
-"inoremap <silent> <c-scrollwheeldown> <c-o><c-e>
+"inoremap <silent> <c-scrollwheeldown> <cmd>normal<c-e><cr>
 "noremap <silent> <s-scrollwheelup> <c-u>
-"inoremap <silent> <s-scrollwheelup> <c-o><c-u>
+"inoremap <silent> <s-scrollwheelup> <cmd>normal<c-u><cr>
 "noremap <silent> <s-scrollwheeldown> <c-d>
-"inoremap <silent> <s-scrollwheeldown> <c-o><c-d>
+"inoremap <silent> <s-scrollwheeldown> <cmd>normal<c-d><cr>
 
 " Make j/k/<up>/<down> move by virtual lines (when not used with a count)
-" inoremap <silent> <up> <c-o>gk
-" inoremap <silent> <down> <c-o>gj
+" inoremap <silent> <up> <cmd>normal gk<cr>
+" inoremap <silent> <down> <cmd>normal gj<cr>
 " noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
 " noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 " noremap <silent> <expr> <down> (v:count == 0 ? 'gj' : 'j')
@@ -407,12 +409,12 @@ vnoremap <expr>y 'my"' . v:register . 'y`y'
 " Duplicate the current line
 nnoremap <silent> <c-s-up> m`yyP==``k
 nnoremap <silent> <c-s-down> m`yyp==``j
-inoremap <silent> <c-s-up> <c-o>:<c-u>normal m`yyP==``k<cr>
-inoremap <silent> <c-s-down> <c-o>:<c-u>normal m`yyp==``j<cr>
+inoremap <silent> <c-s-up> <cmd>normal m`yyP==``k<cr>
+inoremap <silent> <c-s-down> <cmd>normal m`yyp==``j<cr>
 
 " <ctrl>-t opens a new tab
-"noremap <silent> <c-t> :tabnew<cr>
-"inoremap <silent> <c-t> <c-o>:tabnew<cr>
+"noremap <silent> <c-t> <cmd>tabnew<cr>
+"inoremap <silent> <c-t> <cmd>tabnew<cr>
 
 " <tab> / <shift-tab> navigates between windows in normal mode
 nnoremap <silent> <tab> <C-w>w
@@ -420,19 +422,19 @@ nnoremap <silent> <s-tab> <C-w>W
 
 " <alt>-<up> switches to the next tab
 "noremap <silent> <a-up> gt
-"inoremap <silent> <a-up> <c-o>gt
+"inoremap <silent> <a-up> <cmd>normal gt<cr>
 
 " <alt>-<down> switches to the previous tab
 "noremap <silent> <a-down> gT
-"inoremap <silent> <a-down> <c-o>gT
+"inoremap <silent> <a-down> <cmd>normal gT<cr>
 
 " <alt>-<right> switches to the next buffer
-noremap <silent> <a-right> :bn!<cr>
-inoremap <silent> <a-right> <c-o>:bn!<cr>
+noremap <silent> <a-right> <cmd>bn!<cr>
+inoremap <silent> <a-right> <cmd>bn!<cr>
 
 " <alt>-<left> switches to the previous buffer
-noremap <silent> <a-left> :bp!<cr>
-inoremap <silent> <a-left> <c-o>:bp!<cr>
+noremap <silent> <a-left> <cmd>bp!<cr>
+inoremap <silent> <a-left> <cmd>bp!<cr>
 
 " <space> centers the current line
 "noremap <silent> <space> zz
@@ -445,13 +447,13 @@ xnoremap <silent> < <gv
 xnoremap <silent> > >gv
 
 " \s sorts the current visual selection
-"xnoremap <silent> <leader>s :sort<cr>
+"xnoremap <silent> <leader>s <cmd>sort<cr>
 
 " \h toggles search results highlighting
-"nnoremap <silent> <leader>h :setlocal hlsearch!<cr>
+"nnoremap <silent> <leader>h <cmd>setlocal hlsearch!<cr>
 
 " \<space> toggles spell-checking
-nnoremap <silent> <leader><space> :setlocal spell!<cr>
+nnoremap <silent> <leader><space> <cmd>setlocal spell!<cr>
 
 " <ctrl-l> picks the first suggestion for the last spelling mistake
 inoremap <silent> <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
@@ -462,21 +464,21 @@ nnoremap <leader>r :% s/\<<c-r><c-w>\>//g<left><left>
 xnoremap <leader>r y:% s/<c-r>"//g<left><left>
 
 " Easier buffer switching
-nnoremap <leader>l :ls<cr>:buffer<space>
+nnoremap <leader>l <cmd>ls<cr>:buffer<space>
 
 " Quit using <c-q>
-noremap <silent> <c-q> :q<cr>
-inoremap <silent> <c-q> <esc>:q<cr>
-cnoremap <silent> <c-q> <esc>:q<cr>
+noremap <silent> <c-q> <cmd>q<cr>
+inoremap <silent> <c-q> <cmd>q<cr>
+cnoremap <silent> <c-q> <cmd>q<cr>
 
 " Mappings for quickfix & location list
-nnoremap <silent> ]c :cnext<cr>zz
-nnoremap <silent> [c :cprev<cr>zz
-nnoremap <silent> ]l :lnext<cr>zz
-nnoremap <silent> [l :lprev<cr>zz
+nnoremap <silent> ]c <cmd>cnext<cr>zz
+nnoremap <silent> [c <cmd>cprev<cr>zz
+nnoremap <silent> ]l <cmd>lnext<cr>zz
+nnoremap <silent> [l <cmd>lprev<cr>zz
 
 " 'Smart' <home>
-noremap <silent> <expr> <home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+" noremap <silent> <expr> <home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 
 " Block select with control-click-and-drag
 "noremap <c-leftmouse> <leftmouse><esc><c-v>
@@ -517,8 +519,8 @@ endif
 " Netrw configuration
 if get(g:, 'loaded_netrwPlugin', 0)
   " emulate ntrw's gx
-  nnoremap <silent> gx :call system#open(expand('<cWORD>'))<cr>
-  xnoremap <silent> gx :<c-u> call system#open(buffer#selected_text(1))<cr>
+  nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
+  xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
 else
   let g:netrw_browsex_viewer='firefox'
   let g:netrw_home=system#USER_DATA_DIR . 'vim/netrw'
