@@ -547,12 +547,16 @@ let g:cursor_hold_delay=100
 let g:sticky_buffers_ignored_buftypes=['help']
 let g:sticky_buffers_ignored_filetypes=['dirvish']
 
+" Popterm configuration
+nnoremap <silent> <f4> <cmd>PopTermToggle<cr>
+inoremap <silent> <f4> <cmd>PopTermToggle<cr>
+tnoremap <silent> <f4> <cmd>PopTermToggle<cr>
+
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
 
 call plug#begin(system#USER_DATA_DIR . 'vim/plugins')
-Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 Plug 'airblade/vim-rooter'
 Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
