@@ -21,7 +21,7 @@ function! s:hilal() abort
   hi StatusLineTermNC term=NONE cterm=NONE guibg=#1a2027
   hi CursorLine term=NONE cterm=NONE
   hi CursorLineNr term=NONE cterm=NONE
-  hi CurSearch guibg=#aa8822 guifg=#ffffff gui=bold
+  hi CurSearch guibg=#e9d5c1 guifg=#695541
   hi Cursor guibg=NONE guifg=NONE gui=reverse
 endfunction
 

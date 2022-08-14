@@ -5,7 +5,7 @@ scriptencoding utf-8
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:autoloaded_skyline') || (v:version < 802 && !has('nvim-0.6')) || &cp
+if exists('g:autoloaded_skyline') || (v:version < 802 && !has('nvim-0.7')) || &cp
   finish
 endif
 let g:autoloaded_skyline = 1
