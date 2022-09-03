@@ -1,2 +1,0 @@
-/* sets the color of the borders around gvim's window */
-window#vim-main-window.background widget.gtk-form { background-color: #14171a; }
