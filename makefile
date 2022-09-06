@@ -1,29 +1,26 @@
 vim-plug := .vim/autoload/plug.vim
-
-.PHONY: all
-all: dotfiles dotconfig vim-plug fonts
+XDG_CONFIG_HOME ?= $(HOME)/.config
+XDG_DATA_HOME ?= $(HOME)/.local/share
 
 .PHONY: dotfiles
-dotfiles:
+dotfiles: fonts vim-plug
 	@for file in $(shell find $(CURDIR) -mindepth 1 -maxdepth 1 -name ".*" \
 			-not -name ".fonts" -not -name ".config" -not -name ".tags" \
 			-not -regex ".*\.git\(ignore\)?"); \
 	do \
 		ln -sfn $$file $(HOME)/$$(basename $$file); \
 	done
-
-.PHONY: dotconfig
-dotconfig:
-	@mkdir -p $(HOME)/.config
+	@mkdir -p $(XDG_CONFIG_HOME)
 	@for file in $(shell find $(CURDIR)/.config -mindepth 1 -maxdepth 1); \
 	do \
-		ln -sfn $$file $(HOME)/.config/$$(basename $$file); \
+		ln -sfn $$file $(XDG_CONFIG_HOME)/$$(basename $$file); \
 	done
 
 .PHONY: fonts
 fonts:
-	@ln -sfn $(CURDIR)/.fonts $(HOME)/.fonts
-	@fc-cache -f $(HOME)/.fonts
+	@mkdir -p $(XDG_DATA_HOME)
+	@ln -sfn $(CURDIR)/.fonts $(XDG_DATA_HOME)/fonts
+	@fc-cache -f $(XDG_DATA_HOME)/fonts
 
 .PHONY: vim-plug
 vim-plug: $(vim-plug)
