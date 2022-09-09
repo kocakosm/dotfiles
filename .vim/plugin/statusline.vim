@@ -26,7 +26,7 @@ let g:skyline = #{
 \        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
 \      ]
 \    },
-\    'terminal':#{default: ['Type', 'Bufname', 'Spacer']},
+\    'terminal': #{default: ['Type', 'Bufname', 'Spacer']},
 \    'help': #{default: ['Type', 'Filename', 'SearchCount', 'Spacer', 'Ruler']},
 \    'qf': #{default: ['Type', 'QuickfixTitle', 'SearchCount', 'Spacer', 'Ruler']},
 \    'man': #{default: ['Type', 'Filename', 'SearchCount', 'Spacer']},
@@ -38,7 +38,7 @@ let g:skyline = #{
 \}
 
 set noshowmode
-set shortmess+=S
+" set shortmess+=S
 set statusline=%!skyline#get_statusline()
 
 if exists('g:colors_name')

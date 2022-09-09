@@ -2,14 +2,14 @@
 set mousemodel=popup
 " set mousemodel=popup_setpos
 
+" Ask to save modified files before operations like :q
+set confirm
+
 " GUI specific font
 set guifont=RobotoMono\ Nerd\ Font\ 12
 
 " Line spacing
 " set linespace=2
-
-" Prefer dark theme variant
-set guioptions+=d
 
 " Remove the toolbar
 set guioptions-=T
@@ -28,6 +28,9 @@ set guioptions-=m
 " Disable menu tearoff
 set guioptions-=t
 
+" Keep the window size when adding/removing a scrollbar, a tabline, etc...
+set guioptions+=k
+
 " Custom tabs label
 set guitablabel=%t\ %m
 
@@ -41,3 +44,20 @@ set visualbell
 " inoremap <silent> <c-scrollwheelup> <cmd>BiggerFont<cr>
 " nnoremap <silent> <c-scrollwheeldown> <cmd>SmallerFont<cr>
 " inoremap <silent> <c-scrollwheeldown> <cmd>SmallerFont<cr>
+
+function! s:update_gui_theme_variant(variant) abort
+  if a:variant ==? 'dark'
+    set guioptions+=d
+  elseif a:variant ==? 'light'
+    set guioptions-=d
+  else
+    throw 'Unsupported theme variant: ' . a:variant
+  endif
+endfunction
+
+call s:update_gui_theme_variant(&background)
+
+augroup UpdateGuiThemeVariant
+  autocmd!
+  autocmd OptionSet background call <sid>update_gui_theme_variant(v:option_new)
+augroup END

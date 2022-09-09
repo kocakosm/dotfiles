@@ -13,16 +13,16 @@ function! s:on_colorscheme(colorscheme) abort
 endfunction
 
 function! s:hilal() abort
-  hi NerdTree guibg=#1c242c
-  hi VertSplit guibg=#15191c guifg=#1a2027
-  hi StatusLine term=NONE cterm=NONE guibg=#1a2027
-  hi StatusLineNC term=NONE cterm=NONE guibg=#1a2027
-  hi StatusLineTerm term=NONE cterm=NONE guibg=#1a2027
-  hi StatusLineTermNC term=NONE cterm=NONE guibg=#1a2027
-  hi CursorLine term=NONE cterm=NONE
-  hi CursorLineNr term=NONE cterm=NONE
-  hi CurSearch guibg=#e9d5c1 guifg=#695541
-  hi Cursor guibg=NONE guifg=NONE gui=reverse
+  highlight NerdTree guibg=#1c242c
+  highlight VertSplit term=NONE cterm=NONE guibg=#1a2027 guifg=#0e141c
+  highlight StatusLine term=NONE cterm=NONE guibg=#1a2027
+  highlight StatusLineNC term=NONE cterm=NONE guibg=#1a2027
+  highlight StatusLineTerm term=NONE cterm=NONE guibg=#1a2027
+  highlight StatusLineTermNC term=NONE cterm=NONE guibg=#1a2027
+  highlight CursorLine term=NONE cterm=NONE
+  highlight CursorLineNr term=NONE cterm=NONE
+  highlight CurSearch guibg=#e9d5c1 guifg=#695541
+  highlight Cursor guibg=NONE guifg=NONE gui=reverse
 endfunction
 
 silent! colorscheme hilal

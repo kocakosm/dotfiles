@@ -39,9 +39,6 @@ set nofsync
 " Keep 250 lines of command line history
 set history=250
 
-" Ask to save modified files before operations like :q
-"set confirm
-
 " Reduce delay when using escape key in a terminal
 set ttimeout
 set ttimeoutlen=50
@@ -65,7 +62,8 @@ set switchbuf=uselast
 " Enhanced command-line completion
 set wildmenu
 set wildmode=longest,full
-set wildoptions=pum,fuzzy
+set wildoptions=pum
+" set wildoptions=pum,fuzzy
 
 " Case insensitive command-line completion
 set wildignorecase
@@ -78,13 +76,13 @@ set wildignore+=*.o,*.pyc,*.pyo,*.class,*.min.*
 set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 
 " Create a backup before overwriting a file
-set writebackup
+" set writebackup
 
 " Remove the backup after the file has been successfully written
-set nobackup
+" set nobackup
 
 " Create a swapfile for every file
-set swapfile
+" set swapfile
 
 " Save undo tree to disk
 set undofile
@@ -115,7 +113,7 @@ set shortmess+=I
 set shortmess+=F
 
 " Show search count
-set shortmess-=S
+" set shortmess-=S
 
 " Don't show 'search hit bottom, continuing at top' messages
 set shortmess+=s
@@ -203,7 +201,7 @@ set sidescroll=1
 " Try to keep the cursor at the current column when jumping to other lines
 set nostartofline
 
-" Show tabs, non-printable characters, etc...
+" Strings to use in 'list' mode and for the ':list' command
 let &listchars='tab:▸ ,extends:⧽,precedes:⧼,trail:·,nbsp:⎵,eol:¬'
 "let &listchars='tab:┊ '
 "let &listchars='trail:•'
@@ -259,10 +257,7 @@ set pumheight=15
 set formatoptions=jncql
 
 " Use system's default clipboards for yanking/pasting
-if has('unnamedplus')
-  set clipboard=unnamedplus
-endif
-set clipboard+=unnamed
+set clipboard=unnamedplus,unnamed
 
 " Case insensitive search
 set ignorecase
@@ -514,6 +509,7 @@ let g:loaded_matchit=1
 " Enable man pages viewer
 if exists(':Man') != 2
   runtime ftplugin/man.vim
+  cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' : 'man'
 endif
 
 " Netrw configuration
