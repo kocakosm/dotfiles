@@ -548,6 +548,9 @@ nnoremap <silent> <f4> <cmd>PopTermToggle<cr>
 inoremap <silent> <f4> <cmd>PopTermToggle<cr>
 tnoremap <silent> <f4> <cmd>PopTermToggle<cr>
 
+" Cooler configuration
+set hlsearch
+
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
@@ -572,7 +575,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'natebosch/vim-lsc'
 " Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
-Plug 'romainl/vim-cool'
 " Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'thinca/vim-visualstar'
 " Plug 'tommcdo/vim-exchange'
