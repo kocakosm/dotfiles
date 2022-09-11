@@ -151,6 +151,9 @@ set splitbelow
 " Open new windows at the right-hand side of the current one
 set splitright
 
+" Stabilize text when opening/closing a window
+set nosplitscroll
+
 " Maximum text width (0 means don't cut lines)
 set textwidth=0
 
@@ -527,19 +530,19 @@ endif
 "---------  Personal plugins  ---------"
 "--------------------------------------"
 
-" Vstats.vim configuration
+" Vstats configuration
 xmap <silent> ++ <plug>(vstats)
 nmap <silent> ++ ggVG<plug>(vstats)
 
-" Zoom.vim configuration
+" Zoom configuration
 nmap <silent> <c-w>o <plug>(zoom#toggle)
 nmap <silent> <c-w><c-o> <plug>(zoom#toggle)
 
-" Cursor-hold-delay.vim configuration
+" Cursor-hold-delay configuration
 set updatetime=10000
 let g:cursor_hold_delay=100
 
-" Sticky-buffers.vim configuration
+" Sticky-buffers configuration
 let g:sticky_buffers_ignored_buftypes=['help']
 let g:sticky_buffers_ignored_filetypes=['dirvish']
 
