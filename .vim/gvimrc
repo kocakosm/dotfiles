@@ -1,15 +1,11 @@
 " Enable right-click's contextual menu
 set mousemodel=popup
-" set mousemodel=popup_setpos
 
 " Ask to save modified files before operations like :q
 set confirm
 
 " GUI specific font
 set guifont=RobotoMono\ Nerd\ Font\ 12
-
-" Line spacing
-" set linespace=2
 
 " Remove the toolbar
 set guioptions-=T
@@ -36,14 +32,6 @@ set guitablabel=%t\ %m
 
 " Enable visual bell
 set visualbell
-
-" Easily change font size
-" command! BiggerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)+1', '')
-" command! SmallerFont :let &guifont=substitute(&guifont, '\d\+$', '\=submatch(0)-1', '')
-" nnoremap <silent> <c-scrollwheelup> <cmd>BiggerFont<cr>
-" inoremap <silent> <c-scrollwheelup> <cmd>BiggerFont<cr>
-" nnoremap <silent> <c-scrollwheeldown> <cmd>SmallerFont<cr>
-" inoremap <silent> <c-scrollwheeldown> <cmd>SmallerFont<cr>
 
 function! s:update_gui_theme_variant(variant) abort
   if a:variant ==? 'dark'

@@ -24,14 +24,8 @@ set mouse=a
 " Hide the mouse when a key is pressed
 set mousehide
 
-" Automatically switch to the directory of the current file
-" set autochdir
-
 " Automatically reload files when modified by an external program
 set autoread
-
-" Automatically save buffer before :next, :make etc...
-"set autowrite
 
 " Do not flush the file to disk each time it is written
 set nofsync
@@ -43,16 +37,6 @@ set history=250
 set ttimeout
 set ttimeoutlen=50
 
-" Number of milliseconds to wait after nothing is typed to write the swap file
-" to disk and trigger the CursorHold autocmd
-"set updatetime=1000
-
-" Better display when running in a terminal
-" set ttyfast
-
-" Don't redraw when running macros
-"set lazyredraw
-
 " Allow more than one unsaved buffer
 set hidden
 
@@ -63,7 +47,6 @@ set switchbuf=uselast
 set wildmenu
 set wildmode=longest,full
 set wildoptions=pum
-" set wildoptions=pum,fuzzy
 
 " Case insensitive command-line completion
 set wildignorecase
@@ -74,15 +57,6 @@ set wildignore+=*.tags,*.orig,*.tar*
 set wildignore+=*.png,*.jpg,*.jpeg,*.gif
 set wildignore+=*.o,*.pyc,*.pyo,*.class,*.min.*
 set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
-
-" Create a backup before overwriting a file
-" set writebackup
-
-" Remove the backup after the file has been successfully written
-" set nobackup
-
-" Create a swapfile for every file
-" set swapfile
 
 " Save undo tree to disk
 set undofile
@@ -112,9 +86,6 @@ set shortmess+=I
 " Don't give the file info when editing a file
 set shortmess+=F
 
-" Show search count
-" set shortmess-=S
-
 " Don't show 'search hit bottom, continuing at top' messages
 set shortmess+=s
 
@@ -124,23 +95,14 @@ set shortmess+=c
 " Display commands as they are typed
 set showcmd
 
-" Show the current mode
-"set showmode
-
 " Always show the status line
 set laststatus=2
-
-" Show the cursor position
-"set ruler
 
 " Show line numbers
 set number
 
 " Use 3 columns for line numbers
 set numberwidth=3
-
-" Display signs in the number column
-"set signcolumn=number
 
 " Prettier vertical separators, fold markers...
 let &fillchars='vert:│,diff: ,fold:·,eob:-'
@@ -163,8 +125,7 @@ set colorcolumn=+1
 " Don't wrap long lines by default
 set nowrap
 
-" Add a ↪ at the start of lines that have been wrapped
-"let &showbreak='↪ '
+" Add a ↳ at the start of lines that have been wrapped
 let &showbreak='↳ '
 
 " Visually indent wrapped lines
@@ -189,9 +150,6 @@ set matchtime=3
 " Disable folding by default
 set nofoldenable
 
-" Show folding marks
-"set foldcolumn=1
-
 " Try to keep 3 lines above and below the cursor
 set scrolloff=3
 
@@ -206,8 +164,6 @@ set nostartofline
 
 " Strings to use in 'list' mode and for the ':list' command
 let &listchars='tab:▸ ,extends:⧽,precedes:⧼,trail:·,nbsp:⎵,eol:¬'
-"let &listchars='tab:┊ '
-"let &listchars='trail:•'
 
 " More powerful backspacing in insert mode
 set backspace=indent,eol,start
@@ -250,9 +206,6 @@ else
   set completepopup+=border:off
 endif
 
-" Adjust the case of the completion match to the case of the typed text
-"set infercase
-
 " Don't show more than 15 items in the popup menu
 set pumheight=15
 
@@ -271,9 +224,6 @@ set smartcase
 " Enable incremental search
 set incsearch
 
-" Don't highlight search results by default
-set nohlsearch
-
 " Start diff mode with vertical splits
 set diffopt+=vertical
 
@@ -283,12 +233,6 @@ set diffopt+=internal,algorithm:histogram
 " When spell-checking a camel cased word, every upper-case character that
 " comes after a lower case character is treated as the start of a new word
 set spelloptions=camel
-
-" Replace each concealed block with one character
-"set conceallevel=1
-
-" Never conceal cursor line
-"set concealcursor=
 
 " Enable file type detection
 filetype plugin indent on
@@ -303,14 +247,6 @@ syntax on
 augroup Vimrc
   autocmd!
 augroup END
-
-" Highlight the current line in insert mode
-" autocmd Vimrc InsertEnter * set cursorline
-" autocmd Vimrc InsertLeave * set nocursorline
-
-" Show 'listchars' in all modes except insert mode
-" autocmd Vimrc InsertEnter * set nolist
-" autocmd Vimrc InsertLeave * set list
 
 " Command-line window customization
 autocmd Vimrc CmdwinEnter [:/?] setlocal nonumber textwidth=0
@@ -361,43 +297,6 @@ inoremap <silent> <cr> <cr><c-g>u
 inoremap <silent> <c-u> <c-g>u<c-u>
 inoremap <silent> <c-w> <c-g>u<c-w>
 
-" Don't use Ex mode, use Q for formatting.
-"noremap Q gq
-
-" Finer-grained scrolling with mouse wheel
-"noremap <silent> <scrollwheelup> <c-y><c-y>
-"inoremap <silent> <scrollwheelup> <cmd>normal<c-y><c-y><cr>
-"noremap <silent> <scrollwheeldown> <c-e><c-e>
-"inoremap <silent> <scrollwheeldown> <cmd>normal<c-e><c-e><cr>
-"noremap <silent> <c-scrollwheelup> <c-y>
-"inoremap <silent> <c-scrollwheelup> <cmd>normal<c-y><cr>
-"noremap <silent> <c-scrollwheeldown> <c-e>
-"inoremap <silent> <c-scrollwheeldown> <cmd>normal<c-e><cr>
-"noremap <silent> <s-scrollwheelup> <c-u>
-"inoremap <silent> <s-scrollwheelup> <cmd>normal<c-u><cr>
-"noremap <silent> <s-scrollwheeldown> <c-d>
-"inoremap <silent> <s-scrollwheeldown> <cmd>normal<c-d><cr>
-
-" Make j/k/<up>/<down> move by virtual lines (when not used with a count)
-" inoremap <silent> <up> <cmd>normal gk<cr>
-" inoremap <silent> <down> <cmd>normal gj<cr>
-" noremap <silent> <expr> <up> (v:count == 0 ? 'gk' : 'k')
-" noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-" noremap <silent> <expr> <down> (v:count == 0 ? 'gj' : 'j')
-" noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-
-" Make <home>/<end>/0/^/$ move by virtual lines
-" inoremap <silent> <home> <c-o>g<home>
-" inoremap <silent> <end> <c-o>g<end>
-" noremap <silent> <home> g<home>
-" noremap <silent> <end> g<end>
-" noremap <silent> 0 g0
-" noremap <silent> ^ g^
-" noremap <silent> $ g$
-
-" K splits the current line (opposite of J)
-" nnoremap <silent> K i<cr><esc>
-
 " Y yanks from the cursor to the end of the line
 nnoremap <silent> Y y$
 
@@ -410,21 +309,9 @@ nnoremap <silent> <c-s-down> m`yyp==``j
 inoremap <silent> <c-s-up> <cmd>normal m`yyP==``k<cr>
 inoremap <silent> <c-s-down> <cmd>normal m`yyp==``j<cr>
 
-" <ctrl>-t opens a new tab
-"noremap <silent> <c-t> <cmd>tabnew<cr>
-"inoremap <silent> <c-t> <cmd>tabnew<cr>
-
 " <tab> / <shift-tab> navigates between windows in normal mode
 nnoremap <silent> <tab> <C-w>w
 nnoremap <silent> <s-tab> <C-w>W
-
-" <alt>-<up> switches to the next tab
-"noremap <silent> <a-up> gt
-"inoremap <silent> <a-up> <cmd>normal gt<cr>
-
-" <alt>-<down> switches to the previous tab
-"noremap <silent> <a-down> gT
-"inoremap <silent> <a-down> <cmd>normal gT<cr>
 
 " <alt>-<right> switches to the next buffer
 noremap <silent> <a-right> <cmd>bn!<cr>
@@ -434,21 +321,12 @@ inoremap <silent> <a-right> <cmd>bn!<cr>
 noremap <silent> <a-left> <cmd>bp!<cr>
 inoremap <silent> <a-left> <cmd>bp!<cr>
 
-" <space> centers the current line
-"noremap <silent> <space> zz
-
 " gp reselects last pasted text
 nnoremap <silent> <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Don't lose visual selection when shifting sidewards
 xnoremap <silent> < <gv
 xnoremap <silent> > >gv
-
-" \s sorts the current visual selection
-"xnoremap <silent> <leader>s <cmd>sort<cr>
-
-" \h toggles search results highlighting
-"nnoremap <silent> <leader>h <cmd>setlocal hlsearch!<cr>
 
 " \<space> toggles spell-checking
 nnoremap <silent> <leader><space> <cmd>setlocal spell!<cr>
@@ -475,13 +353,6 @@ nnoremap <silent> [c <cmd>cprev<cr>zz
 nnoremap <silent> ]l <cmd>lnext<cr>zz
 nnoremap <silent> [l <cmd>lprev<cr>zz
 
-" 'Smart' <home>
-" noremap <silent> <expr> <home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
-
-" Block select with control-click-and-drag
-"noremap <c-leftmouse> <leftmouse><esc><c-v>
-"noremap <c-leftdrag> <leftdrag>
-
 " Insert mode completion mappings
 inoremap <c-space> <c-x><c-o>
 imap <c-@> <c-space>
@@ -504,27 +375,15 @@ let g:loaded_rrhelper=1
 let g:loaded_vimballPlugin=1
 let g:loaded_matchit=1
 
-" Enable matchit
-" if !exists('g:loaded_matchit')
-"   packadd! matchit
-" endif
-
 " Enable man pages viewer
 if exists(':Man') != 2
   runtime ftplugin/man.vim
   cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' : 'man'
 endif
 
-" Netrw configuration
-if get(g:, 'loaded_netrwPlugin', 0)
-  " emulate ntrw's gx
-  nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
-  xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
-else
-  let g:netrw_browsex_viewer='firefox'
-  let g:netrw_home=system#USER_DATA_DIR . 'vim/netrw'
-  call system#mkdir(g:netrw_home)
-endif
+" Emulate ntrw's gx
+nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
+xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
 
 "--------------------------------------"
 "---------  Personal plugins  ---------"
