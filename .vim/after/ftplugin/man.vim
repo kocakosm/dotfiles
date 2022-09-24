@@ -1,3 +1,5 @@
+nnoremap <silent> <buffer> <home> gg
+nnoremap <silent> <buffer> <end> G
 nnoremap <silent> <buffer> <up> <c-y>
 nnoremap <silent> <buffer> <down> <c-e>
 nnoremap <silent> <buffer> k <c-y>
@@ -22,6 +24,11 @@ augroup __Man__
   autocmd CursorMoved <buffer> call cursor(line('.'), 1)
 augroup END
 
-call ftplugin#append_undo_cmd('setlocal whichwrap< | autocmd! __Man__')
+let name = expand('%:t')
+let parts = matchlist(name, '\(^[a-zA-Z0-9]*\)[\.\(]\(\d*\)[\.\)\~]')
+if !parts->empty()
+  let name = printf('%s(%s)', parts[1], parts[2]->empty() ? '1' : parts[2])
+endif
+execute (bufexists(name) ? 'edit ' : '0file | file ') . name . ' | bwipeout #'
 
-execute '0file | file ' . substitute(expand('%:t'), '\.\~$', '', '')
+call ftplugin#append_undo_cmd('setlocal whichwrap<')

@@ -1,5 +1,5 @@
 if &buftype ==# 'help'
-  " don't highlight any columns
+  " Don't highlight any columns
   setlocal colorcolumn=
   " <enter> jumps to the subject under the cursor
   nnoremap <silent> <buffer> <cr> <c-]>
@@ -8,7 +8,7 @@ if &buftype ==# 'help'
   " Undo commands
   call ftplugin#append_undo_cmd('setlocal colorcolumn<')
 else
-  " disable concealing
+  " Disable concealing
   setlocal conceallevel=0
   " Undo commands
   call ftplugin#append_undo_cmd('setlocal conceallevel<')

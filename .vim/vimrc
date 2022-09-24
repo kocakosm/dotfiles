@@ -399,7 +399,7 @@ nmap <silent> <c-w><c-o> <plug>(zoom#toggle)
 
 " Cursor-hold-delay configuration
 set updatetime=10000
-let g:cursor_hold_delay=100
+let g:cursor_hold_delay=125
 
 " Sticky-buffers configuration
 let g:sticky_buffers_ignored_buftypes=['help']
