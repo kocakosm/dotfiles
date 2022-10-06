@@ -13,26 +13,27 @@ let g:lsc_auto_map = #{defaults: v:true, Completion: 'omnifunc'}
 let g:lsc_complete_timeout = 1
 let g:lsc_popup_syntax = v:false
 
-if !has('nvim')
-  let s:code_actions = #{}
-  function! s:code_action(id, result)
-    if a:result > 0
-      let code_actions = s:code_actions->remove(a:id)
-      call code_actions.callback(code_actions.actions[a:result - 1])
-    endif
-  endfunction
-  function! s:code_actions_popup(actions, callback)
-    let id = popup_menu(
-    \  copy(a:actions)->map({_, v -> v.title}),
-    \  #{
-    \    callback: function('s:code_action'),
-    \    borderchars: ['━', '┃', '━', '┃', '┏', '┓', '┛', '┗']
-    \  }
-    \)
-    let s:code_actions[id] = #{actions: a:actions, callback: a:callback}
-  endfunction
-  let g:LSC_action_menu = function('s:code_actions_popup')
-endif
+let s:code_actions = #{}
+
+function! s:code_action(id, result)
+  if a:result > 0
+    let code_actions = s:code_actions->remove(a:id)
+    call code_actions.callback(code_actions.actions[a:result - 1])
+  endif
+endfunction
+
+function! s:code_actions_popup(actions, callback)
+  let id = popup_menu(
+  \  copy(a:actions)->map({_, v -> v.title}),
+  \  #{
+  \    callback: function('s:code_action'),
+  \    borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+  \  }
+  \)
+  let s:code_actions[id] = #{actions: a:actions, callback: a:callback}
+endfunction
+
+let g:LSC_action_menu = function('s:code_actions_popup')
 
 augroup LscHighlights
   autocmd!

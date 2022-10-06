@@ -5,7 +5,7 @@ scriptencoding utf-8
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:autoloaded_zoom') || (v:version < 802 && !has('nvim-0.6.1')) || &cp
+if exists('g:autoloaded_zoom') || v:version < 802 || &cp
   finish
 endif
 let g:autoloaded_zoom = 1
@@ -150,17 +150,9 @@ function! s:is_ordinary(bufnr) abort
   return buflisted(a:bufnr) && getbufvar(a:bufnr, '&buftype') ==# ''
 endfunction
 
-function! s:async(cmd) abort
-  call timer_start(0, {-> execute(a:cmd)})
-endfunction
-
 augroup __Zoom__
   autocmd!
-  if has('nvim')
-    autocmd WinNew,BufWinEnter * call <sid>async('call s:lock_zoomed_window()')
-  else
-    autocmd SafeState * call <sid>lock_zoomed_window()
-  endif
+  autocmd SafeState * call <sid>lock_zoomed_window()
   autocmd ExitPre * call <sid>zoom_out_on_exit()
 augroup END
 

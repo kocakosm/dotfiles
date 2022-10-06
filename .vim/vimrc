@@ -62,16 +62,14 @@ set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 set undofile
 
 " Put all temporary files in a more sensible place
-if !has('nvim')
-  call system#mkdir(system#USER_DATA_DIR . 'vim/swap')
-  call system#mkdir(system#USER_DATA_DIR . 'vim/undo')
-  call system#mkdir(system#USER_DATA_DIR . 'vim/info')
-  call system#mkdir(system#USER_DATA_DIR . 'vim/backup')
-  let &backupdir=system#USER_DATA_DIR . 'vim/backup/'
-  let &directory=system#USER_DATA_DIR . 'vim/swap//'
-  let &undodir=system#USER_DATA_DIR . 'vim/undo/'
-  let &viminfo="'100,n" . system#USER_DATA_DIR . 'vim/info/viminfo'
-endif
+call system#mkdir(system#USER_DATA_DIR . 'vim/swap')
+call system#mkdir(system#USER_DATA_DIR . 'vim/undo')
+call system#mkdir(system#USER_DATA_DIR . 'vim/info')
+call system#mkdir(system#USER_DATA_DIR . 'vim/backup')
+let &backupdir=system#USER_DATA_DIR . 'vim/backup/'
+let &directory=system#USER_DATA_DIR . 'vim/swap//'
+let &undodir=system#USER_DATA_DIR . 'vim/undo/'
+let &viminfo="'100,n" . system#USER_DATA_DIR . 'vim/info/viminfo'
 
 " Set the window title
 set title
@@ -199,12 +197,8 @@ set dictionary+=/usr/share/dict/french
 set complete=.,w,b,u,t,i
 
 " Insert mode completion options
-if has('nvim')
-  set completeopt=menuone,preview
-else
-  set completeopt=menuone,popup
-  set completepopup+=border:off
-endif
+set completeopt=menuone,popup
+set completepopup+=border:off
 
 " Don't show more than 15 items in the popup menu
 set pumheight=15

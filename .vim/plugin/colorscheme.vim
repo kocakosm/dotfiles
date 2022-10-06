@@ -1,10 +1,7 @@
 augroup Colorscheme
   autocmd!
   autocmd ColorScheme * call <sid>on_colorscheme(expand('<amatch>'))
-  " TODO: neovim support
-  if exists('+wincolor')
-    autocmd BufWinEnter NERD_tree_1 ++once set wincolor=NerdTree
-  endif
+  autocmd BufWinEnter NERD_tree_1 ++once set wincolor=NerdTree
 augroup END
 
 function! s:on_colorscheme(colorscheme) abort
