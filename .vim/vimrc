@@ -62,14 +62,14 @@ set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 set undofile
 
 " Put all temporary files in a more sensible place
-call system#mkdir(system#USER_DATA_DIR . 'vim/swap')
-call system#mkdir(system#USER_DATA_DIR . 'vim/undo')
-call system#mkdir(system#USER_DATA_DIR . 'vim/info')
-call system#mkdir(system#USER_DATA_DIR . 'vim/backup')
-let &backupdir=system#USER_DATA_DIR . 'vim/backup/'
-let &directory=system#USER_DATA_DIR . 'vim/swap//'
-let &undodir=system#USER_DATA_DIR . 'vim/undo/'
-let &viminfo="'100,n" . system#USER_DATA_DIR . 'vim/info/viminfo'
+call system#mkdir(system#user_data_dir() . 'vim/swap')
+call system#mkdir(system#user_data_dir() . 'vim/undo')
+call system#mkdir(system#user_data_dir() . 'vim/info')
+call system#mkdir(system#user_data_dir() . 'vim/backup')
+let &backupdir=system#user_data_dir() . 'vim/backup/'
+let &directory=system#user_data_dir() . 'vim/swap//'
+let &undodir=system#user_data_dir() . 'vim/undo/'
+let &viminfo="'100,n" . system#user_data_dir() . 'vim/info/viminfo'
 
 " Set the window title
 set title
@@ -411,7 +411,7 @@ set hlsearch
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
 
-call plug#begin(system#USER_DATA_DIR . 'vim/plugins')
+call plug#begin(system#user_data_dir() . 'vim/plugins')
 Plug 'airblade/vim-rooter'
 Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
@@ -447,7 +447,7 @@ call plug#end()
 for s:plugin in keys(g:plugs)
   let s:plugin_name = substitute(tolower(s:plugin), '^\(n\)\?vim-', '', '')
   let s:plugin_name = substitute(s:plugin_name, '[\.-]\(n\)\?vim$', '', '')
-  let s:plugin_conf = system#USER_VIM_DIR . 'plugins-config/' . s:plugin_name . '.vim'
+  let s:plugin_conf = system#user_vim_dir() . 'plugins-config/' . s:plugin_name . '.vim'
   if filereadable(s:plugin_conf)
     execute 'source ' . s:plugin_conf
   endif

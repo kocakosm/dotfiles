@@ -1,4 +1,4 @@
-let s:lsp_servers_dir = system#USER_DATA_DIR . 'lsp/servers/'
+let s:lsp_servers_dir = system#user_data_dir() . 'lsp/servers/'
 
 let g:lsc_server_commands = #{
 \  java: #{

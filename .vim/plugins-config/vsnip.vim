@@ -1,4 +1,4 @@
-let g:vsnip_snippet_dir = system#USER_VIM_DIR . 'snippets'
+let g:vsnip_snippet_dir = system#user_vim_dir() . 'snippets'
 
 let options = #{recursive: 1}
 call keymap#conditional_map('i', 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)', options)

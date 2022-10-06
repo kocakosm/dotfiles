@@ -1,5 +1,5 @@
 let g:ctrlp_line_prefix=' '
-let g:ctrlp_cache_dir=system#USER_DATA_DIR . 'vim/ctrlp'
+let g:ctrlp_cache_dir=system#user_data_dir() . 'vim/ctrlp'
 call mkdir(g:ctrlp_cache_dir, 'p', 0700)
 if executable('ag')
   let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
