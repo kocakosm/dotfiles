@@ -4,9 +4,6 @@ setlocal nonumber
 " Highlight the current line
 setlocal cursorline
 
-" Hide the quickfix buffer when it is no longer displayed
-setlocal bufhidden=hide
-
 " Unlist the quickfix buffer
 setlocal nobuflisted
 
@@ -17,4 +14,4 @@ setlocal colorcolumn=
 wincmd J
 
 " Undo commands
-call ftplugin#append_undo_cmd('setlocal number< cursorline< bufhidden< buflisted< colorcolumn<')
+call ftplugin#append_undo_cmd('setlocal number< cursorline< buflisted< colorcolumn<')

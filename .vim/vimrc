@@ -113,8 +113,8 @@ set splitbelow
 " Open new windows at the right-hand side of the current one
 set splitright
 
-" Stabilize text when opening/closing a window
-set nosplitscroll
+" Stabilize the topline when opening/closing a (horizontal) window
+set splitkeep=topline
 
 " Maximum text width (0 means don't cut lines)
 set textwidth=0
