@@ -103,7 +103,7 @@ set number
 set numberwidth=3
 
 " Prettier vertical separators, fold markers...
-let &fillchars='vert:│,diff: ,fold:·,eob:-'
+let &fillchars='vert:│,diff: ,fold: ,foldclose:ᐳ,foldopen:ᐯ,foldsep:│,eob:-,lastline:.'
 
 " Open new windows below the current one
 set splitbelow

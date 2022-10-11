@@ -65,11 +65,14 @@ endfunction
 
 function! statusline#search_count() abort
   if v:hlsearch
-    let c = searchcount(#{maxcount: 0})
-    if !empty(c)
-      let searched = string#abbreviate(@/, 16, '...')
-      return printf('/%s [%s/%s]', searched, c.current, c.incomplete ? '??' : c.total)
-    endif
+    try
+      let c = searchcount(#{maxcount: 0})
+      if !empty(c)
+        let searched = string#abbreviate(@/, 16, '...')
+        return printf('/%s [%s/%s]', searched, c.current, c.incomplete ? '??' : c.total)
+      endif
+    catch
+    endtry
   endif
   return ''
 endfunction
