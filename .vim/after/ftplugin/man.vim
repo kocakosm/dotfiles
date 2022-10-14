@@ -31,6 +31,13 @@ nnoremap <silent> <buffer> e <nop>
 nnoremap <silent> <buffer> E <nop>
 nnoremap <silent> <buffer> ge <nop>
 nnoremap <silent> <buffer> gE <nop>
+nnoremap <silent> <buffer> zt <nop>
+nnoremap <silent> <buffer> zz <nop>
+nnoremap <silent> <buffer> zb <nop>
+nnoremap <silent> <buffer> zh <nop>
+nnoremap <silent> <buffer> zl <nop>
+nnoremap <silent> <buffer> zH <nop>
+nnoremap <silent> <buffer> zL <nop>
 nnoremap <silent> <buffer> <s-left> <nop>
 nnoremap <silent> <buffer> <s-right> <nop>
 nnoremap <silent> <buffer> <c-left> <nop>

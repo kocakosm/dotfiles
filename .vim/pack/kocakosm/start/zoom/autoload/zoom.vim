@@ -5,7 +5,7 @@ scriptencoding utf-8
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:autoloaded_zoom') || v:version < 802 || &cp
+if exists('g:autoloaded_zoom') || !has('patch-9.0.0370') || &cp
   finish
 endif
 let g:autoloaded_zoom = 1
@@ -57,11 +57,15 @@ endfunction
 function! s:get_current_view() abort
   return #{
   \  win_layout: s:replace_winid_by_bufnr(winlayout()),
-  \  fixheight_windows: range(1, winnr('$'))->filter({_, v -> getwinvar(v, '&winfixheight')}),
-  \  fixwidth_windows: range(1, winnr('$'))->filter({_, v -> getwinvar(v, '&winfixwidth')}),
+  \  fixheight_windows: s:windows_having('&winfixheight'),
+  \  fixwidth_windows: s:windows_having('&winfixwidth'),
   \  win_resize_cmd: winrestcmd(),
   \  active_winnr: winnr()
   \}
+endfunction
+
+function! s:windows_having(winvar) abort
+  return range(1, winnr('$'))->filter({_, v -> getwinvar(v, a:winvar)})
 endfunction
 
 function! s:replace_winid_by_bufnr(layout) abort
@@ -78,10 +82,10 @@ function! s:replace_winid_by_bufnr(layout) abort
 endfunction
 
 function! s:restore_view(view) abort
+  new | defer execute('bwipeout ' . bufnr())
   call s:close_other_windows()
   call s:restore_layout(a:view.win_layout)
   execute a:view.win_resize_cmd
-  " winfixheight/winfixwidth must be restored after windows have been resized
   for win in a:view.fixheight_windows
     call setwinvar(win, '&winfixheight', 1)
   endfor
@@ -120,7 +124,6 @@ endfunction
 
 function! s:zoom_out_on_exit() abort
   if get(g:, 'zoom_out_on_exit', 1) && s:is_zoomed()
-    split
     call zoom#out()
   endif
 endfunction
@@ -152,9 +155,19 @@ endfunction
 
 augroup __Zoom__
   autocmd!
-  autocmd SafeState * call <sid>lock_zoomed_window()
-  autocmd ExitPre * call <sid>zoom_out_on_exit()
+  autocmd User ZoomOutPre call <sid>pre_zoom_out()
+  autocmd User ZoomInPost call <sid>post_zoom_in()
 augroup END
+
+function! s:post_zoom_in() abort
+  autocmd __Zoom__ SafeState * call <sid>lock_zoomed_window()
+  autocmd __Zoom__ ExitPre * call <sid>zoom_out_on_exit()
+endfunction
+
+function! s:pre_zoom_out() abort
+  autocmd! __Zoom__ SafeState
+  autocmd! __Zoom__ ExitPre
+endfunction
 
 let &cpo = s:cpo
 unlet! s:cpo

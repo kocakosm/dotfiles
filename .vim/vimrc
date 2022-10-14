@@ -27,15 +27,15 @@ set mousehide
 " Automatically reload files when modified by an external program
 set autoread
 
-" Do not flush the file to disk each time it is written
-set nofsync
-
 " Keep 250 lines of command line history
 set history=250
 
 " Reduce delay when using escape key in a terminal
 set ttimeout
 set ttimeoutlen=50
+
+" Milliseconds to wait after nothing is typed to write the swap file and fire the CursorHold event
+set updatetime=125
 
 " Allow more than one unsaved buffer
 set hidden
@@ -60,6 +60,12 @@ set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
 
 " Save undo tree to disk
 set undofile
+
+" Do not create a swap file by default
+set noswapfile
+
+" Do not flush the swap file to disk every time it is written
+set swapsync=
 
 " Put all temporary files in a more sensible place
 call system#mkdir(system#user_data_dir() . 'vim/swap')
@@ -391,10 +397,6 @@ nmap <silent> ++ ggVG<plug>(vstats)
 nmap <silent> <c-w>o <plug>(zoom#toggle)
 nmap <silent> <c-w><c-o> <plug>(zoom#toggle)
 
-" Cursor-hold-delay configuration
-set updatetime=10000
-let g:cursor_hold_delay=125
-
 " Sticky-buffers configuration
 let g:sticky_buffers_ignored_buftypes=['help']
 let g:sticky_buffers_ignored_filetypes=['dirvish']
@@ -415,10 +417,10 @@ call plug#begin(system#user_data_dir() . 'vim/plugins')
 Plug 'airblade/vim-rooter'
 Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
-Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
+" Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 " Plug 'chaoren/vim-wordmotion'
-Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'hrsh7th/vim-vsnip'
 " Plug 'jiangmiao/auto-pairs'
@@ -429,7 +431,7 @@ Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'ludovicchabant/vim-gutentags'
 " Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
-Plug 'natebosch/vim-lsc'
+" Plug 'natebosch/vim-lsc'
 " Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
 " Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'thinca/vim-visualstar'
