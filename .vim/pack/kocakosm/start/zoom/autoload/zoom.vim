@@ -37,8 +37,10 @@ endfunction
 function! zoom#out() abort
   if s:is_zoomed()
     silent doautocmd User ZoomOutPre
+    let t:zoom_zooming_out = v:true
     call s:restore_view(t:zoom_saved_view)
     let t:zoom_zoomed = v:false
+    let t:zoom_zooming_out = v:false
     unlet! t:zoom_saved_view t:zoom_zoomed_bufnr
     silent doautocmd User ZoomOutPost
   else
@@ -47,7 +49,11 @@ function! zoom#out() abort
 endfunction
 
 function! s:is_zoomed() abort
-  return get(t:, "zoom_zoomed", v:false)
+  return t:->get("zoom_zoomed", v:false)
+endfunction
+
+function! s:is_zooming_out() abort
+  return t:->get("zoom_zooming_out", v:false)
 endfunction
 
 function! s:close_other_windows() abort
@@ -122,15 +128,18 @@ function! s:warn(msg) abort
   echohl WarningMsg | echomsg '[zoom]' a:msg | echohl None
 endfunction
 
-function! s:zoom_out_on_exit() abort
-  if get(g:, 'zoom_out_on_exit', 1) && s:is_zoomed()
+function! s:zoom_out_on_quit() abort
+  if s:is_zoomed() && g:->get('zoom_out_on_quit', 1)
     call zoom#out()
   endif
 endfunction
 
 function! s:lock_zoomed_window() abort
+  if !s:is_zoomed() || s:is_zooming_out()
+    return
+  endif
   let bufnr = bufnr()
-  if s:is_zoomed() && s:is_ordinary(bufnr)
+  if s:is_ordinary(bufnr)
     let windows = range(winnr('$'), 2, -1)
           \ ->filter({_, win -> s:is_ordinary(winbufnr(win))})
     if len(windows) > 0
@@ -155,19 +164,9 @@ endfunction
 
 augroup __Zoom__
   autocmd!
-  autocmd User ZoomOutPre call <sid>pre_zoom_out()
-  autocmd User ZoomInPost call <sid>post_zoom_in()
+  autocmd QuitPre * call <sid>zoom_out_on_quit()
+  autocmd SafeState * call <sid>lock_zoomed_window()
 augroup END
-
-function! s:post_zoom_in() abort
-  autocmd __Zoom__ SafeState * call <sid>lock_zoomed_window()
-  autocmd __Zoom__ ExitPre * call <sid>zoom_out_on_exit()
-endfunction
-
-function! s:pre_zoom_out() abort
-  autocmd! __Zoom__ SafeState
-  autocmd! __Zoom__ ExitPre
-endfunction
 
 let &cpo = s:cpo
 unlet! s:cpo

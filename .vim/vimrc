@@ -48,10 +48,10 @@ set wildmenu
 set wildmode=longest,full
 set wildoptions=pum
 
-" Case insensitive command-line completion
+" Case insensitive command-line completion of file names and directories
 set wildignorecase
 
-" Don't try to open these files/directories
+" Ignore files/directories matching these patterns
 set wildignore+=*/.hg/**,*/.git/**
 set wildignore+=*.tags,*.orig,*.tar*
 set wildignore+=*.png,*.jpg,*.jpeg,*.gif
@@ -233,6 +233,9 @@ set diffopt+=internal,algorithm:histogram
 " When spell-checking a camel cased word, every upper-case character that
 " comes after a lower case character is treated as the start of a new word
 set spelloptions=camel
+
+" Expression used to print the PostScript produced with :hardcopy
+set printexpr=print#to_pdf()
 
 " Enable file type detection
 filetype plugin indent on
