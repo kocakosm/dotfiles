@@ -136,7 +136,7 @@ endfunction
 
 function! s:get_filetypes(winid) abort
   let ft = a:winid->getwinvar('&filetype')
-  return ft->split('\.')->map({_, s -> s->trim()->tolower()})->reverse()
+  return ft->split('\.')->map({_, s -> s->trim()->tolower()})
 endfunction
 
 function! s:get_hl_group_suffixes(active, mode) abort

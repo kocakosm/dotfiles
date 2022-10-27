@@ -8,6 +8,9 @@ set encoding=utf-8
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 set nrformats-=octal
 
+" Consider numbers as unsigned
+set nrformats+=unsigned
+
 " Disable modeline
 set nomodeline
 
@@ -96,6 +99,9 @@ set shortmess+=s
 " Don't show insert mode completion menu messages
 set shortmess+=c
 
+" Don't show 'scanning tags' messages
+set shortmess+=C
+
 " Display commands as they are typed
 set showcmd
 
@@ -108,8 +114,12 @@ set number
 " Use 3 columns for line numbers
 set numberwidth=3
 
+" Highlight the line number of the current line
+set cursorline
+set cursorlineopt=number
+
 " Prettier vertical separators, fold markers...
-let &fillchars='vert:│,diff: ,fold: ,foldclose:ᐳ,foldopen:ᐯ,foldsep:│,eob:-,lastline:.'
+let &fillchars='vert:│,diff: ,fold: ,foldclose:▸,foldopen:▾,foldsep:│,eob:-,lastline:.'
 
 " Open new windows below the current one
 set splitbelow
@@ -167,7 +177,7 @@ set sidescroll=1
 set nostartofline
 
 " Strings to use in 'list' mode and for the ':list' command
-let &listchars='tab:▸ ,extends:⧽,precedes:⧼,trail:·,nbsp:⎵,eol:¬'
+let &listchars='tab:◦·,extends:…,precedes:…,trail:·,nbsp:⎵,eol:¬'
 
 " More powerful backspacing in insert mode
 set backspace=indent,eol,start

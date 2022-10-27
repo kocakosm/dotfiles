@@ -17,7 +17,7 @@ function! s:hilal() abort
   highlight StatusLineTerm term=NONE cterm=NONE guibg=#1a2027
   highlight StatusLineTermNC term=NONE cterm=NONE guibg=#1a2027
   highlight CursorLine term=NONE cterm=NONE
-  highlight CursorLineNr term=NONE cterm=NONE
+  highlight CursorLineNr term=NONE cterm=NONE guibg=NONE
   highlight CurSearch guibg=#e9d5c1 guifg=#695541
   highlight Cursor guibg=NONE guifg=NONE gui=reverse
 endfunction

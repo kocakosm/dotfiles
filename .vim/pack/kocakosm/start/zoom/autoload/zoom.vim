@@ -129,7 +129,7 @@ function! s:warn(msg) abort
 endfunction
 
 function! s:zoom_out_on_quit() abort
-  if s:is_zoomed() && g:->get('zoom_out_on_quit', 1)
+  if s:is_zoomed() && winnr('$') == 1 && g:->get('zoom_out_on_quit', 1)
     call zoom#out()
   endif
 endfunction

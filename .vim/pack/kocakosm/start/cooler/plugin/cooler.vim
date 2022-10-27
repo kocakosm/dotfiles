@@ -39,12 +39,11 @@ augroup __Cooler__
 augroup END
 
 def PlayItCool(hlsearch: bool): void
+  autocmd! __Cooler__ CursorMoved
+  autocmd! __Cooler__ InsertEnter
   if hlsearch
     autocmd __Cooler__ CursorMoved * OnCursorMoved()
     autocmd __Cooler__ InsertEnter * StopHighlight()
-  else
-    autocmd! __Cooler__ CursorMoved
-    autocmd! __Cooler__ InsertEnter
   endif
 enddef
 
