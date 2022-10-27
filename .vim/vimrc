@@ -430,7 +430,6 @@ call plug#begin(system#user_data_dir() . 'vim/plugins')
 Plug 'airblade/vim-rooter'
 Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
-" Plug 'ap/vim-css-color', {'for': ['css', 'less', 'scss', 'vim']}
 " Plug 'chaoren/vim-wordmotion'
 " Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
 " Plug 'ctrlpvim/ctrlp.vim'
