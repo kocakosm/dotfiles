@@ -27,18 +27,16 @@ function! s:match_cword() abort
   call matchadd('CursorWord', '\V\<' . escape(cword, '\') . '\>', -10)
 endfunction
 
+augroup __CursorWord__ | augroup END
+
 function! s:enable_plugin() abort
-  augroup CursorWord
-    autocmd!
-    autocmd CursorHold * call <sid>match_cword()
-    autocmd CursorHoldI * call <sid>match_cword()
-  augroup END
+  autocmd! __CursorWord__
+  autocmd __CursorWord__ CursorHold * call <sid>match_cword()
+  autocmd __CursorWord__ CursorHoldI * call <sid>match_cword()
 endfunction
 
 function! s:disable_plugin() abort
-  augroup CursorWord
-    autocmd!
-  augroup END
+  autocmd! __CursorWord__
   call s:clear_matches()
 endfunction
 

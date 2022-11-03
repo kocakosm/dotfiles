@@ -25,7 +25,7 @@ def OnCursorMoved(): void
 enddef
 
 def StopHighlight(): void
-  if v:hlsearch
+  if v:hlsearch && index(['n', 'v', 'V', ''], mode()) >= 0
     silent feedkeys("\<plug>(cooler#nohlsearch)", 'm')
   endif
 enddef
@@ -34,9 +34,7 @@ nnoremap <silent> <plug>(cooler#nohlsearch) <cmd>nohlsearch<cr>
 inoremap <silent> <plug>(cooler#nohlsearch) <cmd>nohlsearch<cr>
 xnoremap <silent> <plug>(cooler#nohlsearch) <cmd>nohlsearch<cr>
 
-augroup __Cooler__
-  autocmd!
-augroup END
+augroup __Cooler__ | autocmd! | augroup END
 
 def PlayItCool(hlsearch: bool): void
   autocmd! __Cooler__ CursorMoved

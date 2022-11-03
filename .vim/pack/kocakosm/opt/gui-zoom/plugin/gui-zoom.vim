@@ -1,11 +1,11 @@
 vim9script noclear
 scriptencoding utf-8
-#------------------------------------------------------------------------#
-# gui-zoom.vim                                                           #
-# Easily increase/decrease GUI font size                                 #
-# Copyright (c) 2022 Osman Koçak <kocakosm@gmail.com>                    #
-# Licensed under the MIT license <https://opensource.org/licenses/MIT>   #
-#------------------------------------------------------------------------#
+#----------------------------------------------------------------------#
+# gui-zoom.vim                                                         #
+# Easily increase/decrease GUI font size                               #
+# Copyright (c) 2022 Osman Koçak <kocakosm@gmail.com>                  #
+# Licensed under the MIT license <https://opensource.org/licenses/MIT> #
+#----------------------------------------------------------------------#
 
 if exists('g:loaded_gui_zoom') || &cp || !has('gui_running')
   finish
@@ -50,6 +50,6 @@ if !IsMapped('<c-scrollwheelup>', 'i') && !IsMapped('<c-scrollwheeldown>', 'i')
   inoremap <silent> <c-scrollwheeldown> <scriptcmd>DecreaseFontSize()<cr>
 endif
 
-command! GuiZoomIn IncreaseFontSize()
-command! GuiZoomOut DecreaseFontSize()
-command! GuiZoomRestore RestoreFontSize()
+command! -bar GuiZoomIn IncreaseFontSize()
+command! -bar GuiZoomOut DecreaseFontSize()
+command! -bar GuiZoomRestore RestoreFontSize()

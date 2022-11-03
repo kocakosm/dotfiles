@@ -285,8 +285,8 @@ autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
 
 " Diffs the current buffer and the file it was loaded from
 function! s:diff_origin() abort
-  if empty(bufname('%'))
-    call message#warn('The current buffer has not been loaded from a file')
+  if &buftype != '' || empty(bufname('%'))
+    call message#warn('[DiffOrigin] N/A')
     return
   endif
   vertical new
@@ -391,10 +391,10 @@ let g:loaded_matchit=1
 " Enable man pages viewer
 if exists(':Man') != 2
   runtime ftplugin/man.vim
-  cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' : 'man'
 endif
+cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' : 'man'
 
-" Emulate ntrw's gx
+" Emulate netrw's gx
 nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
 xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
 
