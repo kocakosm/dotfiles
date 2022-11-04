@@ -422,6 +422,47 @@ tnoremap <silent> <f4> <cmd>PopTermToggle<cr>
 " Cooler configuration
 set hlsearch
 
+" Skyline configuration
+set noshowmode
+let g:skyline = #{
+\  components: #{
+\    Spacer: '%=',
+\    Mode: '%( %{statusline#mode()} %)',
+\    Type: '%( %{statusline#type()} %)',
+\    GitHead: '%( %{statusline#git_head()} %)',
+\    SpellLang: '%( %{statusline#spell_lang()} %)',
+\    FileInfo: '%( %{statusline#file_info()} %)',
+\    Filename: '%( %{statusline#filename()} %)',
+\    Bufname: '%( %{bufname()} %)',
+\    FileType: '%( %{statusline#file_type()} %)',
+\    FileFormatAndEncoding: '%( %{statusline#file_format_and_encoding()} %)',
+\    Ruler: ' %l/%L %p%% ',
+\    RulerWithColumns: ' %l/%L:%02.v %p%% ',
+\    QuickfixTitle: '%( %{statusline#qf_title()} %)',
+\    SearchCount: '%( %{statusline#search_count()} %)'
+\  },
+\  statuslines: {
+\    '': #{
+\      active: [
+\        'Mode', 'GitHead', 'FileInfo', 'SpellLang', 'SearchCount', 'Spacer',
+\        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
+\      ],
+\      inactive: [
+\        'FileInfo', 'SpellLang', 'Spacer',
+\        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
+\      ]
+\    },
+\    'terminal': #{default: ['Type', 'Bufname']},
+\    'help': #{default: ['Type', 'Filename', 'SearchCount', 'Spacer', 'Ruler']},
+\    'qf': #{default: ['Type', 'QuickfixTitle', 'SearchCount', 'Spacer', 'Ruler']},
+\    'man': #{default: ['Type', 'Filename', 'SearchCount']},
+\    'nerdtree': #{default: ['Type']},
+\    'vim-plug': #{default: ['Type']},
+\    'fugitive': #{default: ['Type', 'GitHead', 'SearchCount']},
+\    'dirvish': #{default: ['Type', 'Bufname', 'SearchCount', 'Spacer', 'Ruler']}
+\  }
+\}
+
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
