@@ -31,7 +31,7 @@ def RefreshWindow(winid: number, lines: list<number> = GetVisibleRange(winid)): 
   endif
   if lines[0] < 1 | lines[0] = 1 | endif
   if lines[1] < 1 | lines[1] = 1 | endif
-  if !empty(prop_types)
+  if !prop_types->empty()
     prop_remove({types: prop_types->keys(), all: true, bufnr: bufnr}, lines[0], lines[1])
   endif
   const color_regex = '#\%(\x\{6}\)\>'
@@ -39,7 +39,7 @@ def RefreshWindow(winid: number, lines: list<number> = GetVisibleRange(winid)): 
   for linenr in range(lines[0], lines[1])
     const line = getbufline(bufnr, linenr)->get(0, '')
     if line->empty() | continue | endif
-    var [color_expr, start, end] = matchstrpos(line, color_regex, 0)
+    var [color_expr, start, end] = line->matchstrpos(color_regex, 0)
     while start != -1
       const prop_type = 'colorizer_' .. color_expr[1 : ]
       const hl = hlget(prop_type)
@@ -51,7 +51,7 @@ def RefreshWindow(winid: number, lines: list<number> = GetVisibleRange(winid)): 
         prop_type_add(prop_type, {highlight: prop_type})
       endif
       prop_add(linenr, start + 1, {text: badge, type: prop_type, bufnr: bufnr})
-      [color_expr, start, end] = matchstrpos(line, color_regex, end + 1)
+      [color_expr, start, end] = line->matchstrpos(color_regex, end + 1)
     endwhile
   endfor
   setbufvar(bufnr, 'colorizer_prop_types', prop_types)
@@ -63,9 +63,7 @@ def RefreshAllWindows(): void
   endfor
 enddef
 
-augroup __Colorizer__
-  autocmd!
-augroup END
+augroup __Colorizer__ | autocmd! | augroup END
 
 def Disable(): void
   autocmd! __Colorizer__

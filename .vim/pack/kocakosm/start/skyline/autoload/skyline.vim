@@ -38,7 +38,7 @@ final statuslines_cache: dict<string> = {}
 
 export def StatusLine(): string
   const active = g:statusline_winid == win_getid()
-  const id = printf('%s:%s', g:statusline_winid, active)
+  const id = $'{g:statusline_winid}:{active}'
   if !statuslines_cache->has_key(id)
     CleanupStatusLinesCache()
     statuslines_cache[id] = BuildStatusLine(g:statusline_winid, active)
@@ -47,24 +47,28 @@ export def StatusLine(): string
 enddef
 
 def CleanupStatusLinesCache(): void
-  statuslines_cache->filter((k, _) => win_id2win(str2nr(k->split('\:')[0])) > 0)
+  statuslines_cache->filter((k, _) => WinExists(str2nr(k->split('\:')[0])))
+enddef
+
+def WinExists(winid: number): bool
+  return win_id2win(winid) > 0
 enddef
 
 def BuildStatusLine(winid: number, active: bool): string
-  const definitions = g:->get('skyline', {})->get('components', {})
+  const component_definitions = GetComponentDefinitions()
   return GetStatusLineComponents(winid, active)
-           ->mapnew((_, c) => definitions->get(c, '%(%)'))->join('')
+           ->mapnew((_, c) => component_definitions->get(c, '%(%)'))->join('')
 enddef
 
 def GetStatusLineComponents(winid: number, active: bool): list<string>
-  const statuslines = g:->get('skyline', {})->get('statuslines', {})
+  const statusline_definitions = GetStatusLineDefinitions()
   var statusline: dict<list<string>> = {}
   for ft in GetFileTypes(winid)
-    statusline = statuslines->get(ft, {})
+    statusline = statusline_definitions->get(ft, {})
     if !statusline->empty() | break | endif
   endfor
   if statusline->empty()
-    statusline = statuslines->get(winid->getwinvar('&buftype'), {})
+    statusline = statusline_definitions->get(getwinvar(winid, '&buftype'), {})
   endif
   var components: list<string> = []
   if active && statusline->has_key('active')
@@ -77,13 +81,21 @@ def GetStatusLineComponents(winid: number, active: bool): list<string>
   return components
 enddef
 
+def GetComponentDefinitions(): dict<string>
+  return g:->get('skyline', {})->get('components', {})
+enddef
+
+def GetStatusLineDefinitions(): dict<dict<list<string>>>
+  return g:->get('skyline', {})->get('statuslines', {})
+enddef
+
 def GetFileTypes(winid: number): list<string>
-  const ft = winid->getwinvar('&filetype')
+  const ft = getwinvar(winid, '&filetype')
   return ft->split('\.')->map((_, s) => s->trim()->tolower())
 enddef
 
-def ClearStatusLinesCache(win: number): void
-  statuslines_cache->filter((k, _) => str2nr(k->split('\:')[0]) != win)
+def ClearStatusLinesCache(winid: number): void
+  statuslines_cache->filter((k, _) => str2nr(k->split('\:')[0]) != winid)
 enddef
 
 augroup __Skyline__

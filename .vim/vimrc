@@ -494,7 +494,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 " Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 " Plug 'wellle/targets.vim'
-Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
+" Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 " Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
 call plug#end()
