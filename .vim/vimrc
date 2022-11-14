@@ -487,7 +487,7 @@ Plug 'mhinz/vim-signify'
 " Plug 'natebosch/vim-lsc'
 " Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
 " Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
-Plug 'thinca/vim-visualstar'
+Plug 'haya14busa/vim-asterisk'
 " Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
