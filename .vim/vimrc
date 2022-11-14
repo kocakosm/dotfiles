@@ -244,9 +244,6 @@ set diffopt+=internal,algorithm:histogram
 " comes after a lower case character is treated as the start of a new word
 set spelloptions=camel
 
-" Expression used to print the PostScript produced with :hardcopy
-set printexpr=print#to_pdf()
-
 " Enable file type detection
 filetype plugin indent on
 
@@ -267,37 +264,9 @@ autocmd Vimrc CmdwinEnter [:/?] setlocal nonumber textwidth=0
 " Preview window customization
 autocmd Vimrc WinEnter * if &previewwindow | setlocal nonumber | endif
 
-" When opening a file, jump to the last known cursor position if possible
-function! s:jump_to_last_position() abort
-  if line("'\"") >= 1 && line("'\"") <= line("$") && &filetype !~# 'commit'
-    execute "normal! g`\""
-  endif
-endfunction
-autocmd Vimrc BufReadPost * call <sid>jump_to_last_position()
-
 " Make read-only mode really read-only
 autocmd Vimrc OptionSet readonly let &l:modifiable=!&readonly
 autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
-
-"------------------------------"
-"---------  Commands  ---------"
-"------------------------------"
-
-" Diffs the current buffer and the file it was loaded from
-function! s:diff_origin() abort
-  if &buftype != '' || empty(bufname('%'))
-    call message#warn('[DiffOrigin] N/A')
-    return
-  endif
-  vertical new
-  setlocal bufhidden=wipe buftype=nofile nobuflisted noswapfile
-  read ++edit #
-  let &filetype = getbufvar('#', '&filetype')
-  silent 0d_
-  setlocal readonly
-  diffthis | wincmd p | diffthis
-endfunction
-command! DiffOrigin call <sid>diff_origin()
 
 "------------------------------"
 "---------  Mappings  ---------"
