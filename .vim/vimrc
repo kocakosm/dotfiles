@@ -427,39 +427,39 @@ set noshowmode
 let g:skyline = #{
 \  components: #{
 \    Spacer: '%=',
-\    Mode: '%( %{statusline#mode()} %)',
-\    Type: '%( %{statusline#type()} %)',
-\    GitHead: '%( %{statusline#git_head()} %)',
-\    SpellLang: '%( %{statusline#spell_lang()} %)',
-\    FileInfo: '%( %{statusline#file_info()} %)',
-\    Filename: '%( %{statusline#filename()} %)',
+\    Mode: '%( %{statusline#Mode()} %)',
+\    BufferType: '%( %{statusline#BufferType()} %)',
+\    GitHead: '%( %{statusline#GitHead()} %)',
+\    SpellLang: '%( %{statusline#SpellLang()} %)',
+\    FileInfo: '%( %{statusline#FileInfo()} %)',
+\    Filename: '%( %{statusline#Filename()} %)',
 \    Bufname: '%( %{bufname()} %)',
-\    FileType: '%( %{statusline#file_type()} %)',
-\    FileFormatAndEncoding: '%( %{statusline#file_format_and_encoding()} %)',
+\    FileType: '%( %{statusline#FileType()} %)',
+\    FileFormat: '%( %{statusline#FileFormat()} %)',
 \    Ruler: ' %l/%L %p%% ',
 \    RulerWithColumns: ' %l/%L:%02.v %p%% ',
-\    QuickfixTitle: '%( %{statusline#qf_title()} %)',
-\    SearchCount: '%( %{statusline#search_count()} %)'
+\    QuickfixTitle: '%( %{statusline#QuickfixTitle()} %)',
+\    SearchCount: '%( %{statusline#SearchCount()} %)'
 \  },
 \  statuslines: {
 \    '': #{
 \      active: [
 \        'Mode', 'GitHead', 'FileInfo', 'SpellLang', 'SearchCount', 'Spacer',
-\        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
+\        'FileType', 'FileFormat', 'RulerWithColumns'
 \      ],
 \      inactive: [
 \        'FileInfo', 'SpellLang', 'Spacer',
-\        'FileType', 'FileFormatAndEncoding', 'RulerWithColumns'
+\        'FileType', 'FileFormat', 'RulerWithColumns'
 \      ]
 \    },
-\    'terminal': #{default: ['Type', 'Bufname']},
-\    'help': #{default: ['Type', 'Filename', 'SearchCount', 'Spacer', 'Ruler']},
-\    'qf': #{default: ['Type', 'QuickfixTitle', 'SearchCount', 'Spacer', 'Ruler']},
-\    'man': #{default: ['Type', 'Filename', 'SearchCount']},
-\    'nerdtree': #{default: ['Type']},
-\    'vim-plug': #{default: ['Type']},
-\    'fugitive': #{default: ['Type', 'GitHead', 'SearchCount']},
-\    'dirvish': #{default: ['Type', 'Bufname', 'SearchCount', 'Spacer', 'Ruler']}
+\    'terminal': #{default: ['BufferType', 'Bufname']},
+\    'help': #{default: ['BufferType', 'Filename', 'SearchCount', 'Spacer', 'Ruler']},
+\    'qf': #{default: ['BufferType', 'QuickfixTitle', 'SearchCount', 'Spacer', 'Ruler']},
+\    'man': #{default: ['BufferType', 'Filename', 'SearchCount']},
+\    'nerdtree': #{default: ['BufferType']},
+\    'vim-plug': #{default: ['BufferType']},
+\    'fugitive': #{default: ['BufferType', 'GitHead', 'SearchCount']},
+\    'dirvish': #{default: ['BufferType', 'Bufname', 'SearchCount', 'Spacer', 'Ruler']}
 \  }
 \}
 

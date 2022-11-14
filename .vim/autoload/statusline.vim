@@ -1,82 +1,84 @@
-let s:modes = {
-\  'n'  : 'NORMAL',
-\  'v'  : 'VISUAL',
-\  'V'  : 'V·LINE',
-\  '' : 'V·BLOCK',
-\  's'  : 'SELECT',
-\  'S'  : 'S·LINE',
-\  '' : 'S·BLOCK',
-\  'i'  : 'INSERT',
-\  'R'  : 'REPLACE',
-\  'c'  : 'COMMAND',
-\  'r'  : 'PROMPT',
-\  '!'  : 'SHELL',
-\  't'  : 'TERMINAL'
-\}
+vim9script
 
-function! statusline#mode() abort
-  return get(s:modes, mode(), '')
-endfunction
+const MODES = {
+  'n': 'NORMAL',
+  'v': 'VISUAL',
+  'V': 'V·LINE',
+  '': 'V·BLOCK',
+  's': 'SELECT',
+  'S': 'S·LINE',
+  '': 'S·BLOCK',
+  'i': 'INSERT',
+  'R': 'REPLACE',
+  'c': 'COMMAND',
+  'r': 'PROMPT',
+  '!': 'SHELL',
+  't': 'TERMINAL'
+}
 
-function! statusline#git_head() abort
-  let h = git#head()
-  return empty(h) ? '' : ' ' . h
-endfunction
+export def Mode(): string
+  return MODES->get(mode(), '')
+enddef
 
-function! statusline#filename() abort
-  let filename = expand('%:t')
+export def GitHead(): string
+  const h = git#Head()
+  return empty(h) ? '' : ' ' .. h
+enddef
+
+export def Filename(): string
+  const filename = expand('%:t')
   return empty(filename) ? '[New]' : filename
-endfunction
+enddef
 
-function! statusline#file_info() abort
+export def FileInfo(): string
   return ((&readonly || !&modifiable) ? ' ' : '')
-        \ . statusline#filename() . (&modified ? ' ∙' : '')
-endfunction
+         .. Filename() .. (&modified ? ' ∙' : '')
+enddef
 
-function! statusline#type() abort
-  if &buftype ==# 'quickfix'
-    return s:is_location_list(win_getid()) ? 'Location List' : 'Quickfix'
-  elseif index(['help', 'terminal'], &buftype) > -1
-    return string#capitalize(&buftype)
+export def BufferType(): string
+  if &buftype == 'quickfix'
+    return IsLocationList(win_getid()) ? 'Location List' : 'Quickfix'
+  elseif &buftype == 'help' || &buftype == 'terminal'
+    return string#Capitalize(&buftype)
   elseif !empty(&buftype)
-    return string#capitalize(&filetype)
+    return string#Capitalize(&filetype)
   endif
   return ''
-endfunction
+enddef
 
-function! statusline#qf_title() abort
-  if s:is_location_list(win_getid())
-    return getloclist(0, #{title: 1}).title
+export def QuickfixTitle(): string
+  if IsLocationList(win_getid())
+    return getloclist(0, {title: 1}).title
   endif
-  return getqflist(#{title: 1}).title
-endfunction
+  return getqflist({title: 1}).title
+enddef
 
-function! s:is_location_list(winid) abort
-  return win_gettype(a:winid) ==# 'loclist'
-endfunction
+def IsLocationList(winid: number): bool
+  return win_gettype(winid) == 'loclist'
+enddef
 
-function! statusline#file_type() abort
+export def FileType(): string
   return tolower(&filetype)
-endfunction
+enddef
 
-function! statusline#file_format_and_encoding() abort
-  return &fileformat . ' ' . (empty(&fileencoding) ? &encoding : &fileencoding)
-endfunction
+export def FileFormat(): string
+  return &fileformat .. ' ' .. (empty(&fileencoding) ? &encoding : &fileencoding)
+enddef
 
-function! statusline#search_count() abort
+export def SearchCount(): string
   if v:hlsearch
     try
-      let c = searchcount(#{maxcount: 0})
+      const c = searchcount({maxcount: 0})
       if !empty(c)
-        let searched = string#abbreviate(@/, 16, '...')
+        const searched = string#Abbreviate(@/, 16, '...')
         return printf('/%s [%s/%s]', searched, c.current, c.incomplete ? '??' : c.total)
       endif
     catch
     endtry
   endif
   return ''
-endfunction
+enddef
 
-function! statusline#spell_lang() abort
+export def SpellLang(): string
   return &spell ? toupper(&spelllang) : ''
-endfunction
+enddef

@@ -1,35 +1,39 @@
-function! git#head() abort
+vim9script
+
+export def Head(): string
   if !exists('b:git_head')
-    call s:update_git_head()
+    UpdateGitHead()
   endif
   return b:git_head
-endfunction
+enddef
 
-function! s:update_git_head() abort
-  let b:git_head = s:get_git_head()
-endfunction
+def UpdateGitHead(): void
+  b:git_head = GetGitHead()
+enddef
 
-function! s:get_git_head() abort
+def GetGitHead(): string
   if !executable('git')
-    throw 'git#head: git not available'
+    throw 'git#Head: git not available'
   endif
-  let dir = expand('%:p:h')
-  let head = s:execute('git -C ' . dir . ' branch --show-current')
+  const dir = expand('%:p:h')
+  var head = Execute($'git -C {dir} branch --show-current')
   if empty(head)
-    let head = s:execute('git -C ' . dir . ' name-rev --name-only --tags HEAD')
-  endif
-  if empty(head) || head ==# 'undefined'
-    let head = s:execute('git -C ' . dir . ' rev-parse --short=7 HEAD')
+    head = Execute($'git -C {dir} name-rev --name-only --tags HEAD')
+    if head =~ '\^0$'
+      head = head->substitute('\^0$', '', '')
+    else
+      head = Execute($'git -C {dir} rev-parse --short=8 HEAD')
+    endif
   endif
   return head
-endfunction
+enddef
 
-function! s:execute(cmd) abort
-  silent let result = system(a:cmd)
-  return v:shell_error ? '' : trim(result)
-endfunction
+def Execute(cmd: string): string
+  silent const result = system(cmd)
+  return v:shell_error != 0 ? '' : result->trim()
+enddef
 
 augroup GitHead
   autocmd!
-  autocmd BufEnter,DirChanged,FocusGained * call s:update_git_head()
+  autocmd BufEnter,DirChanged,FocusGained * UpdateGitHead()
 augroup END
