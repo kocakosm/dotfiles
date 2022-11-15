@@ -65,20 +65,6 @@ export def FileFormat(): string
   return &fileformat .. ' ' .. (empty(&fileencoding) ? &encoding : &fileencoding)
 enddef
 
-export def SearchCount(): string
-  if v:hlsearch
-    try
-      const c = searchcount({maxcount: 0})
-      if !empty(c)
-        const searched = string#Abbreviate(@/, 16, '...')
-        return printf('/%s [%s/%s]', searched, c.current, c.incomplete ? '??' : c.total)
-      endif
-    catch
-    endtry
-  endif
-  return ''
-enddef
-
 export def SpellLang(): string
   return &spell ? toupper(&spelllang) : ''
 enddef
