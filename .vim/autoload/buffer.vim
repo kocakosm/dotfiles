@@ -9,3 +9,17 @@ function! buffer#selected_text(reselect) abort
   if !a:reselect | call winrestview(s) | endif
   return selection
 endfunction
+
+function! buffer#duplicate_line_up() abort
+  let save_virtualedit = &l:virtualedit
+  setlocal virtualedit=onemore
+  normal m`yyP==``k
+  let &l:virtualedit = save_virtualedit
+endfunction
+
+function! buffer#duplicate_line_down() abort
+  let save_virtualedit = &l:virtualedit
+  setlocal virtualedit=onemore
+  normal m`yyp==``j
+  let &l:virtualedit = save_virtualedit
+endfunction

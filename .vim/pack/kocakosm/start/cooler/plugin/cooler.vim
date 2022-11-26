@@ -15,10 +15,12 @@ g:loaded_cooler = 1
 
 def CheckHighlight(): void
   if v:hlsearch
+    const view = winsaveview()
     const search_flags = (v:searchforward ? '' : 'b') .. 'cnw'
     if getcurpos()[1 : 2] != searchpos(@/, search_flags)
       StopHighlight()
     endif
+    winrestview(view)
   endif
 enddef
 

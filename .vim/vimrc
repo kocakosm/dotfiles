@@ -24,9 +24,6 @@ set viewoptions-=options
 " Enable the mouse
 set mouse=a
 
-" Hide the mouse when a key is pressed
-set mousehide
-
 " Automatically reload files when modified by an external program
 set autoread
 
@@ -286,10 +283,10 @@ nnoremap <silent> Y y$
 vnoremap <expr>y 'my"' . v:register . 'y`y'
 
 " Duplicate the current line
-nnoremap <silent> <c-s-up> m`yyP==``k
-nnoremap <silent> <c-s-down> m`yyp==``j
-inoremap <silent> <c-s-up> <cmd>normal m`yyP==``k<cr>
-inoremap <silent> <c-s-down> <cmd>normal m`yyp==``j<cr>
+nnoremap <silent> <c-s-up> <cmd>call buffer#duplicate_line_up()<cr>
+nnoremap <silent> <c-s-down> <cmd>call buffer#duplicate_line_down()<cr>
+inoremap <silent> <c-s-up> <cmd>call buffer#duplicate_line_up()<cr>
+inoremap <silent> <c-s-down> <cmd>call buffer#duplicate_line_down()<cr>
 
 " <tab> / <shift-tab> navigates between windows in normal mode
 nnoremap <silent> <tab> <C-w>w
@@ -303,15 +300,15 @@ inoremap <silent> <a-right> <cmd>bn!<cr>
 noremap <silent> <a-left> <cmd>bp!<cr>
 inoremap <silent> <a-left> <cmd>bp!<cr>
 
+" Like 'p' but leaves the cursor after the newly pasted text
+nnoremap <leader>gp gp
+
 " gp reselects last pasted text
 nnoremap <silent> <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Don't lose visual selection when shifting sidewards
 xnoremap <silent> < <gv
 xnoremap <silent> > >gv
-
-" \<space> toggles spell-checking
-nnoremap <silent> <leader><space> <cmd>setlocal spell!<cr>
 
 " <ctrl-l> picks the first suggestion for the last spelling mistake
 inoremap <silent> <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
@@ -329,15 +326,9 @@ noremap <silent> <c-q> <cmd>q<cr>
 inoremap <silent> <c-q> <cmd>q<cr>
 cnoremap <silent> <c-q> <cmd>q<cr>
 
-" Mappings for quickfix & location list
-nnoremap <silent> ]c <cmd>cnext<cr>zz
-nnoremap <silent> [c <cmd>cprev<cr>zz
-nnoremap <silent> ]l <cmd>lnext<cr>zz
-nnoremap <silent> [l <cmd>lprev<cr>zz
-
 " Insert mode completion mappings
-inoremap <c-space> <c-x><c-o>
 imap <c-@> <c-space>
+inoremap <c-space> <c-x><c-o>
 call keymap#conditional_map('i', 'pumvisible()', '<c-space>', '<c-n>')
 call keymap#conditional_map('i', 'pumvisible()', '<down>', '<c-n>')
 call keymap#conditional_map('i', 'pumvisible()', '<up>', '<c-p>')
@@ -390,6 +381,7 @@ tnoremap <silent> <f4> <cmd>PopTermToggle<cr>
 
 " Cooler configuration
 set hlsearch
+nnoremap <silent> <esc> <cmd>nohlsearch<cr>
 
 " Skyline configuration
 set noshowmode

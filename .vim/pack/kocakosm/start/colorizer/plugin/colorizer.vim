@@ -63,7 +63,7 @@ def RefreshAllWindows(): void
   endfor
 enddef
 
-augroup __Colorizer__ | autocmd! | augroup END
+augroup __Colorizer__ | augroup END
 
 def Disable(): void
   autocmd! __Colorizer__
