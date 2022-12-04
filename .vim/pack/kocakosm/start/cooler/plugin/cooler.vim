@@ -45,5 +45,4 @@ def Cooler(hlsearch: bool): void
 enddef
 
 autocmd __Cooler__ OptionSet hlsearch Cooler(v:option_new == '1')
-
-Cooler(&hlsearch)
+autocmd __Cooler__ VimEnter * ++once Cooler(&hlsearch)
