@@ -1,10 +1,6 @@
-function! keymap#conditional_map(mode, condition, lhs, rhs, ...) abort
-  if a:0 > 1
-    throw 'keymap#conditional_map: too many arguments'
-  endif
-  let options = a:0 ? a:1 : {}
-  let recursive = options->get('recursive', 0)
-  let global = options->get('global', 1)
+function! keymap#conditional_map(mode, condition, lhs, rhs, options = {}) abort
+  let recursive = a:options->get('recursive', 0)
+  let global = a:options->get('global', 1)
   if index(['', 'n', 'v', 'x', 's', 'o', 'i', 'l', 'c', 't'], a:mode) < 0
     throw 'keymap#conditional_map: unsupported mode mapping (' . a:mode . ')'
   endif

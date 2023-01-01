@@ -1,9 +1,5 @@
-function! system#mkdir(path, ...) abort
-  if a:0 > 1
-    throw 'system#mkdir: too many arguments'
-  endif
-  let mode = a:0 ? a:1 : 0o700
-  call mkdir(expand(a:path), 'p', mode)
+function! system#mkdir(path, mode = 0o700) abort
+  call mkdir(expand(a:path), 'p', a:mode)
 endfunction
 
 function! system#open(location) abort
