@@ -423,6 +423,20 @@ let g:skyline = #{
 \  }
 \}
 
+" Spyglass configuration
+function! s:hide_cursor()
+  if exists('g:loaded_kitondro')
+    KitondroHideCursor
+  endif
+endfunction
+function! s:show_cursor()
+  if exists('g:loaded_kitondro')
+    KitondroShowCursor
+  endif
+endfunction
+autocmd User SpyglassOpen set nocursorline | call <sid>hide_cursor()
+autocmd User SpyglassClose set cursorline | call <sid>show_cursor()
+
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
@@ -433,7 +447,6 @@ Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
 " Plug 'chaoren/vim-wordmotion'
 " Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'hrsh7th/vim-vsnip'
 " Plug 'jiangmiao/auto-pairs'
