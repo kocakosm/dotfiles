@@ -53,13 +53,14 @@ def FormatBufferName(buffer: dict<any>): string
 enddef
 
 def Files(path: string = ''): void
-  if !executable('fdfind')
+  if !executable('fd')
     throw 'spyglass: fd not available'
   endif
   const dir = isdirectory(expand(path)) ? path : fnamemodify(path, ':h')
+  const cmd = 'fd --type f --hidden --follow --no-ignore-vcs . ' .. dir
   popup.Filter(
     'Files',
-    systemlist('fdfind --type f --hidden --follow . ' .. dir),
+    systemlist(cmd)->map((_, v) => fnamemodify(v, ':~:.')),
     (selected, key) => {
       if key == "\<C-s>"
         execute $':split {selected.text}'
@@ -83,7 +84,7 @@ enddef
 def RecentlyUsed()
   popup.Filter(
     'Recently used',
-    v:oldfiles->filter((_, v) => filereadable(fnamemodify(v, ':p')))
+    v:oldfiles->filter((_, v) => filereadable(expand(v)))
               ->mapnew((_, v) => fnamemodify(v, ':~')),
     (selected, key) => {
       if key == "\<C-s>"

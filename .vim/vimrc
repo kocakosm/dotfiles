@@ -269,6 +269,9 @@ autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
 "---------  Mappings  ---------"
 "------------------------------"
 
+" Use <space> as leader
+let mapleader="\<space>"
+
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
 inoremap <silent> <space> <space><c-g>u
@@ -319,7 +322,7 @@ nnoremap <leader>r :% s/\<<c-r><c-w>\>//g<left><left>
 xnoremap <leader>r y:% s/<c-r>"//g<left><left>
 
 " Easier buffer switching
-nnoremap <leader>l <cmd>ls<cr>:buffer<space>
+" nnoremap <leader>l <cmd>ls<cr>:buffer<space>
 
 " Quit using <c-q>
 noremap <silent> <c-q> <cmd>q<cr>
@@ -436,6 +439,8 @@ function! s:show_cursor()
 endfunction
 autocmd User SpyglassOpen set nocursorline | call <sid>hide_cursor()
 autocmd User SpyglassClose set cursorline | call <sid>show_cursor()
+nnoremap <leader>f <cmd>Files<cr>
+nnoremap <leader><space> <cmd>Buffers<cr>
 
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"
