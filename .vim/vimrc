@@ -24,6 +24,13 @@ set viewoptions-=options
 " Enable the mouse
 set mouse=a
 
+" Set cursor shapes for insert, replace and normal modes
+if !has('gui_running')
+  let &t_SI="\<Esc>[5 q"
+  let &t_SR="\<Esc>[3 q"
+  let &t_EI="\<Esc>[1 q"
+endif
+
 " Automatically reload files when modified by an external program
 set autoread
 
@@ -427,18 +434,6 @@ let g:skyline = #{
 \}
 
 " Spyglass configuration
-function! s:hide_cursor()
-  if exists('g:loaded_kitondro')
-    KitondroHideCursor
-  endif
-endfunction
-function! s:show_cursor()
-  if exists('g:loaded_kitondro')
-    KitondroShowCursor
-  endif
-endfunction
-autocmd User SpyglassOpen set nocursorline | call <sid>hide_cursor()
-autocmd User SpyglassClose set cursorline | call <sid>show_cursor()
 nnoremap <leader>f <cmd>Files<cr>
 nnoremap <leader><space> <cmd>Buffers<cr>
 
@@ -457,7 +452,6 @@ Plug 'hrsh7th/vim-vsnip'
 " Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-dirvish'
 Plug 'kocakosm/hilal'
-Plug 'kocakosm/vim-kitondro', has('gui_running') ? {} : {'on': []}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'ludovicchabant/vim-gutentags'
 " Plug 'mg979/vim-visual-multi'
@@ -472,7 +466,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 " Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 " Plug 'wellle/targets.vim'
-" Plug 'wincent/terminus', has('gui_running') ? {'on': []} : {}
 Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 " Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
 call plug#end()
