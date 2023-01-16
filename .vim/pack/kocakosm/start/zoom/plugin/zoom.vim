@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " zoom.vim                                                             "
-" Copyright (c) 2020-2022 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2020-2023 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 

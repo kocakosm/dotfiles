@@ -277,7 +277,7 @@ autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
 "------------------------------"
 
 " Use <space> as leader
-let mapleader="\<space>"
+let mapleader=','
 
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
@@ -435,7 +435,7 @@ let g:skyline = #{
 
 " Spyglass configuration
 nnoremap <leader>f <cmd>Files<cr>
-nnoremap <leader><space> <cmd>Buffers<cr>
+nnoremap <leader>, <cmd>Buffers<cr>
 
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"

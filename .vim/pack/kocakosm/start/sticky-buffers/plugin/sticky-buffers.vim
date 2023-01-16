@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " sticky-buffers.vim                                                   "
-" Copyright (c) 2018-2022 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2018-2023 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -30,8 +30,13 @@ function! s:on_buf_enter() abort
     let buf = s:sticky_buffers[win]
     if buf != winbufnr(win)
       execute 'silent! buffer ' . buf
+      call s:warn('Can''t load another buffer in this window')
     endif
   endif
+endfunction
+
+function! s:warn(msg) abort
+  echohl WarningMsg | echomsg '[sticky-buffers]' a:msg | echohl None
 endfunction
 
 function! s:on_buf_leave() abort

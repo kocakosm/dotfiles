@@ -2,7 +2,7 @@ vim9script noclear
 scriptencoding utf-8
 #----------------------------------------------------------------------#
 # skyline.vim                                                          #
-# Copyright (c) 2022 Osman Koçak <kocakosm@gmail.com>                  #
+# Copyright (c) 2022-2023 Osman Koçak <kocakosm@gmail.com>             #
 # Licensed under the MIT license <https://opensource.org/licenses/MIT> #
 #----------------------------------------------------------------------#
 
@@ -34,20 +34,20 @@ g:statusline_winid = 1000
 #   }
 # }
 
-final statuslines_cache: dict<string> = {}
+final cache: dict<string> = {}
 
 export def StatusLine(): string
   const active = g:statusline_winid == win_getid()
-  const id = $'{g:statusline_winid}:{active}'
-  if !statuslines_cache->has_key(id)
-    CleanupStatusLinesCache()
-    statuslines_cache[id] = BuildStatusLine(g:statusline_winid, active)
+  const key = $'{g:statusline_winid}:{active}'
+  if !cache->has_key(key)
+    CleanupCache()
+    cache[key] = BuildStatusLine(g:statusline_winid, active)
   endif
-  return statuslines_cache[id]
+  return cache[key]
 enddef
 
-def CleanupStatusLinesCache(): void
-  statuslines_cache->filter((k, _) => WinExists(str2nr(k->split('\:')[0])))
+def CleanupCache(): void
+  cache->filter((k, _) => WinExists(str2nr(k->split('\:')[0])))
 enddef
 
 def WinExists(winid: number): bool
@@ -64,8 +64,10 @@ def GetStatusLineComponents(winid: number, active: bool): list<string>
   const statusline_definitions = GetStatusLineDefinitions()
   var statusline: dict<list<string>> = {}
   for ft in GetFileTypes(winid)
-    statusline = statusline_definitions->get(ft, {})
-    if !statusline->empty() | break | endif
+    if statusline_definitions->has_key(ft)
+      statusline = statusline_definitions->get(ft)
+      break
+    endif
   endfor
   if statusline->empty()
     statusline = statusline_definitions->get(getwinvar(winid, '&buftype'), {})
@@ -94,11 +96,11 @@ def GetFileTypes(winid: number): list<string>
   return ft->split('\.')->map((_, s) => s->trim()->tolower())
 enddef
 
-def ClearStatusLinesCache(winid: number): void
-  statuslines_cache->filter((k, _) => str2nr(k->split('\:')[0]) != winid)
+def ClearCache(winid: number): void
+  cache->filter((k, _) => str2nr(k->split('\:')[0]) != winid)
 enddef
 
 augroup __Skyline__
   autocmd!
-  autocmd FileType,BufWinEnter * ClearStatusLinesCache(win_getid())
+  autocmd FileType,BufWinEnter * ClearCache(win_getid())
 augroup END

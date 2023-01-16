@@ -1,11 +1,11 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " zoom.vim                                                             "
-" Copyright (c) 2020-2022 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) 2020-2023 Osman Koçak <kocakosm@gmail.com>             "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
-if exists('g:autoloaded_zoom') || !has('patch-9.0.0370') || &cp
+if exists('g:autoloaded_zoom') || v:version < 802 || &cp
   finish
 endif
 let g:autoloaded_zoom = 1
@@ -38,7 +38,13 @@ function! zoom#out() abort
   if s:is_zoomed()
     silent doautocmd User ZoomOutPre
     let t:zoom_zooming_out = v:true
-    call s:restore_view(t:zoom_saved_view)
+    let eventignore_save = &eventignore
+    let &eventignore = 'all'
+    try
+      call s:restore_view(t:zoom_saved_view)
+    finally
+      let &eventignore = eventignore_save
+    endtry
     let t:zoom_zoomed = v:false
     let t:zoom_zooming_out = v:false
     unlet! t:zoom_saved_view t:zoom_zoomed_bufnr
@@ -88,23 +94,27 @@ function! s:replace_winid_by_bufnr(layout) abort
 endfunction
 
 function! s:restore_view(view) abort
-  new | defer execute('bwipeout ' . bufnr())
-  call s:close_other_windows()
-  call s:restore_layout(a:view.win_layout)
-  execute a:view.win_resize_cmd
-  for win in a:view.fixheight_windows
-    call setwinvar(win, '&winfixheight', 1)
-  endfor
-  for win in a:view.fixwidth_windows
-    call setwinvar(win, '&winfixwidth', 1)
-  endfor
-  call s:go_to_win(a:view.active_winnr)
+  new | let tmp_bufnr = bufnr()
+  try
+    call s:close_other_windows()
+    call s:restore_layout(a:view.win_layout)
+    execute a:view.win_resize_cmd
+    for win in a:view.fixheight_windows
+      call setwinvar(win, '&winfixheight', 1)
+    endfor
+    for win in a:view.fixwidth_windows
+      call setwinvar(win, '&winfixwidth', 1)
+    endfor
+    call s:go_to_win(a:view.active_winnr)
+  finally
+    execute 'silent! bwipeout ' . tmp_bufnr
+  endtry
 endfunction
 
 function! s:restore_layout(layout) abort
   if a:layout[0] ==# 'leaf'
     if bufexists(a:layout[1])
-      execute printf('buffer %d', a:layout[1])
+      execute 'buffer ' . a:layout[1]
     endif
   else
     let split_cmd = 'rightb ' . (a:layout[0] ==# 'col' ? 'split' : 'vsplit')
@@ -121,7 +131,7 @@ function! s:restore_layout(layout) abort
 endfunction
 
 function! s:go_to_win(winnr) abort
-  execute printf("%dwincmd w", a:winnr)
+  execute a:winnr . 'wincmd w'
 endfunction
 
 function! s:warn(msg) abort
