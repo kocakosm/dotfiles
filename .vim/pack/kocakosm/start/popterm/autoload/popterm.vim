@@ -1,122 +1,141 @@
+vim9script noclear
 scriptencoding utf-8
-"----------------------------------------------------------------------"
-" popterm.vim                                                          "
-" Copyright (c) 2022 Osman Koçak <kocakosm@gmail.com>                  "
-" Licensed under the MIT license <https://opensource.org/licenses/MIT> "
-"----------------------------------------------------------------------"
+#----------------------------------------------------------------------#
+# popterm.vim                                                          #
+# Copyright (c) 2022-2023 Osman Koçak <kocakosm@gmail.com>             #
+# Licensed under the MIT license <https://opensource.org/licenses/MIT> #
+#----------------------------------------------------------------------#
 
 if exists('g:autoloaded_popterm') || v:version < 900 || &cp
   finish
 endif
-let g:autoloaded_popterm = 1
+g:autoloaded_popterm = 1
 
-let s:cpo = &cpo
-set cpo&vim
+highlight default link PopTerm Normal
+highlight default link PopTermBorder Normal
+highlight default link PopTermBorderTop PopTermBorder
+highlight default link PopTermBorderRight PopTermBorder
+highlight default link PopTermBorderBottom PopTermBorder
+highlight default link PopTermBorderLeft PopTermBorder
 
-let s:popup_id = 0
-let s:popup_visible = 0
+final popup = {
+  id: 0,
+  visible: false
+}
 
-function! popterm#toggle() abort
-  let popup_pos = popup_getpos(s:popup_id)
+export def Toggle(): void
+  const popup_pos = popup_getpos(popup.id)
   if popup_pos->empty()
-    call s:open_popup()
-    let s:popup_visible = 1
+    OpenPopup()
+    popup.visible = true
   elseif popup_pos.visible
-    call s:close_popup()
-    let s:popup_visible = 0
+    ClosePopup()
+    popup.visible = false
   endif
-endfunction
+enddef
 
-function! s:close_popup() abort
-  if s:popup_id
-    call popup_close(s:popup_id)
-    let s:popup_id = 0
+def ClosePopup(): void
+  if popup.id > 0
+    popup_close(popup.id)
+    popup.id = 0
   endif
-endfunction
+enddef
 
-function! s:open_popup() abort
-  let cmd = g:->get('popterm_cmd', &shell)
-  if !s:terminal_exists(t:->get('terminal_buf_nr', -1))
-    let terminal_options = #{
-    \  hidden: 1,
-    \  term_kill: 'term',
-    \  term_finish: 'close'
-    \}
-    let t:terminal_buf_nr = term_start(cmd, terminal_options)
+def OpenPopup(): void
+  const cmd = g:->get('popterm_cmd', &shell)
+  if !TerminalExists(t:->get('terminal_buf_nr', -1))
+    const terminal_options = {
+      hidden: 1,
+      term_kill: 'term',
+      term_finish: 'close'
+    }
+    t:terminal_buf_nr = term_start(cmd, terminal_options)
     if !bufexists(t:->get('terminal_buf_nr', -1))
-      call s:warn('Failed to execute ' . cmd)
+      Warn('Failed to execute ' .. cmd)
       return
     endif
-    call setbufvar(t:terminal_buf_nr, '&buflisted', 0)
+    setbufvar(t:terminal_buf_nr, '&buflisted', 0)
   endif
-  let width = float2nr(&columns * g:->get('popterm_width', 0.75))
-  let height = float2nr(&lines * g:->get('popterm_height', 0.75))
-  let popup_options = #{
-  \  minwidth: width,
-  \  maxwidth: width,
-  \  minheight: height,
-  \  maxheight: height,
-  \  border: [],
-  \  title: ' ' . cmd . ' ',
-  \  padding: [0, 0, 0, 0],
-  \  highlight: 'Normal',
-  \  borderhighlight: ['Normal'],
-  \  borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
-  \}
-  let s:popup_id = popup_create(t:terminal_buf_nr, popup_options)
-endfunction
+  # const width = float2nr(&columns * g:->get('popterm_width', 0.75))
+  # const height = float2nr(&lines * g:->get('popterm_height', 0.75))
+  # const popup_options = {
+  #   minwidth: width,
+  #   maxwidth: width,
+  #   minheight: height,
+  #   maxheight: height,
+  #   border: [],
+  #   title: $' {cmd} ',
+  #   padding: [0, 0, 0, 0],
+  #   highlight: 'PopTerm',
+  #   borderhighlight: ['PopTermBorderTop', 'PopTermBorderRight', 'PopTermBorderBottom', 'PopTermBorderLeft'],
+  #   borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+  # }
+  const width = float2nr(&columns * g:->get('popterm_width', 1))
+  const height = float2nr(&lines * g:->get('popterm_height', 0.4))
+  const popup_options = {
+    line: &lines - height,
+    minwidth: width,
+    maxwidth: width,
+    minheight: height,
+    maxheight: height,
+    border: [1, 0, 0, 0],
+    title: $' {cmd} ',
+    padding: [0, 0, 0, 0],
+    highlight: 'PopTerm',
+    borderhighlight: ['PopTermBorderTop'],
+    borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+  }
+  popup.id = popup_create(t:terminal_buf_nr, popup_options)
+enddef
 
-function! s:terminal_exists(buf_nr) abort
-  if bufexists(a:buf_nr)
-    let term_job = term_getjob(a:buf_nr)
-    return term_job != v:null && term_job !~? 'dead'
+def TerminalExists(buf_nr: number): bool
+  if bufexists(buf_nr)
+    const term_job = term_getjob(buf_nr)
+    return term_job != null && job_status(term_job) == 'run'
   endif
-  return 0
-endfunction
+  return false
+enddef
 
-function! s:warn(msg) abort
-  echohl WarningMsg | echomsg '[popterm]' a:msg | echohl None
-endfunction
+def Warn(msg: string): void
+  echohl WarningMsg | echomsg '[popterm]' msg | echohl None
+enddef
 
-function! s:on_buf_enter() abort
-  if s:popup_visible && &buftype ==# 'terminal'
+def OnBufEnter(): void
+  if popup.visible && &buftype == 'terminal'
     silent! execute 'normal! i'
   endif
-endfunction
+enddef
 
-function s:on_vim_resized() abort
-  if s:popup_visible
-    call s:close_popup()
-    call s:open_popup()
+def OnVimResized(): void
+  if popup.visible
+    ClosePopup()
+    OpenPopup()
   endif
-endfunction
+enddef
 
-function! s:on_tab_leave() abort
-  if s:popup_visible
-    call s:close_popup()
+def OnTabLeave(): void
+  if popup.visible
+    ClosePopup()
   endif
-endfunction
+enddef
 
-function! s:on_tab_enter() abort
-  if s:popup_visible
-    call s:open_popup()
+def OnTabEnter(): void
+  if popup.visible
+    OpenPopup()
   endif
-endfunction
+enddef
 
-function! s:on_quit_pre() abort
+def OnQuitPre(): void
   if bufexists(t:->get('terminal_buf_nr', -1))
-    execute 'silent! bdelete! ' . t:terminal_buf_nr
+    execute 'silent! bdelete! ' .. t:terminal_buf_nr
   endif
-endfunction
+enddef
 
 augroup __PopTerm__
   autocmd!
-  autocmd BufEnter * call <sid>on_buf_enter()
-  autocmd VimResized * call <sid>on_vim_resized()
-  autocmd TabLeave * call <sid>on_tab_leave()
-  autocmd TabEnter * call <sid>on_tab_enter()
-  autocmd QuitPre * call <sid>on_quit_pre()
+  autocmd BufEnter * OnBufEnter()
+  autocmd VimResized * OnVimResized()
+  autocmd TabLeave * OnTabLeave()
+  autocmd TabEnter * OnTabEnter()
+  autocmd QuitPre * OnQuitPre()
 augroup END
-
-let &cpo = s:cpo
-unlet! s:cpo
