@@ -290,7 +290,7 @@ inoremap <silent> <c-w> <c-g>u<c-w>
 nnoremap <silent> Y y$
 
 " Do not move the cursor after a visual yank
-vnoremap <expr>y 'my"' . v:register . 'y`y'
+vnoremap <silent> <expr> y 'my"' . v:register . 'y`y'
 
 " Duplicate the current line
 nnoremap <silent> <c-s-up> <cmd>call buffer#duplicate_line_up()<cr>
