@@ -22,7 +22,7 @@ enddef
 
 export def GitHead(): string
   const h = git#Head()
-  return empty(h) ? '' : ' ' .. h
+  return ' ' .. (empty(h) ? 'N/A' : h)
 enddef
 
 export def Filename(): string
@@ -31,8 +31,13 @@ export def Filename(): string
 enddef
 
 export def FileInfo(): string
-  return ((&readonly || !&modifiable) ? ' ' : '')
-         .. Filename() .. (&modified ? ' ∙' : '')
+  var info = Filename()
+  const ft = tolower(&filetype)
+  if !empty(ft) && !string#EndsWith(info, ft)
+    info ..= $' ({ft})'
+  endif
+  const locked = &readonly || !&modifiable
+  return (locked ? ' ' : '') .. info .. (&modified ? ' ∙' : '')
 enddef
 
 export def BufferType(): string
@@ -55,10 +60,6 @@ enddef
 
 def IsLocationList(winid: number): bool
   return win_gettype(winid) == 'loclist'
-enddef
-
-export def FileType(): string
-  return tolower(&filetype)
 enddef
 
 export def FileFormat(): string

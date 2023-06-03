@@ -57,7 +57,7 @@ def Files(path: string = ''): void
     throw 'spyglass: fd not available'
   endif
   const dir = isdirectory(expand(path)) ? path : fnamemodify(path, ':h')
-  const cmd = 'fd --type f --hidden --follow --no-ignore-vcs . ' .. dir
+  const cmd = 'fd --type f --hidden --follow --no-ignore-vcs --color never . ' .. dir
   popup.Filter(
     'Files',
     systemlist(cmd)->map((_, v) => fnamemodify(v, ':~:.')),

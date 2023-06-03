@@ -1,3 +1,7 @@
+" For snippets see
+" https://github.com/rafamadriz/friendly-snippets
+" https://github.com/Microsoft/language-server-protocol/blob/main/snippetSyntax.md
+
 let g:vsnip_snippet_dir = system#user_vim_dir() . 'snippets'
 
 let options = #{recursive: 1}

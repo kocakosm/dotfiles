@@ -6,3 +6,8 @@ let g:NERDTreeWinSize=40
 let g:NERDTreeStatusline=''
 
 nnoremap <silent> <f5> <cmd>NERDTreeToggle<cr>
+
+augroup NerdTree
+  autocmd!
+  autocmd FileType nerdtree ++once setlocal cursorlineopt=line
+augroup END

@@ -159,10 +159,11 @@ def Warn(msg: string): void
 enddef
 
 def ComputePopupWidth(title: string, raw_items: list<dict<any>>): number
-  const width = title->strchars() + ($'{raw_items->len()}'->strchars() * 2 + 1)
-                + raw_items->mapnew((_, i) => i.text->strchars())->max() + 10
+  const content_width = raw_items->mapnew((_, i) => i.text->strchars())->max()
+  const width = title->strchars() + $'{raw_items->len()}'->strchars() * 2 + content_width / 2 + 10
+  const min_width = max([content_width, (&columns * 0.5)->float2nr()])
   const max_width = &columns - 2 - PADDING[1] - PADDING[3] # 2: popup borders
-  return min([max([width, (&columns * 0.5)->float2nr()]), max_width])
+  return min([max([width, min_width]), max_width])
 enddef
 
 def GetPopupHeader(title: string, filter: string,

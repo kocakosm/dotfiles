@@ -13,3 +13,7 @@ export def Abbreviate(input: string, length: number, ellipsis: string): string
   endif
   return strcharpart(input, 0, length - strchars(ellipsis)) .. ellipsis
 enddef
+
+export def EndsWith(input: string, suffix: string): bool
+  return !empty(matchstr(input, suffix, strchars(input) - strchars(suffix)))
+enddef

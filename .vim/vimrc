@@ -60,7 +60,8 @@ set wildignorecase
 
 " Ignore files/directories matching these patterns
 set wildignore+=*/.hg/**,*/.git/**
-set wildignore+=*.tags,*.orig,*.tar*
+set wildignore+=*.tags,*.orig
+set wildignore+=*.tar*,*.zip,*.jar,*.war
 set wildignore+=*.png,*.jpg,*.jpeg,*.gif
 set wildignore+=*.o,*.pyc,*.pyo,*.class,*.min.*
 set wildignore+=*.pdf,*.aux,*.log,*.dvi,*.bbl,*.blg,*.out,*.toc
@@ -405,31 +406,24 @@ let g:skyline = #{
 \    FileInfo: '%( %{statusline#FileInfo()} %)',
 \    Filename: '%( %{statusline#Filename()} %)',
 \    Bufname: '%( %{bufname()} %)',
-\    FileType: '%( %{statusline#FileType()} %)',
 \    FileFormat: '%( %{statusline#FileFormat()} %)',
 \    Ruler: ' %l/%L %p%% ',
-\    RulerWithColumns: ' %l/%L:%02.v %p%% ',
+\    LineInfo: ' %l/%L:%02.v %p%% ',
 \    QuickfixTitle: '%( %{statusline#QuickfixTitle()} %)'
 \  },
 \  statuslines: {
 \    '': #{
-\      active: [
-\        'Mode', 'GitHead', 'FileInfo', 'SpellLang', 'Spacer',
-\        'FileType', 'FileFormat', 'RulerWithColumns'
-\      ],
-\      inactive: [
-\        'FileInfo', 'SpellLang', 'Spacer',
-\        'FileType', 'FileFormat', 'RulerWithColumns'
-\      ]
+\      active: ['Mode', 'GitHead', 'SpellLang', 'Spacer', 'FileInfo', 'Spacer', 'FileFormat', 'Ruler'],
+\      inactive: ['Spacer', 'FileInfo', 'Spacer']
 \    },
-\    'terminal': #{default: ['BufferType', 'Bufname']},
-\    'help': #{default: ['BufferType', 'Filename', 'Spacer', 'Ruler']},
-\    'qf': #{default: ['BufferType', 'QuickfixTitle', 'Spacer', 'Ruler']},
+\    'terminal': #{default: ['BufferType', 'Spacer', 'Bufname', 'Spacer']},
+\    'help': #{default: ['BufferType', 'Spacer', 'Filename', 'Spacer', 'LineInfo']},
+\    'qf': #{default: ['BufferType', 'Spacer', 'QuickfixTitle', 'Spacer', 'LineInfo']},
 \    'man': #{default: ['BufferType', 'Filename']},
 \    'nerdtree': #{default: ['BufferType']},
 \    'vim-plug': #{default: ['BufferType']},
 \    'fugitive': #{default: ['BufferType', 'GitHead']},
-\    'dirvish': #{default: ['BufferType', 'Bufname', 'Spacer', 'Ruler']}
+\    'dirvish': #{default: ['BufferType', 'Spacer', 'Bufname', 'Spacer', 'LineInfo']}
 \  }
 \}
 
@@ -452,7 +446,7 @@ Plug 'hrsh7th/vim-vsnip'
 " Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-dirvish'
 Plug 'kocakosm/hilal'
-Plug 'lervag/vimtex', {'for': ['tex']}
+" Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'ludovicchabant/vim-gutentags'
 " Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
@@ -463,7 +457,7 @@ Plug 'haya14busa/vim-asterisk'
 " Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 " Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 " Plug 'wellle/targets.vim'
 Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}

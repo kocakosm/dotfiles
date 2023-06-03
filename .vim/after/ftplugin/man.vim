@@ -57,3 +57,6 @@ if !parts->empty()
 endif
 if bufexists(name) | execute 'bwipeout ' . name | endif
 execute '0file | file ' . name . ' | bwipeout #'
+
+setlocal nocursorline colorcolumn=
+call ftplugin#append_undo_cmd('setlocal cursorline< colorcolumn<')
