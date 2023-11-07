@@ -32,7 +32,7 @@ function! system#user_cache_dir() abort
 endfunction
 
 function! system#user_config_dir() abort
-  return s:UNIX_USER_CACHE_DIR
+  return s:UNIX_USER_CONFIG_DIR
 endfunction
 
 function! system#user_data_dir() abort

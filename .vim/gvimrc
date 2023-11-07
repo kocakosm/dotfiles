@@ -33,6 +33,7 @@ set guitablabel=%t\ %m
 " Enable visual bell
 set visualbell
 
+" Sync window theme variant with &background
 function! s:update_gui_theme_variant(variant) abort
   if a:variant ==? 'dark'
     set guioptions+=d
@@ -49,3 +50,7 @@ augroup UpdateGuiThemeVariant
   autocmd!
   autocmd OptionSet background call <sid>update_gui_theme_variant(v:option_new)
 augroup END
+
+" Easier tag navigation
+nnoremap <silent> <c-cr> <c-]>
+nnoremap <silent> <c-bs> <c-t>

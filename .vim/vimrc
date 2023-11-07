@@ -245,6 +245,9 @@ set diffopt+=vertical
 " Use the internal diff with the histogram algorithm
 set diffopt+=internal,algorithm:histogram
 
+" Practically disable folding in diff mode
+set diffopt+=context:999999
+
 " When spell-checking a camel cased word, every upper-case character that
 " comes after a lower case character is treated as the start of a new word
 set spelloptions=camel
@@ -369,6 +372,9 @@ cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' 
 nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
 xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
 
+" Enable built-in EditorConfig plugin
+packadd! editorconfig
+
 "--------------------------------------"
 "---------  Personal plugins  ---------"
 "--------------------------------------"
@@ -399,27 +405,29 @@ set noshowmode
 let g:skyline = #{
 \  components: #{
 \    Spacer: '%=',
-\    Mode: '%( %{statusline#Mode()} %)',
-\    BufferType: '%( %{statusline#BufferType()} %)',
-\    GitHead: '%( %{statusline#GitHead()} %)',
-\    SpellLang: '%( %{statusline#SpellLang()} %)',
-\    FileInfo: '%( %{statusline#FileInfo()} %)',
-\    Filename: '%( %{statusline#Filename()} %)',
-\    Bufname: '%( %{bufname()} %)',
-\    FileFormat: '%( %{statusline#FileFormat()} %)',
-\    Ruler: ' %l/%L %p%% ',
-\    LineInfo: ' %l/%L:%02.v %p%% ',
-\    QuickfixTitle: '%( %{statusline#QuickfixTitle()} %)'
+\    Separator: '::',
+\    Mode: ' %{statusline#Mode()} ',
+\    BufferType: ' %{statusline#BufferType()} ',
+\    GitHead: ' %{statusline#GitHead()} ',
+\    SpellLang: ' %{statusline#SpellLang()} ',
+\    FileInfo: ' %{statusline#FileInfo()} ',
+\    Filename: ' %{statusline#Filename()} ',
+\    Bufname: ' %{bufname()} ',
+\    FileFormat: ' %{statusline#FileFormat()} ',
+\    LineInfo: ' %l/%L %p%% ',
+\    Ruler: ' %l/%L:%02.v %p%% ',
+\    Percentage: ' %P ',
+\    QuickfixTitle: ' %{statusline#QuickfixTitle()} '
 \  },
 \  statuslines: {
 \    '': #{
-\      active: ['Mode', 'GitHead', 'SpellLang', 'Spacer', 'FileInfo', 'Spacer', 'FileFormat', 'Ruler'],
+\      active: ['Mode', 'GitHead', 'SpellLang', 'Spacer', 'FileInfo', 'Separator', 'FileFormat', 'Spacer', 'Ruler'],
 \      inactive: ['Spacer', 'FileInfo', 'Spacer']
 \    },
 \    'terminal': #{default: ['BufferType', 'Spacer', 'Bufname', 'Spacer']},
 \    'help': #{default: ['BufferType', 'Spacer', 'Filename', 'Spacer', 'LineInfo']},
 \    'qf': #{default: ['BufferType', 'Spacer', 'QuickfixTitle', 'Spacer', 'LineInfo']},
-\    'man': #{default: ['BufferType', 'Filename']},
+\    'man': #{default: ['BufferType', 'Spacer', 'Filename', 'Spacer', 'Percentage']},
 \    'nerdtree': #{default: ['BufferType']},
 \    'vim-plug': #{default: ['BufferType']},
 \    'fugitive': #{default: ['BufferType', 'GitHead']},
@@ -441,8 +449,8 @@ Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
 " Plug 'chaoren/vim-wordmotion'
 " Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
-Plug 'editorconfig/editorconfig-vim'
-Plug 'hrsh7th/vim-vsnip'
+Plug 'flwyd/vim-conjoin'
+" Plug 'hrsh7th/vim-vsnip'
 " Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-dirvish'
 Plug 'kocakosm/hilal'
@@ -460,7 +468,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-fugitive'
 " Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 " Plug 'wellle/targets.vim'
-Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
+" Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 " Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
 call plug#end()
 
