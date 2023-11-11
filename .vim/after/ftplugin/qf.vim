@@ -21,18 +21,12 @@ call ftplugin#append_undo_cmd('setlocal number< cursorline< cursorlineopt< bufli
 
 " <alt>-<right> switches to the newer list
 function! s:newer() abort
-  let loc = win_gettype() == 'loclist'
-  let cmd = (loc ? 'l' : 'c') . 'newer'
-  let Lnr = {n -> (loc ? getloclist(win_getid(), #{nr: n}) : getqflist(#{nr: n})).nr}
-  return Lnr(0) >= Lnr('$') ? '' : $"\<cmd>{cmd}\<cr>"
+  execute 'silent! ' . (win_gettype() == 'loclist' ? 'l' : 'c') . 'newer'
 endfunction
-nnoremap <silent> <buffer> <expr> <a-right> <sid>newer()
+nnoremap <silent> <buffer> <a-right> <cmd>call <sid>newer()<cr>
 
 " <alt>-<left> switches to the older list
 function! s:older() abort
-  let loc = win_gettype() == 'loclist'
-  let cmd = (loc ? 'l' : 'c') . 'older'
-  let Lnr = {n -> (loc ? getloclist(win_getid(), #{nr: n}) : getqflist(#{nr: n})).nr}
-  return Lnr(0) <= 1 ? '' : $"\<cmd>{cmd}\<cr>"
+  execute 'silent! ' . (win_gettype() == 'loclist' ? 'l' : 'c') . 'older'
 endfunction
-nnoremap <silent> <buffer> <expr> <a-left> <sid>older()
+nnoremap <silent> <buffer> <a-left> <cmd>call <sid>older()<cr>

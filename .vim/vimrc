@@ -302,6 +302,14 @@ nnoremap <silent> <c-s-down> <cmd>call buffer#duplicate_line_down()<cr>
 inoremap <silent> <c-s-up> <cmd>call buffer#duplicate_line_up()<cr>
 inoremap <silent> <c-s-down> <cmd>call buffer#duplicate_line_down()<cr>
 
+" Move current/secleted line(s) up/down
+nnoremap <silent> <a-s-down> :silent! move .+1<cr>==
+nnoremap <silent> <a-s-up> :silent! move .-2<cr>==
+inoremap <silent> <a-s-down> <esc>:silent! move .+1<cr>==gi
+inoremap <silent> <a-s-up> <esc>:silent! move .-2<cr>==gi
+xnoremap <silent> <a-s-down> :silent! move '>+1<cr>gv=gv
+xnoremap <silent> <a-s-up> :silent! move '<-2<cr>gv=gv
+
 " <tab> / <shift-tab> navigates between windows in normal mode
 nnoremap <silent> <tab> <C-w>w
 nnoremap <silent> <s-tab> <C-w>W

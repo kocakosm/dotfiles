@@ -42,7 +42,22 @@ enddef
 
 export def BufferType(): string
   if &buftype == 'quickfix'
-    return IsLocationList(win_getid()) ? 'Location List' : 'Quickfix'
+    const win = win_getid()
+    if IsLocationList(win)
+      const total = getloclist(win, {nr: '$'}).nr
+      if total > 1
+        const current = getloclist(win, {nr: 0}).nr
+        return $'Location List ({current}/{total})'
+      endif
+      return 'Location List'
+    else
+      const total = getqflist({nr: '$'}).nr
+      if total > 1
+        const current = getqflist({nr: 0}).nr
+        return $'Quickfix ({current}/{total})'
+      endif
+      return 'Quickfix'
+    endif
   elseif &buftype == 'help' || &buftype == 'terminal'
     return string#Capitalize(&buftype)
   elseif !empty(&buftype)
