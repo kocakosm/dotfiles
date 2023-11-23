@@ -361,16 +361,21 @@ call keymap#conditional_map('i', 'pumvisible()', '<cr>', '<c-y>')
 "---------  Built-in plugins  ---------"
 "--------------------------------------"
 
-" Disable unused built-in plugins
+" Prevent unused built-in plugins from being loaded
 let g:loaded_2html_plugin=1
 let g:loaded_getscriptPlugin=1
-let g:loaded_logipat=1
+let g:loaded_logiPat=1
 let g:loaded_netrwPlugin=1
 let g:loaded_rrhelper=1
 let g:loaded_vimballPlugin=1
-let g:loaded_matchit=1
+let g:loaded_gzip=1
+let g:loaded_zipPlugin=1
+let g:loaded_tarPlugin=1
 
-" Enable man pages viewer
+" Load built-in EditorConfig plugin
+packadd! editorconfig
+
+" Load man pages viewer
 if exists(':Man') != 2
   runtime ftplugin/man.vim
 endif
@@ -379,9 +384,6 @@ cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' 
 " Emulate netrw's gx
 nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
 xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
-
-" Enable built-in EditorConfig plugin
-packadd! editorconfig
 
 "--------------------------------------"
 "---------  Personal plugins  ---------"
@@ -474,10 +476,8 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-fugitive'
-" Plug 'tyru/open-browser.vim', {'on': '<plug>(openbrowser-smart-search)'}
 " Plug 'wellle/targets.vim'
 " Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
-" Plug 'ryanoasis/vim-devicons', {'tag': 'v0.11.0'}
 call plug#end()
 
 for s:plugin in keys(g:plugs)

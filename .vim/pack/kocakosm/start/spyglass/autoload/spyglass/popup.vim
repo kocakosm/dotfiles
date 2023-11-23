@@ -1,20 +1,39 @@
 vim9script noclear
 scriptencoding utf-8
 #----------------------------------------------------------------------#
-# spyglass.vim                                                         #
+# spyglass/popup.vim                                                   #
 # Copyright (c) 2023 Osman Koçak <kocakosm@gmail.com>                  #
 # Licensed under the MIT license <https://opensource.org/licenses/MIT> #
 #----------------------------------------------------------------------#
 
-if exists('g:autoloaded_spyglass') || &cp
+if exists('g:autoloaded_spyglass_popup') || &cp
   finish
 endif
-g:autoloaded_spyglass = 1
+g:autoloaded_spyglass_popup = 1
 
-# TODO: adapt popup width/height on VimResized
-# TODO: make padding, border and borderchars configurable
-# TODO: OnChange handler ?
-# TODO: multiple select ?
+import autoload './actions.vim'
+
+const BORDER_CHARS: list<string> = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+const PADDING: list<number> = [0, 1, 0, 1]
+const DEFAULT_MAPPINGS: dict<string> = {
+  "\<CR>": actions.CONFIRM,
+  "\<C-y>": actions.CONFIRM,
+  "\<Esc>": actions.CANCEL,
+  "\<C-e>": actions.CANCEL,
+  "\<PageUp>": actions.PAGE_UP,
+  "\<PageDown>": actions.PAGE_DOWN,
+  "\<Home>": actions.HOME,
+  "\<End>": actions.END,
+  "\<Down>": actions.DOWN,
+  "\<Tab>": actions.DOWN,
+  "\<C-n>": actions.DOWN,
+  "\<Up>": actions.UP,
+  "\<S-Tab>": actions.UP,
+  "\<C-p>": actions.UP,
+  "\<C-u>": actions.CLEAR_FILTER,
+  "\<C-h>": actions.FILTER_POP,
+  "\<BS>": actions.FILTER_POP
+}
 
 highlight default link SpyglassPopup Normal
 highlight default link SpyglassPopupBorder Normal
@@ -25,28 +44,6 @@ highlight default link SpyglassPopupBorderLeft SpyglassPopupBorder
 highlight default link SpyglassFilterMatch Constant
 highlight default link SpyglassCurrentItem Statement
 
-const BORDER_CHARS: list<string> = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
-const PADDING: list<number> = [0, 1, 0, 1]
-const DEFAULT_MAPPINGS: dict<string> = {
-  "\<CR>": 'SELECT',
-  "\<C-y>": 'SELECT',
-  "\<Esc>": 'ABORT',
-  "\<C-e>": 'ABORT',
-  "\<PageUp>": 'PAGE_UP',
-  "\<PageDown>": 'PAGE_DOWN',
-  "\<Home>": 'HOME',
-  "\<End>": 'END',
-  "\<Down>": 'DOWN',
-  "\<Tab>": 'DOWN',
-  "\<C-n>": 'DOWN',
-  "\<Up>": 'UP',
-  "\<S-Tab>": 'UP',
-  "\<C-p>": 'UP',
-  "\<C-u>": 'CLEAR_FILTER',
-  "\<C-h>": 'FILTER_POP',
-  "\<BS>": 'FILTER_POP'
-}
-
 if prop_type_get('SpyglassFilterMatch')->empty()
   const options = {
     highlight: 'SpyglassFilterMatch',
@@ -55,7 +52,7 @@ if prop_type_get('SpyglassFilterMatch')->empty()
   prop_type_add('SpyglassFilterMatch', options)
 endif
 
-export def Filter(title: string, items: list<any>,
+export def Create(title: string, items: list<any>,
                   OnSelect: func(any, string),
                   current_item: string = '',
                   mappings: dict<string> = {},
@@ -64,7 +61,7 @@ export def Filter(title: string, items: list<any>,
   const key_mappings = DEFAULT_MAPPINGS->extendnew(mappings)
   const raw_items = FormatItems(items)
   var filter = ''
-  var filtered_items: list<any> = FuzzyFilter(raw_items, filter)
+  var filtered_items: list<any> = Filter(raw_items, filter)
   const content = GetPopupContent(filter, filtered_items)
   const width = ComputePopupWidth(title, raw_items)
   const header_width = width + PADDING[1] + PADDING[3]
@@ -73,7 +70,7 @@ export def Filter(title: string, items: list<any>,
     line: 1,
     minwidth: width,
     maxwidth: width,
-    maxheight: (&lines - &cmdheight - 3 - PADDING[0] - PADDING[2]), # 3: borders + statusline
+    maxheight: &lines - &cmdheight - 3 - PADDING[0] - PADDING[2], # 3: borders + statusline
     border: [],
     borderchars: BORDER_CHARS,
     borderhighlight: [
@@ -81,51 +78,51 @@ export def Filter(title: string, items: list<any>,
       'SpyglassPopupBorderBottom', 'SpyglassPopupBorderLeft'
     ],
     highlight: 'SpyglassPopup',
-    padding: [0, 1, 0, 1],
+    padding: PADDING,
     mapping: false,
     scrollbar: false,
     filter: (winid, key) => {
-      const action = key_mappings->get(key, 'FILTER_PUSH')
-      if action == 'ABORT'
+      const action = key_mappings->get(key, actions.FILTER_PUSH)
+      if action == actions.CANCEL
         silent doautocmd User SpyglassClose
         popup_close(winid)
         if OnAbort != null_function | OnAbort() | endif
-      elseif action == 'SELECT' && filtered_items[0]->len() > 0
+      elseif action == actions.CONFIRM && filtered_items[0]->len() > 0
         silent doautocmd User SpyglassClose
         const selected_item_index = line('.', winid) - 1
         popup_close(winid)
         OnSelect(filtered_items[0][selected_item_index], key)
-      elseif action == 'PAGE_DOWN'
+      elseif action == actions.PAGE_DOWN
         win_execute(winid, "normal! \<C-d>")
-      elseif action == 'PAGE_UP'
+      elseif action == actions.PAGE_UP
         win_execute(winid, "normal! \<C-u>")
-      elseif action == 'HOME'
+      elseif action == actions.HOME
         win_execute(winid, 'normal! gg')
-      elseif action == 'END'
+      elseif action == actions.END
         win_execute(winid, 'normal! G')
-      elseif action == 'DOWN'
+      elseif action == actions.DOWN
         if line('.', winid) == line('$', winid)
           win_execute(winid, 'normal! gg')
         else
           win_execute(winid, 'normal! j')
         endif
-      elseif action == 'UP'
+      elseif action == actions.UP
         if line('.', winid) == 1
           win_execute(winid, 'normal! G')
         else
           win_execute(winid, 'normal! k')
         endif
-      elseif action == 'CLEAR_FILTER'
+      elseif action == actions.CLEAR_FILTER
         filter = ''
-        filtered_items = FuzzyFilter(raw_items, filter)
+        filtered_items = Filter(raw_items, filter)
         UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width)
-      elseif action == 'FILTER_POP'
+      elseif action == actions.FILTER_POP
         filter = filter->strcharpart(0, filter->strchars() - 1)
-        filtered_items = FuzzyFilter(raw_items, filter)
+        filtered_items = Filter(raw_items, filter)
         UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width)
-      elseif action == 'FILTER_PUSH' && key =~ '^\p$'
+      elseif action == actions.FILTER_PUSH && key =~ '^\p$'
         filter ..= key
-        filtered_items = FuzzyFilter(raw_items, filter)
+        filtered_items = Filter(raw_items, filter)
         UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width)
       endif
       return true
@@ -194,7 +191,7 @@ def GetPopupContent(filter: string, filtered_items: list<any>): list<any>
   })
 enddef
 
-def FuzzyFilter(raw_items: list<dict<any>>, filter: string): list<any>
+def Filter(raw_items: list<dict<any>>, filter: string): list<any>
   if filter->empty()
     return [raw_items, raw_items->mapnew((_, _) => []), []]
   endif
