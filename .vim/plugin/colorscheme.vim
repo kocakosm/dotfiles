@@ -20,6 +20,32 @@ function! s:hilal() abort
   highlight CursorLineNr term=NONE cterm=NONE guibg=NONE
   highlight CurSearch guibg=#e9d5c1 guifg=#695541
   highlight Cursor guibg=NONE guifg=NONE gui=reverse
+  highlight SpecialKey guifg=#1e2124
+endfunction
+
+function! s:sorbet() abort
+  highlight NerdTree guibg=#1b1d2a
+  highlight SignifySignAdd guifg=#00af5f guibg=NONE gui=NONE cterm=NONE
+  highlight SignifySignChange guifg=#87afff guibg=NONE gui=NONE cterm=NONE
+  highlight SignifySignDelete guifg=#d7005f guibg=NONE gui=NONE cterm=NONE
+  highlight StatusLine guifg=#161821 guibg=#8787af gui=NONE cterm=NONE
+  highlight StatusLineNC guifg=#47476f guibg=#8787af gui=NONE cterm=NONE
+  highlight SpecialKey guifg=#2f283f gui=NONE
+  highlight CursorLine guibg=#242438
+  highlight CursorLineNr guibg=NONE
+  highlight ColorColumn guifg=NONE guibg=#242438 gui=NONE cterm=NONE
+  highlight Identifier guifg=#5fafaf
+  highlight String guifg=#af87d7
+  highlight Comment guifg=#3f4f5a
+  highlight JavaDocComment guifg=#3f4f5a guibg=NONE gui=ITALIC
+  highlight JavaAnnotation guifg=#7a8a8f guibg=NONE gui=NONE
+  highlight JavaParen guifg=#9fafba guibg=NONE gui=NONE
+  highlight link JavaCommentTitle JavaDocComment
+  highlight link JavaDocTags JavaDocComment
+  highlight link JavaDocParam JavaDocTags
+  highlight link JavaDocSeeTagParam JavaDocTags
+  highlight link JavaDocSeeTag JavaDocTags
+  highlight link JavaParen1 JavaParen
 endfunction
 
 silent! colorscheme hilal
