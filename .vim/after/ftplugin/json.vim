@@ -13,3 +13,6 @@ if executable('jq')
   command! -buffer -bar Format call <sid>jq_format()
   call ftplugin#append_undo_cmd('delcommand Format')
 endif
+
+" Disable concealing
+let g:vim_json_conceal=0

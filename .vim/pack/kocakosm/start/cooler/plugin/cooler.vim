@@ -15,12 +15,10 @@ g:loaded_cooler = 1
 
 def CheckHighlight(): void
   if v:hlsearch
-    const view = winsaveview()
     const search_flags = (v:searchforward ? '' : 'b') .. 'cnw'
     if getcurpos()[1 : 2] != searchpos(@/, search_flags)
       StopHighlight()
     endif
-    winrestview(view)
   endif
 enddef
 
@@ -39,6 +37,7 @@ augroup __Cooler__ | autocmd! | augroup END
 def Cooler(hlsearch: bool): void
   autocmd! __Cooler__ CursorMoved,WinEnter,InsertEnter
   if hlsearch
+    if !getreg('/')->empty() | CheckHighlight() | endif
     autocmd __Cooler__ CursorMoved,WinEnter * CheckHighlight()
     autocmd __Cooler__ InsertEnter * StopHighlight()
   endif

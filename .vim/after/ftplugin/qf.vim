@@ -12,7 +12,7 @@ setlocal nobuflisted
 setlocal colorcolumn=
 
 " Move the qf window to the very bottom, using the full width of the screen
-if win_gettype() == 'quickfix'
+if win_gettype() ==# 'quickfix'
   wincmd J
 endif
 
@@ -21,12 +21,12 @@ call ftplugin#append_undo_cmd('setlocal number< cursorline< cursorlineopt< bufli
 
 " <alt>-<right> switches to the newer list
 function! s:newer() abort
-  execute 'silent! ' . (win_gettype() == 'loclist' ? 'l' : 'c') . 'newer'
+  execute 'silent! ' . (win_gettype() ==# 'loclist' ? 'l' : 'c') . 'newer'
 endfunction
 nnoremap <silent> <buffer> <a-right> <cmd>call <sid>newer()<cr>
 
 " <alt>-<left> switches to the older list
 function! s:older() abort
-  execute 'silent! ' . (win_gettype() == 'loclist' ? 'l' : 'c') . 'older'
+  execute 'silent! ' . (win_gettype() ==# 'loclist' ? 'l' : 'c') . 'older'
 endfunction
 nnoremap <silent> <buffer> <a-left> <cmd>call <sid>older()<cr>

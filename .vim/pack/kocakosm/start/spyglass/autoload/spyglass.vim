@@ -58,7 +58,7 @@ export def Files(path: string = ''): void
     throw 'spyglass: fd not available'
   endif
   const dir = isdirectory(expand(path)) ? path : fnamemodify(path, ':h')
-  const excludes = &wildignore->split(',')->map((_, v) => $'-E {v}')->join()
+  const excludes = &wildignore->split(',')->map((_, v) => $"'-E {v}'")->join()
   const cmd = $'fd --type f --hidden --follow --no-ignore-vcs --color never {excludes} . {dir}'
   popup.Create(
     'Files',
