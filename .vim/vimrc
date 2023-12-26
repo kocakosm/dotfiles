@@ -182,7 +182,7 @@ set sidescroll=1
 set nostartofline
 
 " Strings to use in 'list' mode and for the ':list' command
-let &listchars='tab:◦·,extends:…,precedes:…,trail:·,nbsp:⎵,eol:¬'
+let &listchars='extends:…,precedes:…'
 
 " More powerful backspacing in insert mode
 set backspace=indent,eol,start
