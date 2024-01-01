@@ -1,6 +1,6 @@
 vim9script
 
-const INDENT_GUIDE = '┊'
+const INDENT_GUIDE = '│'
 const FILE_TYPES = ['java', 'vim', 'xml']
 
 final listeners: dict<number> = {}
@@ -65,5 +65,5 @@ augroup __IndentGuides__
   autocmd!
   autocmd FileType * IndentGuides()
   autocmd OptionSet list,expandtab,shiftwidth IndentGuides()
-  autocmd BufDelete * Cleanup(str2nr(expand('<abuf>')))
+  autocmd BufUnload * Cleanup(str2nr(expand('<abuf>')))
 augroup END

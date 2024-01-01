@@ -20,7 +20,7 @@ function! s:hilal() abort
   highlight CursorLineNr term=NONE cterm=NONE guibg=NONE
   highlight CurSearch guibg=#e9d5c1 guifg=#695541
   highlight Cursor guibg=NONE guifg=NONE gui=reverse
-  highlight SpecialKey guifg=#1e2124
+  highlight SpecialKey guifg=#1f242d
 endfunction
 
 function! s:sorbet() abort

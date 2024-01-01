@@ -424,8 +424,8 @@ let g:skyline = #{
 \    Filename: ' %{statusline#Filename()} ',
 \    Bufname: ' %{bufname()} ',
 \    FileFormat: ' %{statusline#FileFormat()} ',
-\    LineInfo: ' %l/%L %p%% ',
-\    Ruler: ' %l/%L:%02.v %p%% ',
+\    LineInfo: ' %12(%l/%L %p%%%) ',
+\    Ruler: ' %16(%l/%L:%02.v %p%%%) ',
 \    Percentage: ' %P ',
 \    QuickfixTitle: ' %{statusline#QuickfixTitle()} '
 \  },

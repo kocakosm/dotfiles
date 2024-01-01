@@ -7,8 +7,7 @@ function! s:format_quickfix(info) abort
   return items[a:info.start_idx - 1 : a:info.end_idx - 1]
         \ ->map({_, i -> printf(fmt, bufname(i.bufnr), i.lnum, trim(i.text))})
 endfunction
-
-let &quickfixtextfunc = expand('<SID>') . 'format_quickfix'
+let &quickfixtextfunc = function('s:format_quickfix')
 
 " Commands that trigger a QuickFixCmdPost event
 let s:qf_cmds = [
