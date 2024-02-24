@@ -19,10 +19,12 @@ let s:number_pattern = '^[+-]\?\d\+\%([.]\d\+\)\?\([eE][+-]\?\d\+\)\?$'
 function! s:get_last_visual_selection() abort
   let register_content = getreg(s:temporary_register)
   let register_type = getregtype(s:temporary_register)
-  execute 'silent! normal! gv"' . s:temporary_register . 'ygv'
-  let selection = getreg(s:temporary_register)
-  call setreg(s:temporary_register, register_content, register_type)
-  return selection
+  try
+    execute 'silent! normal! gv"' . s:temporary_register . 'ygv'
+    return getreg(s:temporary_register)
+  finally
+    call setreg(s:temporary_register, register_content, register_type)
+  endtry
 endfunction
 
 function! s:extract_numbers(string) abort

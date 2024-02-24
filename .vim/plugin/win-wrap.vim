@@ -9,9 +9,9 @@ const directions = {
 
 def NextWindow(direction: string, count: number): void
   for i in range(count)
-    const previous_winnr = winnr()
+    const winnr = winnr()
     execute 'wincmd' direction
-    if winnr() == previous_winnr
+    if winnr() == winnr
       execute ':' winnr('$') 'wincmd' directions[direction].opposite
     endif
   endfor

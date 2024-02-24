@@ -280,8 +280,8 @@ autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
 "---------  Mappings  ---------"
 "------------------------------"
 
-" Use <space> as leader
-let mapleader=','
+" Use <space> as leader (this doesn't change the leader key, just maps <space> to it)
+map <space> <leader>
 
 " Finer-grained undo
 inoremap <silent> <tab> <tab><c-g>u
@@ -383,7 +383,7 @@ cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' 
 
 " Emulate netrw's gx
 nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
-xnoremap <silent> gx <cmd>call system#open(buffer#selected_text(1))<cr>
+xnoremap <silent> gx <cmd>call system#open(getregion('v', '.', mode())->filter({_, v -> match(v, '^\s*$') < 0})->get(0, ''))<cr>
 
 "--------------------------------------"
 "---------  Personal plugins  ---------"
@@ -447,7 +447,7 @@ let g:skyline = #{
 
 " Spyglass configuration
 nnoremap <leader>f <cmd>Files<cr>
-nnoremap <leader>, <cmd>Buffers<cr>
+nnoremap <leader><space> <cmd>Buffers<cr>
 
 "-----------------------------------------"
 "---------  Third-party plugins  ---------"
