@@ -50,6 +50,9 @@ for [lhs, rhs] in s:mappings->items()
   call ftplugin#append_undo_cmd($'nunmap <buffer> {lhs}')
 endfor
 
+nnoremap <buffer> <silent> q <cmd>q<cr>
+call ftplugin#append_undo_cmd('nunmap <buffer> q')
+
 let name = expand('%:t')
 let parts = matchlist(name, '\(^[a-zA-Z0-9]*\)[\.\(]\(\d*\)[\.\)\~]')
 if !parts->empty()

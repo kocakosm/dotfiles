@@ -17,3 +17,12 @@ function! buffer#duplicate_line_down() abort
     let &l:virtualedit = save_virtualedit
   endtry
 endfunction
+
+function! buffer#selected_text() abort
+  let mode = mode()
+  let visual = ['v', 'V', '']->index(mode) >= 0
+  let start = visual ? 'v' : "'<"
+  let end = visual ? '.' : "'>"
+  let type = visual ? mode : visualmode()
+  return getregion(getpos(start), getpos(end), #{type: type})
+endfunction

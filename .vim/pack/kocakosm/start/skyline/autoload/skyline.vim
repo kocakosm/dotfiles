@@ -13,6 +13,9 @@ g:autoloaded_skyline = 1
 
 g:statusline_winid = 1000
 
+highlight default link Skyline StatusLine
+highlight default link SkylineNC StatusLineNC
+
 # TODO: in a given status line, show/hide components depending on winwidth
 
 # config structure:
@@ -55,9 +58,11 @@ def WinExists(winid: number): bool
 enddef
 
 def BuildStatusLine(winid: number, active: bool): string
-  const component_definitions = GetComponentDefinitions()
-  return GetStatusLineComponents(winid, active)
-           ->mapnew((_, c) => component_definitions->get(c, '%(%)'))->join('')
+  const components = GetComponentDefinitions()
+  const statusline = GetStatusLineComponents(winid, active)
+                      ->mapnew((_, c) => components->get(c, '%(%)'))
+                      ->join('')
+  return printf('%%#%s#%s', active ? 'Skyline' : 'SkylineNC', statusline)
 enddef
 
 def GetStatusLineComponents(winid: number, active: bool): list<string>

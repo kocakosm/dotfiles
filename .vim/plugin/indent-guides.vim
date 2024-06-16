@@ -54,7 +54,7 @@ def UpdateIndentGuidesOnEmptyLines(start: number, end: number): void
     if empty(getline(linenr))
       const previous_indent = GetIndent(prevnonblank(linenr))
       const next_indent = GetIndent(nextnonblank(linenr))
-      const indent = max([previous_indent, next_indent])
+      const indent = min([previous_indent, next_indent])
       const guide = GetIndentGuide()->repeat(indent / shiftwidth())
       prop_add(linenr, 1, {type: 'indent-guides', text: guide})
     endif

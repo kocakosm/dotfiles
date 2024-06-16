@@ -35,6 +35,7 @@ export def Toggle(): void
 enddef
 
 def ClosePopup(): void
+  silent doautocmd User PopTermClose
   if popup.id > 0
     popup_close(popup.id)
     popup.id = 0
@@ -42,6 +43,7 @@ def ClosePopup(): void
 enddef
 
 def OpenPopup(): void
+  silent doautocmd User PopTermOpen
   const cmd = g:->get('popterm_cmd', &shell)
   if !TerminalExists(t:->get('terminal_buf_nr', -1))
     const terminal_options = {

@@ -48,4 +48,26 @@ function! s:sorbet() abort
   highlight link JavaParen1 JavaParen
 endfunction
 
+function! s:iceberg() abort
+  call async#execute('set background=dark')
+  highlight LineNr guibg=NONE
+  highlight CursorLineNr guibg=NONE gui=NONE
+  highlight SignColumn guibg=NONE
+  highlight GitGutterAdd guibg=NONE guifg=#b4be82
+  highlight GitGutterChange guibg=NONE guifg=#89b8c2
+  highlight GitGutterChangeDelete guibg=NONE guifg=#89b8c2
+  highlight GitGutterDelete guibg=NONE guifg=#e27878
+  highlight StatusLine guibg=#0d0f15 guifg=#6f738d gui=NONE
+  highlight link SkylineNC StatusLineNC
+  highlight Skyline guibg=#818596 guifg=#17171b
+  highlight MoreMsg gui=NONE
+  highlight link JavaScopeDecl Identifier
+  highlight link JavaCommentTitle JavaDocComment
+  highlight link JavaDocTags JavaDocComment
+  highlight link JavaDocParam JavaDocTags
+  highlight link JavaDocSeeTagParam JavaDocTags
+  highlight link JavaDocSeeTag JavaDocTags
+  highlight link JavaParen1 JavaParen
+endfunction
+
 silent! colorscheme hilal

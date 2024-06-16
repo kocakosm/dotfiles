@@ -5,7 +5,7 @@ XDG_DATA_HOME ?= $(HOME)/.local/share
 .PHONY: dotfiles
 dotfiles: fonts vim-plug
 	@for file in $(shell find $(CURDIR) -mindepth 1 -maxdepth 1 -name ".*" \
-			-not -name ".fonts" -not -name ".config" -not -name ".tags" \
+			-not -name ".fonts" -not -name ".config" \
 			-not -regex ".*\.git\(ignore\)?"); \
 	do \
 		ln -sfn $$file $(HOME)/$$(basename $$file); \

@@ -5,7 +5,8 @@ set mousemodel=popup
 set confirm
 
 " GUI specific font
-set guifont=RobotoMono\ Nerd\ Font\ 12
+set guifont=Victor\ Mono\ 12
+" set guifont=RobotoMono\ Nerd\ Font\ 12
 
 " Remove the toolbar
 set guioptions-=T

@@ -24,9 +24,11 @@ function! s:newer() abort
   execute 'silent! ' . (win_gettype() ==# 'loclist' ? 'l' : 'c') . 'newer'
 endfunction
 nnoremap <silent> <buffer> <a-right> <cmd>call <sid>newer()<cr>
+call ftplugin#append_undo_cmd('nunmap <buffer> <a-right>')
 
 " <alt>-<left> switches to the older list
 function! s:older() abort
   execute 'silent! ' . (win_gettype() ==# 'loclist' ? 'l' : 'c') . 'older'
 endfunction
 nnoremap <silent> <buffer> <a-left> <cmd>call <sid>older()<cr>
+call ftplugin#append_undo_cmd('nunmap <buffer> <a-left>')

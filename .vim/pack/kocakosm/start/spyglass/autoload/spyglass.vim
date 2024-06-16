@@ -11,8 +11,8 @@ if exists('g:autoloaded_spyglass') || &cp
 endif
 g:autoloaded_spyglass = 1
 
-import autoload 'spyglass/popup.vim'
-import autoload 'spyglass/actions.vim'
+import autoload './spyglass/popup.vim'
+import autoload './spyglass/actions.vim'
 
 export def Buffers(): void
   popup.Create(

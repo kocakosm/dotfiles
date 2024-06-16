@@ -218,7 +218,7 @@ set dictionary+=/usr/share/dict/french
 set complete=.,w,b,u,t,i
 
 " Insert mode completion options
-set completeopt=menuone,popup
+set completeopt=menuone,popup,fuzzy
 set completepopup+=border:off
 
 " Don't show more than 15 items in the popup menu
@@ -372,8 +372,11 @@ let g:loaded_gzip=1
 let g:loaded_zipPlugin=1
 let g:loaded_tarPlugin=1
 
-" Load built-in EditorConfig plugin
-packadd! editorconfig
+" Load EditorConfig plugin
+packadd editorconfig
+
+" Load comment plugin
+packadd comment
 
 " Load man pages viewer
 if exists(':Man') != 2
@@ -383,7 +386,7 @@ cnoreabbrev <expr> man (getcmdtype() ==# ':' && getcmdline() ==# 'man') ? 'Man' 
 
 " Emulate netrw's gx
 nnoremap <silent> gx <cmd>call system#open(expand('<cWORD>'))<cr>
-xnoremap <silent> gx <cmd>call system#open(getregion('v', '.', mode())->filter({_, v -> match(v, '^\s*$') < 0})->get(0, ''))<cr>
+xnoremap <silent> gx <cmd>call system#open(buffer#selected_text()->get(0, ''))<cr>
 
 "--------------------------------------"
 "---------  Personal plugins  ---------"
@@ -459,6 +462,7 @@ Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
 " Plug 'chaoren/vim-wordmotion'
 " Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
+Plug 'cocopon/iceberg.vim'
 Plug 'flwyd/vim-conjoin'
 " Plug 'hrsh7th/vim-vsnip'
 " Plug 'jiangmiao/auto-pairs'
@@ -474,7 +478,6 @@ Plug 'mhinz/vim-signify'
 Plug 'haya14busa/vim-asterisk'
 " Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
-Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-fugitive'
 " Plug 'wellle/targets.vim'
 " Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}

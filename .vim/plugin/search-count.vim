@@ -25,7 +25,8 @@ def UpdatePopup(): void
       if win.height >= 3 && max_width >= 6
         const text = string#Abbreviate(
           printf(
-            '%s [%s/%s]', @/, search_count.current,
+            '%s [%s/%s]', @/,
+            search_count.incomplete ? '?' : search_count.current,
             search_count.incomplete ? '??' : search_count.total
           ),
           max_width, '...'
