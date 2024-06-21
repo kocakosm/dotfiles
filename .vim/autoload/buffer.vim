@@ -20,7 +20,7 @@ endfunction
 
 function! buffer#selected_text() abort
   let mode = mode()
-  let visual = ['v', 'V', '']->index(mode) >= 0
+  let visual = mode ==? 'v' || mode ==? ''
   let start = visual ? 'v' : "'<"
   let end = visual ? '.' : "'>"
   let type = visual ? mode : visualmode()
