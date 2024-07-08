@@ -47,11 +47,11 @@ const s:mappings = {
 
 for [lhs, rhs] in s:mappings->items()
   execute $'nnoremap <silent> <buffer> {lhs} {rhs}'
-  call ftplugin#append_undo_cmd($'nunmap <buffer> {lhs}')
+  call ftplugin#append_undo_cmd($'silent! nunmap <buffer> {lhs}')
 endfor
 
 nnoremap <buffer> <silent> q <cmd>q<cr>
-call ftplugin#append_undo_cmd('nunmap <buffer> q')
+call ftplugin#append_undo_cmd('silent! nunmap <buffer> q')
 
 let name = expand('%:t')
 let parts = matchlist(name, '\(^[a-zA-Z0-9]*\)[\.\(]\(\d*\)[\.\)\~]')
