@@ -19,7 +19,7 @@ final popup = {
 def UpdatePopup(): void
   if v:hlsearch
     const search_count = searchcount({maxcount: 0})
-    if search_count.current > 0
+    if search_count->get('current', 0) > 0
       const win = getwininfo(win_getid())[0]
       const max_width = win.width - win.textoff - 5
       if win.height >= 3 && max_width >= 6
