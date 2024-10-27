@@ -63,14 +63,16 @@ export def Create(title: string, items: list<any>,
   var filter = ''
   var filtered_items: list<any> = Filter(raw_items, filter)
   const content = GetPopupContent(filter, filtered_items)
-  const width = ComputePopupWidth(title, raw_items)
+  const max_height = &lines - &cmdheight - 3 - PADDING[0] - PADDING[2] # 3: borders + statusline
+  const scrollbar_width = items->len() > max_height ? 1 : 0
+  const width = ComputePopupWidth(title, raw_items, scrollbar_width)
   const header_width = width + PADDING[1] + PADDING[3]
   const popup_options = {
     title: GetPopupHeader(title, filter, filtered_items[0]->len(), raw_items->len(), header_width),
     line: 1,
-    minwidth: width,
-    maxwidth: width,
-    maxheight: &lines - &cmdheight - 3 - PADDING[0] - PADDING[2], # 3: borders + statusline
+    minwidth: width - scrollbar_width,
+    maxwidth: width - scrollbar_width,
+    maxheight: max_height,
     border: [],
     borderchars: BORDER_CHARS,
     borderhighlight: [
@@ -80,7 +82,7 @@ export def Create(title: string, items: list<any>,
     highlight: 'SpyglassPopup',
     padding: PADDING,
     mapping: false,
-    scrollbar: false,
+    scrollbar: true,
     filter: (winid, key) => {
       const action = key_mappings->get(key, actions.FILTER_PUSH)
       if action == actions.CANCEL
@@ -115,15 +117,15 @@ export def Create(title: string, items: list<any>,
       elseif action == actions.CLEAR_FILTER
         filter = ''
         filtered_items = Filter(raw_items, filter)
-        UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width)
+        UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width, max_height, width)
       elseif action == actions.FILTER_POP
         filter = filter->strcharpart(0, filter->strchars() - 1)
         filtered_items = Filter(raw_items, filter)
-        UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width)
+        UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width, max_height, width)
       elseif action == actions.FILTER_PUSH && key =~ '^\p$'
         filter ..= key
         filtered_items = Filter(raw_items, filter)
-        UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width)
+        UpdatePopup(winid, title, filter, raw_items, filtered_items, header_width, max_height, width)
       endif
       return true
     }
@@ -155,8 +157,8 @@ def Warn(msg: string): void
   echohl WarningMsg | echomsg '[spyglass]' msg | echohl None
 enddef
 
-def ComputePopupWidth(title: string, raw_items: list<dict<any>>): number
-  const content_width = raw_items->mapnew((_, i) => i.text->strchars())->max()
+def ComputePopupWidth(title: string, raw_items: list<dict<any>>, scrollbar_width: number): number
+  const content_width = raw_items->mapnew((_, i) => i.text->strchars())->max() + scrollbar_width
   const width = title->strchars() + $'{raw_items->len()}'->strchars() * 2 + content_width / 2 + 10
   const min_width = max([content_width, (&columns * 0.5)->float2nr()])
   const max_width = &columns - 2 - PADDING[1] - PADDING[3] # 2: popup borders
@@ -200,7 +202,8 @@ enddef
 
 def UpdatePopup(winid: number, title: string, filter: string,
                 raw_items: list<dict<any>>, filtered_items: list<any>,
-                header_width: number): void
+                header_width: number, max_height: number, width: number): void
+  const scrollbar_width = filtered_items[0]->len() > max_height ? 1 : 0
   const header = GetPopupHeader(title, filter, filtered_items[0]->len(),
                                 raw_items->len(), header_width)
   const content = GetPopupContent(filter, filtered_items)
@@ -211,6 +214,7 @@ def UpdatePopup(winid: number, title: string, filter: string,
   endif
   popup_settext(winid, content)
   popup_setoptions(winid, {title: header})
+  popup_move(winid, {minwidth: width - scrollbar_width, maxwidth: width - scrollbar_width})
   win_execute(winid, 'normal! gg')
 enddef
 
