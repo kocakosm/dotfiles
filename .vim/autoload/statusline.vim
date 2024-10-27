@@ -37,7 +37,7 @@ export def FileInfo(): string
     info ..= $' ({ft})'
   endif
   const locked = &readonly || !&modifiable
-  return (locked ? ' ' : '') .. info .. (&modified ? ' ∙' : '')
+  return (locked ? ' ' : '') .. info .. (&modified ? ' ●' : '')
 enddef
 
 export def BufferType(): string

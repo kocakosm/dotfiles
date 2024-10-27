@@ -48,7 +48,7 @@ def FormatBufferName(buffer: dict<any>): string
     name ..= fnamemodify(buffer.name, ':~:.')
   endif
   if buffer.changed
-    name ..= ' ∙'
+    name ..= ' ●'
   endif
   return name
 enddef
