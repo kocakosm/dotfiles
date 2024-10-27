@@ -472,7 +472,6 @@ Plug 'kocakosm/hilal'
 Plug 'ludovicchabant/vim-gutentags'
 " Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
-" Plug 'natebosch/vim-lsc'
 " Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
 " Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'haya14busa/vim-asterisk'
@@ -480,6 +479,7 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'tommcdo/vim-lion'
 " Plug 'tpope/vim-fugitive'
 " Plug 'wellle/targets.vim'
+Plug 'yegappan/lsp'
 " Plug 'zirrostig/vim-schlepp', {'on': '<plug>Schlepp'}
 call plug#end()
 
