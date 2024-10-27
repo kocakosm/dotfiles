@@ -465,7 +465,6 @@ Plug 'andymass/vim-matchup'
 Plug 'cocopon/iceberg.vim'
 Plug 'flwyd/vim-conjoin'
 " Plug 'hrsh7th/vim-vsnip'
-" Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-dirvish'
 Plug 'kocakosm/hilal'
 " Plug 'lervag/vimtex', {'for': ['tex']}
@@ -473,7 +472,6 @@ Plug 'ludovicchabant/vim-gutentags'
 " Plug 'mg979/vim-visual-multi'
 Plug 'mhinz/vim-signify'
 " Plug 'preservim/nerdtree', {'tag': '*', 'on': 'NERDTreeToggle'}
-" Plug 'shime/vim-livedown', {'for': ['markdown'], 'do': 'npm -g install livedown'}
 Plug 'haya14busa/vim-asterisk'
 " Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
