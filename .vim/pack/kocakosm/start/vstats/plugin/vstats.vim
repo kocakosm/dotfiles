@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " vstats.vim                                                           "
-" Copyright (c) 2018-2022 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) Osman Koçak <kocakosm@gmail.com>                       "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 

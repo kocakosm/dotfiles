@@ -2,7 +2,7 @@ vim9script noclear
 scriptencoding utf-8
 #----------------------------------------------------------------------#
 # spyglass/popup.vim                                                   #
-# Copyright (c) 2023 Osman Koçak <kocakosm@gmail.com>                  #
+# Copyright (c) Osman Koçak <kocakosm@gmail.com>                       #
 # Licensed under the MIT license <https://opensource.org/licenses/MIT> #
 #----------------------------------------------------------------------#
 

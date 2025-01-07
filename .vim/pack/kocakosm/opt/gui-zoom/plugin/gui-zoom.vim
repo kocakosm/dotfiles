@@ -3,7 +3,7 @@ scriptencoding utf-8
 #----------------------------------------------------------------------#
 # gui-zoom.vim                                                         #
 # Easily increase/decrease GUI font size                               #
-# Copyright (c) 2022 Osman Koçak <kocakosm@gmail.com>                  #
+# Copyright (c) Osman Koçak <kocakosm@gmail.com>                       #
 # Licensed under the MIT license <https://opensource.org/licenses/MIT> #
 #----------------------------------------------------------------------#
 

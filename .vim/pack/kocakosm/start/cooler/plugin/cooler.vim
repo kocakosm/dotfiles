@@ -4,7 +4,7 @@ scriptencoding utf-8
 # cooler.vim                                                           #
 # Disables hlsearch when you are done searching                        #
 # Inspired by https://github.com/romainl/vim-cool version 0.0.2        #
-# Copyright (c) 2022 Osman Koçak <kocakosm@gmail.com>                  #
+# Copyright (c) Osman Koçak <kocakosm@gmail.com>                       #
 # Licensed under the MIT license <https://opensource.org/licenses/MIT> #
 #----------------------------------------------------------------------#
 
