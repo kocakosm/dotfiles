@@ -22,7 +22,7 @@ let s:options = #{
 \  autoHighlight: v:true,
 \  autoHighlightDiags: v:true,
 \  autoPopulateDiags: v:false,
-\  bufferCompletionTimeout: 100,
+\  bufferCompletionTimeout: 125,
 \  completionKinds: {},
 \  completionMatcher: 'icase',
 \  completionMatcherValue: 1,
@@ -34,7 +34,7 @@ let s:options = #{
 \  diagSignWarningText: '●',
 \  diagVirtualTextAlign: 'above',
 \  diagVirtualTextWrap: 'default',
-\  echoSignature: v:true,
+\  echoSignature: v:false,
 \  filterCompletionDuplicates: v:true,
 \  hideDisabledCodeActions: v:true,
 \  highlightDiagInline: v:true,
@@ -42,7 +42,7 @@ let s:options = #{
 \  ignoreMissingServer: v:false,
 \  keepFocusInDiags: v:true,
 \  keepFocusInReferences: v:true,
-\  noNewlineInCompletion: v:false,
+\  noNewlineInCompletion: v:true,
 \  omniComplete: v:true,
 \  outlineOnRight: v:true,
 \  outlineWinSize: 33,
@@ -69,9 +69,9 @@ function! s:jdtls_workspace_edit(cmd)
 endfunction
 
 function! s:initialize() abort
-  call LspAddServer(s:servers)
   call LspOptionsSet(s:options)
-  call g:LspRegisterCmdHandler('java.apply.workspaceEdit', {cmd -> <sid>jdtls_workspace_edit(cmd)})
+  call LspAddServer(s:servers)
+  call LspRegisterCmdHandler('java.apply.workspaceEdit', {cmd -> <sid>jdtls_workspace_edit(cmd)})
 endfunction
 
 augroup VimLsp

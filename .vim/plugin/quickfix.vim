@@ -5,7 +5,7 @@ function! s:format_quickfix(info) abort
         \ : getloclist(a:info.winid, {'id': a:info.id, 'items': 1}).items
   let fmt = '%S:%S ∙ %S'
   return items[a:info.start_idx - 1 : a:info.end_idx - 1]
-        \ ->map({_, i -> printf(fmt, bufname(i.bufnr), i.lnum, trim(i.text))})
+        \ ->map({_, i -> printf(fmt, fnamemodify(bufname(i.bufnr), ':~:.'), i.lnum, trim(i.text))})
 endfunction
 let &quickfixtextfunc = function('s:format_quickfix')
 

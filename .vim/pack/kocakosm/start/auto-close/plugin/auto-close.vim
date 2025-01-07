@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "----------------------------------------------------------------------"
 " auto-close.vim                                                       "
-" Copyright (c) 2016-2022 Osman Koçak <kocakosm@gmail.com>             "
+" Copyright (c) Osman Koçak <kocakosm@gmail.com>                       "
 " Licensed under the MIT license <https://opensource.org/licenses/MIT> "
 "----------------------------------------------------------------------"
 
@@ -18,7 +18,7 @@ function! s:on_quit_pre() abort
   let non_ordinary = filter(range(winnr, 1, -1), '!s:is_ordinary(winbufnr(v:val))')
   if s:is_ordinary(bufnr('%')) && len(non_ordinary) == winnr - 1
     call s:close_windows(non_ordinary)
-  elseif len(non_ordinary) == winnr
+  elseif len(non_ordinary) == winnr && get(g:, 'auto_close_quit_if_all_non_ordinary', 0)
     call s:close_windows(filter(non_ordinary, 'v:val != ' . winnr()))
   endif
 endfunction
