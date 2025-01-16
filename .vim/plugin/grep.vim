@@ -1,7 +1,7 @@
-" Various improvements to the built-in grep command                         "
+" Various improvements to the built-in grep command
 
 function! s:set_grepprg() abort
-  let rg_ag_case_option = &ignorecase ? (&smartcase ? '-S' : '-i') : '-s'
+  const rg_ag_case_option = &ignorecase ? (&smartcase ? '-S' : '-i') : '-s'
   if executable('rg')
     let &grepprg = 'rg ' . rg_ag_case_option . ' --hidden --vimgrep'
     let &grepformat = '%f:%l:%c:%m'
@@ -24,10 +24,10 @@ function! s:grep(...) abort
     let in = ''
   endtry
   if isdirectory(in) || filereadable(glob(in))
-    let query = shellescape(join(a:000[0:-2], ' '))
+    const query = shellescape(join(a:000[0:-2], ' '))
   else
     let in = getcwd()
-    let query = shellescape(join(a:000, ' '))
+    const query = shellescape(join(a:000, ' '))
   endif
   let result = system(&grepprg . ' ' . query . ' ' . in)
   let s:has_result = !empty(result)
