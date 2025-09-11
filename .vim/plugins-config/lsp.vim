@@ -77,4 +77,5 @@ endfunction
 augroup VimLsp
   autocmd!
   autocmd User LspSetup call <sid>initialize()
+  autocmd User LspAttached let &l:complete = 'o'
 augroup END

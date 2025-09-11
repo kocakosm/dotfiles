@@ -221,9 +221,6 @@ set complete=.,w,b,u,t,i
 set completeopt=menuone,popup,fuzzy
 set completepopup+=border:off
 
-" Automatically show completion menu
-" set autocomplete
-
 " Don't show more than 15 items in the popup menu
 set pumheight=15
 

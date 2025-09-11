@@ -1,5 +1,6 @@
-if executable('xmlstarlet')
-  function! s:xmlstarlet_format() abort
+function! s:xml_format() abort
+  let view = winsaveview()
+  if executable('xmlstarlet')
     let cmd = 'xmlstarlet format '
     let cmd .= '-e ' . (&fileencoding !=# '' ? &fileencoding : &encoding)
     let cmd .= &expandtab ? ' -s ' . &shiftwidth : ' -t'
@@ -8,10 +9,14 @@ if executable('xmlstarlet')
       let result[0] = strcharpart(result[0], stridx(result[0], ':') + 1, strchars(result[0]))
       for error in result | call message#error(error) | endfor
     else
-      silent! normal! gg_dG
+      silent! keepjumps normal! gg_dG
       call setline(1, result)
     endif
-  endfunction
-  command! -buffer -bar Format call <sid>xmlstarlet_format()
-  call ftplugin#append_undo_cmd('delcommand Format')
-endif
+  else
+    silent! keepjumps normal! gggqG
+  endif
+  call winrestview(view)
+endfunction
+
+command! -buffer -bar Format call <sid>xml_format()
+call ftplugin#append_undo_cmd('delcommand Format')
