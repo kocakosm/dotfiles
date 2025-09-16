@@ -36,7 +36,7 @@ def ToggleWord(): void
 	for words in GetWords()
 		const index = index(words->mapnew((_, w) => tolower(w)), tolower(cword))
 		if index > -1
-			execute 'normal! ciw' .. case.Apply(words[(index + 1) % len(words)])
+      execute $'normal! ciw{case.Apply(words[(index + 1) % len(words)])}'
 			break
 		endif
 	endfor
@@ -44,7 +44,9 @@ enddef
 
 def GetWords(): list<list<string>>
   const words = g:->get('toggle_words', {})
-  return words->get(&filetype, [])->extendnew(words->get('*', []))->extend(TOGGLE_WORDS)
+  return words->get(&filetype, [])
+              ->extendnew(words->get('*', []))
+              ->extend(TOGGLE_WORDS)
 enddef
 
-command! ToggleWord ToggleWord()
+command! -bar ToggleWord ToggleWord()

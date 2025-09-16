@@ -3,7 +3,7 @@ let s:lsp_servers_dir = system#user_data_dir() . 'lsp/servers/'
 let s:servers = [#{
 \  name: 'jdtls',
 \  filetype: ['java'],
-\  path: s:lsp_servers_dir . 'eclipse-jdt-ls/current/run.sh',
+\  path: s:lsp_servers_dir . 'eclipse-jdt-ls/run.sh',
 \  args: [],
 \  initializationOptions: #{
 \    settings: #{
