@@ -76,14 +76,14 @@ set noswapfile
 set swapsync=
 
 " Put all temporary files in a more sensible place
-call system#mkdir(system#user_data_dir() . 'vim/swap')
-call system#mkdir(system#user_data_dir() . 'vim/undo')
-call system#mkdir(system#user_data_dir() . 'vim/info')
-call system#mkdir(system#user_data_dir() . 'vim/backup')
-let &backupdir=system#user_data_dir() . 'vim/backup/'
-let &directory=system#user_data_dir() . 'vim/swap//'
-let &undodir=system#user_data_dir() . 'vim/undo/'
-let &viminfo="'100,n" . system#user_data_dir() . 'vim/info/viminfo'
+call system#mkdir(system#user_data_dir('vim', 'swap'))
+call system#mkdir(system#user_data_dir('vim', 'undo'))
+call system#mkdir(system#user_data_dir('vim', 'info'))
+call system#mkdir(system#user_data_dir('vim', 'backup'))
+let &backupdir=system#user_data_dir('vim', 'backup/')
+let &directory=system#user_data_dir('vim', 'swap//')
+let &undodir=system#user_data_dir('vim', 'undo')
+let &viminfo="'100,n" . system#user_data_dir('vim', 'info', 'viminfo')
 
 " Set the window title
 set title
@@ -124,7 +124,7 @@ set cursorline
 set cursorlineopt=number
 
 " Prettier vertical separators, fold markers...
-let &fillchars='vert:│,diff: ,fold: ,foldclose:▸,foldopen:▾,foldsep:│,eob:-,lastline:.'
+let &fillchars='vert:│,diff: ,fold: ,foldclose:▶,foldopen:▼,foldsep:│,foldinner:│,eob:-,lastline:.'
 
 " Open new windows below the current one
 set splitbelow
@@ -218,10 +218,10 @@ set dictionary+=/usr/share/dict/french
 set complete=.,w,b,u,t,i
 
 " Insert mode completion options
-set completeopt=menuone,popup,fuzzy
-set completepopup+=border:off
+set completeopt=menu,popup,fuzzy
+set completepopup=border:off,close:off,resize:off
 
-" Don't show more than 15 items in the popup menu
+" Don't show more than 15 items in the completion popup menu
 set pumheight=15
 
 " Automatic formatting options
@@ -461,7 +461,7 @@ nnoremap <leader><space> <cmd>Buffers<cr>
 "---------  Third-party plugins  ---------"
 "-----------------------------------------"
 
-call plug#begin(system#user_data_dir() . 'vim/plugins')
+call plug#begin(system#user_data_dir('vim', 'plugins'))
 Plug 'airblade/vim-rooter'
 Plug 'alvan/vim-closetag', {'for': ['xml', 'xsd', 'html', 'xhtml']}
 Plug 'andymass/vim-matchup'
@@ -487,7 +487,7 @@ call plug#end()
 for s:plugin in keys(g:plugs)
   let s:plugin_name = substitute(tolower(s:plugin), '^\(n\)\?vim-', '', '')
   let s:plugin_name = substitute(s:plugin_name, '[\.-]\(n\)\?vim$', '', '')
-  let s:plugin_conf = system#user_vim_dir() . 'plugins-config/' . s:plugin_name . '.vim'
+  let s:plugin_conf = system#user_vim_dir('plugins-config', $'{s:plugin_name}.vim')
   if filereadable(s:plugin_conf)
     execute 'source ' . s:plugin_conf
   endif

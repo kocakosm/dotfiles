@@ -1,9 +1,7 @@
-let s:lsp_servers_dir = system#user_data_dir() . 'lsp/servers/'
-
 let s:servers = [#{
 \  name: 'jdtls',
 \  filetype: ['java'],
-\  path: s:lsp_servers_dir . 'eclipse-jdt-ls/run.sh',
+\  path: system#user_data_dir('lsp', 'servers', 'eclipse-jdt-ls', 'run.sh'),
 \  args: [],
 \  initializationOptions: #{
 \    settings: #{
@@ -24,7 +22,7 @@ let s:options = #{
 \  autoPopulateDiags: v:false,
 \  bufferCompletionTimeout: 125,
 \  completionKinds: {},
-\  completionMatcher: 'icase',
+\  completionMatcher: 'case',
 \  completionMatcherValue: 1,
 \  completionTextEdit: v:true,
 \  customCompletionKinds: v:false,
@@ -35,6 +33,7 @@ let s:options = #{
 \  diagVirtualTextAlign: 'above',
 \  diagVirtualTextWrap: 'default',
 \  echoSignature: v:false,
+\  condensedCompletionMenu: v:false,
 \  filterCompletionDuplicates: v:true,
 \  hideDisabledCodeActions: v:true,
 \  highlightDiagInline: v:true,
@@ -44,8 +43,15 @@ let s:options = #{
 \  keepFocusInReferences: v:true,
 \  noNewlineInCompletion: v:true,
 \  omniComplete: v:true,
+\  omniCompleteAllowBare: v:false,
 \  outlineOnRight: v:true,
 \  outlineWinSize: 33,
+\  popupBorder: v:false,
+\  popupBorderHighlight: 'Title',
+\  popupBorderHighlightPeek: 'Special',
+\  popupBorderSignatureHelp: v:false,
+\  popupHighlightSignatureHelp: 'Pmenu',
+\  popupHighlight: 'Pmenu',
 \  semanticHighlight: v:false,
 \  showDiagInBalloon: v:true,
 \  showDiagInPopup: v:true,
