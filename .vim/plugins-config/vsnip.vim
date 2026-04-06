@@ -4,11 +4,11 @@
 
 let g:vsnip_snippet_dir = system#user_vim_dir('snippets')
 
-let options = #{recursive: 1}
-call keymap#conditional_map('i', 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)', options)
-call keymap#conditional_map('s', 'vsnip#available(1)', '<tab>', '<plug>(vsnip-expand-or-jump)', options)
-call keymap#conditional_map('i', 'vsnip#jumpable(-1)', '<s-tab>', '<plug>(vsnip-jump-prev)', options)
-call keymap#conditional_map('s', 'vsnip#jumpable(-1)', '<s-tab>', '<plug>(vsnip-jump-prev)', options)
+imap <expr> <tab> vsnip#jumpable(1) ? '<plug>(vsnip-jump-next)' : (vsnip#expandable() ? '<plug>(vsnip-expand)' : '<tab>')
+smap <expr> <tab> vsnip#jumpable(1) ? '<plug>(vsnip-jump-next)' : (vsnip#expandable() ? '<plug>(vsnip-expand)' : '<tab>')
+smap <expr> <cr> vsnip#jumpable(1) ? '<plug>(vsnip-jump-next)' : '<cr>'
+imap <expr> <s-tab> vsnip#jumpable(-1) ? '<plug>(vsnip-jump-prev)' : '<s-tab>'
+smap <expr> <s-tab> vsnip#jumpable(-1) ? '<plug>(vsnip-jump-prev)' : '<s-tab>'
 
 nmap s <plug>(vsnip-select-text)
 xmap s <plug>(vsnip-select-text)

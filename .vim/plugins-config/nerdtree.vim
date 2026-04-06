@@ -4,6 +4,8 @@ let g:NERDTreeHighlightCursorline=1
 let g:NERDTreeHijackNetrw=0
 let g:NERDTreeWinSize=40
 let g:NERDTreeStatusline=''
+let g:NERDTreeDirArrowExpandable="▶"
+let g:NERDTreeDirArrowCollapsible="▼"
 
 nnoremap <silent> <f5> <cmd>NERDTreeToggle<cr>
 

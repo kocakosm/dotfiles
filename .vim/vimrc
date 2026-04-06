@@ -75,15 +75,24 @@ set noswapfile
 " Do not flush the swap file to disk every time it is written
 set swapsync=
 
-" Put all temporary files in a more sensible place
-call system#mkdir(system#user_data_dir('vim', 'swap'))
+" Define more sensible places for run-time generated files and 3rd-party packages
+call system#mkdir(system#user_state_dir('vim', 'swap'))
+call system#mkdir(system#user_state_dir('vim', 'backup'))
 call system#mkdir(system#user_data_dir('vim', 'undo'))
+call system#mkdir(system#user_data_dir('vim', 'view'))
 call system#mkdir(system#user_data_dir('vim', 'info'))
-call system#mkdir(system#user_data_dir('vim', 'backup'))
-let &backupdir=system#user_data_dir('vim', 'backup/')
-let &directory=system#user_data_dir('vim', 'swap//')
+call system#mkdir(system#user_data_dir('vim', 'netrw'))
+let &directory=system#user_state_dir('vim', 'swap//')
+let &backupdir=system#user_state_dir('vim', 'backup/')
 let &undodir=system#user_data_dir('vim', 'undo')
-let &viminfo="'100,n" . system#user_data_dir('vim', 'info', 'viminfo')
+let &viewdir=system#user_data_dir('vim', 'view')
+let &viminfofile=system#user_data_dir('vim', 'info', 'viminfo')
+let g:netrw_home = system#user_data_dir('vim', 'netrw')
+if index(split(&packpath, ','), system#user_data_dir('vim')) < 0
+  execute 'set packpath^=' . system#user_data_dir('vim')
+  execute 'set packpath+=' . system#user_data_dir('vim', 'after')
+endif
+
 
 " Set the window title
 set title
@@ -221,6 +230,9 @@ set complete=.,w,b,u,t,i
 set completeopt=menu,popup,fuzzy
 set completepopup=border:off,close:off,resize:off
 
+" Preview popup options
+set previewpopup=border:off,close:off,resize:off
+
 " Don't show more than 15 items in the completion popup menu
 set pumheight=15
 
@@ -270,7 +282,7 @@ augroup Vimrc
 augroup END
 
 " Command-line window customization
-autocmd Vimrc CmdwinEnter [:/?] setlocal nonumber textwidth=0
+autocmd Vimrc CmdwinEnter [:/?] setlocal nonumber textwidth=0 filetype+=.cmdwin
 
 " Preview window customization
 autocmd Vimrc WinEnter * if &previewwindow | setlocal nonumber | endif
@@ -287,9 +299,9 @@ autocmd Vimrc BufEnter * ++once let &l:modifiable=!&readonly
 map <space> <leader>
 
 " Finer-grained undo
-inoremap <silent> <tab> <tab><c-g>u
-inoremap <silent> <space> <space><c-g>u
-inoremap <silent> <cr> <cr><c-g>u
+imap <silent> <tab> <tab><c-g>u
+imap <silent> <space> <space><c-g>u
+imap <silent> <cr> <cr><c-g>u
 inoremap <silent> <c-u> <c-g>u<c-u>
 inoremap <silent> <c-w> <c-g>u<c-w>
 
@@ -335,9 +347,9 @@ nnoremap <silent> <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 xnoremap <silent> < <gv
 xnoremap <silent> > >gv
 
-" <ctrl-l> picks the first suggestion for the last spelling mistake
-inoremap <silent> <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
-nnoremap <silent> <c-l> [s1z=`]
+" <ctrl-s> picks the first suggestion for the last spelling mistake
+inoremap <silent> <c-s> <c-g>u<esc>[s1z=`]a<c-g>u
+nnoremap <silent> <c-s> [s1z=`]
 
 " Easily replace the word under the cursor or the current visual selection
 nnoremap <leader>r :% s/\<<c-r><c-w>\>//g<left><left>
@@ -354,13 +366,13 @@ cnoremap <silent> <c-q> <cmd>q<cr>
 " Insert mode completion mappings
 imap <c-@> <c-space>
 inoremap <c-space> <c-n>
-call keymap#conditional_map('i', 'pumvisible()', '<c-space>', '<c-n>')
-call keymap#conditional_map('i', 'pumvisible()', '<down>', '<c-n>')
-" call keymap#conditional_map('i', 'pumvisible()', '<tab>', '<c-n>')
-call keymap#conditional_map('i', 'pumvisible()', '<up>', '<c-p>')
-" call keymap#conditional_map('i', 'pumvisible()', '<s-tab>', '<c-p>')
-call keymap#conditional_map('i', 'pumvisible()', '<esc>', '<c-e>')
-call keymap#conditional_map('i', 'pumvisible()', '<cr>', '<c-y>')
+execute keymap#conditional('i', 'pumvisible()', '<c-space>', '<c-n>')
+execute keymap#conditional('i', 'pumvisible()', '<down>', '<c-n>')
+" execute keymap#conditional('i', 'pumvisible()', '<tab>', '<c-n>')
+execute keymap#conditional('i', 'pumvisible()', '<up>', '<c-p>')
+" execute keymap#conditional('i', 'pumvisible()', '<s-tab>', '<c-p>')
+execute keymap#conditional('i', 'pumvisible()', '<esc>', '<c-e>')
+execute keymap#conditional('i', 'pumvisible()', '<cr>', '<c-y>')
 
 "--------------------------------------"
 "---------  Built-in plugins  ---------"
@@ -371,17 +383,16 @@ let g:loaded_2html_plugin=1
 let g:loaded_getscriptPlugin=1
 let g:loaded_logiPat=1
 let g:loaded_netrwPlugin=1
+let g:loaded_spellfile_plugin=1 "depends on netrw...
 let g:loaded_rrhelper=1
 let g:loaded_vimballPlugin=1
 let g:loaded_gzip=1
 let g:loaded_zipPlugin=1
 let g:loaded_tarPlugin=1
 
-" Load EditorConfig plugin
-packadd editorconfig
-
-" Load comment plugin
+" Load opt-in built-in packages
 packadd comment
+packadd editorconfig
 
 " Load man pages viewer
 if exists(':Man') != 2
@@ -435,6 +446,7 @@ let g:skyline = #{
 \    LineInfo: ' %12(%l/%L %p%%%) ',
 \    Ruler: ' %16(%l/%L:%02.v %p%%%) ',
 \    Percentage: ' %P ',
+\    CmdWin: ' Ex-Commands ',
 \    QuickfixTitle: ' %{statusline#QuickfixTitle()} '
 \  },
 \  statuslines: {
@@ -445,6 +457,7 @@ let g:skyline = #{
 \    'terminal': #{default: ['BufferType', 'Spacer', 'Bufname', 'Spacer']},
 \    'help': #{default: ['BufferType', 'Spacer', 'Filename', 'Spacer', 'LineInfo']},
 \    'qf': #{default: ['BufferType', 'Spacer', 'QuickfixTitle', 'Spacer', 'LineInfo']},
+\    'cmdwin': #{default: ['Mode', 'Spacer', 'CmdWin', 'Spacer', 'Ruler']},
 \    'man': #{default: ['BufferType', 'Spacer', 'Filename', 'Spacer', 'Percentage']},
 \    'nerdtree': #{default: ['BufferType']},
 \    'vim-plug': #{default: ['BufferType']},

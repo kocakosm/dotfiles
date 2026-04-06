@@ -7,7 +7,7 @@ function! s:visual_at() abort
       call message#warn($'Invalid register "{register}"')
     elseif register !~# '\e'
       echo $'@{register}'
-      execute $":'<,'> normal @{register}"
+      execute $":'<,'> normal! @{register}"
     endif
   else
     call message#warn('Only visual line mode is supported')

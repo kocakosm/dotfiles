@@ -1,7 +1,7 @@
 augroup Colorscheme
   autocmd!
   autocmd ColorScheme * call <sid>on_colorscheme(expand('<amatch>'))
-  autocmd BufWinEnter NERD_tree_1 ++once set wincolor=NerdTree
+  autocmd BufWinEnter NERD_tree_tab_1 ++once set winhighlight=Normal:NerdTree
 augroup END
 
 function! s:on_colorscheme(colorscheme) abort

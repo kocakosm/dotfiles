@@ -27,12 +27,14 @@ def UpdateIndentGuides(): void
   const GetListCharsItem = (name: string) => {
     return &listchars->matchstr($'{name}:\([^,]*\)')->escape(' ')
   }
-  execute('setlocal listchars-=' .. GetListCharsItem('leadmultispace'))
   execute('setlocal listchars-=' .. GetListCharsItem('tab'))
+  execute('setlocal listchars-=' .. GetListCharsItem('leadtab'))
+  execute('setlocal listchars-=' .. GetListCharsItem('leadmultispace'))
   if &expandtab
     &l:listchars ..= ',leadmultispace:' .. GetIndentGuide()
   else
-    &l:listchars ..= ',tab:' .. GetIndentGuide()->strcharpart(0, 2)
+    &l:listchars ..= ',tab:  '
+    &l:listchars ..= ',leadtab:' .. GetIndentGuide()->strcharpart(0, 2)
   endif
 enddef
 

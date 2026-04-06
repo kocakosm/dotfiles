@@ -15,73 +15,55 @@ let s:servers = [#{
 \}]
 
 let s:options = #{
-\  aleSupport: v:false,
 \  autoComplete: v:false,
 \  autoHighlight: v:true,
-\  autoHighlightDiags: v:true,
-\  autoPopulateDiags: v:false,
-\  bufferCompletionTimeout: 125,
-\  completionKinds: {},
 \  completionMatcher: 'case',
-\  completionMatcherValue: 1,
-\  completionTextEdit: v:true,
-\  customCompletionKinds: v:false,
 \  diagSignErrorText: '●',
 \  diagSignHintText: '●',
 \  diagSignInfoText: '●',
 \  diagSignWarningText: '●',
-\  diagVirtualTextAlign: 'above',
-\  diagVirtualTextWrap: 'default',
-\  echoSignature: v:false,
-\  condensedCompletionMenu: v:false,
 \  filterCompletionDuplicates: v:true,
 \  hideDisabledCodeActions: v:true,
-\  highlightDiagInline: v:true,
-\  hoverInPreview: v:false,
-\  ignoreMissingServer: v:false,
-\  keepFocusInDiags: v:true,
-\  keepFocusInReferences: v:true,
-\  noNewlineInCompletion: v:true,
 \  omniComplete: v:true,
-\  omniCompleteAllowBare: v:false,
 \  outlineOnRight: v:true,
 \  outlineWinSize: 33,
-\  popupBorder: v:false,
-\  popupBorderHighlight: 'Title',
-\  popupBorderHighlightPeek: 'Special',
-\  popupBorderSignatureHelp: v:false,
-\  popupHighlightSignatureHelp: 'Pmenu',
 \  popupHighlight: 'Pmenu',
-\  semanticHighlight: v:false,
 \  showDiagInBalloon: v:true,
-\  showDiagInPopup: v:true,
-\  showDiagOnStatusLine: v:false,
-\  showDiagWithSign: v:true,
-\  showDiagWithVirtualText: v:false,
-\  showInlayHints: v:false,
-\  showSignature: v:true,
-\  snippetSupport: v:false,
-\  ultisnipsSupport: v:false,
-\  useBufferCompletion: v:false,
-\  usePopupInCodeAction: v:true,
-\  useQuickfixForLocations: v:false,
-\  vsnipSupport: v:false
+\  usePopupInCodeAction: v:true
 \}
 
-function! s:jdtls_workspace_edit(cmd)
+function! s:jdtls_workspace_edit(cmd) abort
   for e in a:cmd.arguments
     call lsp#textedit#ApplyWorkspaceEdit(e)
   endfor
 endfunction
 
-function! s:initialize() abort
+function! s:on_lsp_setup() abort
   call LspOptionsSet(s:options)
   call LspAddServer(s:servers)
   call LspRegisterCmdHandler('java.apply.workspaceEdit', {cmd -> <sid>jdtls_workspace_edit(cmd)})
 endfunction
 
+function! s:on_lsp_attached() abort
+  let &l:complete = 'o'
+  let &showbreak=''
+  xnoremap <silent> <buffer> <c-e> <cmd>LspSelectionExpand<cr>
+  xnoremap <silent> <buffer> <c-s> <cmd>LspSelectionShrink<cr>
+  xnoremap <silent> <buffer> <leader>r <nop>
+  nnoremap <silent> <buffer> <leader>r <cmd>LspRename<cr>
+  nnoremap <silent> <buffer> <a-ins> <cmd>LspCodeAction<cr>
+  nnoremap <silent> <buffer> <a-r> <cmd>LspShowReferences<cr>
+  nnoremap <silent> <buffer> <a-h> <cmd>LspHover<cr>
+  nnoremap <silent> <buffer> <a-d> <cmd>LspDiagShow<cr>
+  nnoremap <silent> <buffer> <a-i> <cmd>LspGotoImpl<cr>
+  nnoremap <silent> <buffer> <c-leftmouse> <cmd>LspGotoDefinition<cr>
+  nnoremap <silent> <buffer> <c-cr> <cmd>LspGotoDefinition<cr>
+  nnoremap <silent> <buffer> <a-f> <cmd>LspFormat<cr>
+  nnoremap <silent> <buffer> <c-s-i> <cmd>LspOrganizeImports<cr>
+endfunction
+
 augroup VimLsp
   autocmd!
-  autocmd User LspSetup call <sid>initialize()
-  autocmd User LspAttached let &l:complete = 'o'
+  autocmd User LspSetup call <sid>on_lsp_setup()
+  autocmd User LspAttached call <sid>on_lsp_attached()
 augroup END

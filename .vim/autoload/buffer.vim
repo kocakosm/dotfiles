@@ -2,7 +2,7 @@ function! buffer#duplicate_line_up() abort
   let save_virtualedit = &l:virtualedit
   try
     setlocal virtualedit=onemore
-    normal m`yyP==``k
+    noautocmd normal! m`yyP==``k
   finally
     let &l:virtualedit = save_virtualedit
   endtry
@@ -12,7 +12,7 @@ function! buffer#duplicate_line_down() abort
   let save_virtualedit = &l:virtualedit
   try
     setlocal virtualedit=onemore
-    normal m`yyp==``j
+    noautocmd normal! m`yyp==``j
   finally
     let &l:virtualedit = save_virtualedit
   endtry

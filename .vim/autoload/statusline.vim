@@ -34,7 +34,7 @@ export def FileInfo(): string
   var info = Filename()
   const ft = tolower(&filetype)
   if !empty(ft) && !string#EndsWith(info, ft)
-    info ..= $' ({ft})'
+    info ..= $' ({ft->split('\.')->join('/')})'
   endif
   const locked = &readonly || !&modifiable
   return (locked ? ' ' : '') .. info .. (&modified ? ' ●' : '')
