@@ -1,0 +1,10 @@
+{
+  "main": {
+    "prefix": "main",
+    "body": ["public static void main(String... args)", "{", "\t$0", "}"]
+  },
+  "println": {
+    "prefix": "sop",
+    "body": ["System.out.println($1);$0"]
+  }
+}

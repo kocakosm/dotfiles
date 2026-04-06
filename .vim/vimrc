@@ -481,7 +481,7 @@ Plug 'andymass/vim-matchup'
 " Plug 'chrisbra/NrrwRgn', {'on': '<plug>NrrwrgnDo'}
 Plug 'cocopon/iceberg.vim'
 Plug 'flwyd/vim-conjoin'
-" Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 Plug 'justinmk/vim-dirvish'
 Plug 'kocakosm/hilal'
 " Plug 'lervag/vimtex', {'for': ['tex']}
