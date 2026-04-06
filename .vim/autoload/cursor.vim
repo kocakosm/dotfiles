@@ -24,3 +24,9 @@ augroup CursorChanged
   autocmd OptionSet t_ve t_ve_save = v:option_new
   autocmd OptionSet guicursor guicursor_save = v:option_new
 augroup END
+
+export def Move(motion: string): bool
+  const cursor = getcursorcharpos()[1 : 2]
+  execute($'normal! {motion}')
+  return cursor != getcursorcharpos()[1 : 2]
+enddef

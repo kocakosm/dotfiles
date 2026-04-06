@@ -18,6 +18,4 @@ augroup CursorAutoHide
   autocmd!
   autocmd CmdLineEnter * cursor.Show()
   autocmd BufWinEnter,BufEnter,FileType,CmdLineLeave * CursorAutoHide()
-  autocmd User SpyglassOpen set nocursorline | cursor.Hide()
-  autocmd User SpyglassClose set cursorline | CursorAutoHide()
 augroup END
