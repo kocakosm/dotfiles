@@ -61,17 +61,17 @@ def HidePopup(): void
   endif
 enddef
 
-augroup __SearchCount__ | autocmd! | augroup END
+augroup SearchCount | autocmd! | augroup END
 
 def SearchCount(hlsearch: bool): void
-  autocmd! __SearchCount__ SafeState,VimResized
+  autocmd! SearchCount SafeState,VimResized
   if hlsearch
-    autocmd __SearchCount__ SafeState,VimResized * UpdatePopup()
+    autocmd SearchCount SafeState,VimResized * UpdatePopup()
   else
     HidePopup()
   endif
 enddef
 
-autocmd __SearchCount__ OptionSet hlsearch SearchCount(v:option_new == '1')
+autocmd SearchCount OptionSet hlsearch SearchCount(v:option_new == '1')
 
 SearchCount(&hlsearch)

@@ -172,7 +172,7 @@ function! s:is_ordinary(bufnr) abort
   return buflisted(a:bufnr) && getbufvar(a:bufnr, '&buftype') ==# ''
 endfunction
 
-augroup __Zoom__
+augroup Zoom
   autocmd!
   autocmd QuitPre * call <sid>zoom_out_on_quit()
   autocmd SafeState * call <sid>lock_zoomed_window()

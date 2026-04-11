@@ -133,7 +133,7 @@ def OnQuitPre(): void
   endif
 enddef
 
-augroup __PopTerm__
+augroup PopTerm
   autocmd!
   autocmd BufEnter * OnBufEnter()
   autocmd VimResized * OnVimResized()

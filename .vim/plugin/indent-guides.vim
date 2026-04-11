@@ -1,7 +1,6 @@
 vim9script
 
 const INDENT_GUIDE = '│'
-const FILE_TYPES = ['java', 'vim', 'xml']
 
 final listeners: dict<number> = {}
 prop_type_add('indent-guides', {highlight: 'SpecialKey'})
@@ -9,7 +8,7 @@ prop_type_add('indent-guides', {highlight: 'SpecialKey'})
 def IndentGuides(): void
   const bufnr = bufnr()
   Cleanup(bufnr)
-  if &list && FILE_TYPES->index(&filetype) >= 0
+  if &list
     listeners[bufnr] = listener_add(OnBufferUpdate)
     UpdateIndentGuides()
     UpdateIndentGuidesOnEmptyLines(1, line('$'))
@@ -45,7 +44,7 @@ enddef
 def OnBufferUpdate(bufnr: number, start: number, end: number, added: number, changes: list<any>): void
   UpdateIndentGuidesOnEmptyLines(
     min([line('$'), max([1, min([start, end + added - 1])])]),
-    min([line('$'), max([1, max([start, end + added - 1])])])
+    min([line('$'), max([1, max([end, end + added - 1])])])
   )
 enddef
 
@@ -56,14 +55,14 @@ def UpdateIndentGuidesOnEmptyLines(start: number, end: number): void
     if empty(getline(linenr))
       const previous_indent = GetIndent(prevnonblank(linenr))
       const next_indent = GetIndent(nextnonblank(linenr))
-      const indent = min([previous_indent, next_indent])
+      const indent = max([previous_indent, next_indent])
       const guide = GetIndentGuide()->repeat(indent / shiftwidth())
       prop_add(linenr, 1, {type: 'indent-guides', text: guide})
     endif
   endfor
 enddef
 
-augroup __IndentGuides__
+augroup IndentGuides
   autocmd!
   autocmd FileType * IndentGuides()
   autocmd OptionSet list,expandtab,shiftwidth IndentGuides()

@@ -10,7 +10,8 @@ function! keymap#conditional(mode, condition, lhs, rhs, options = {}) abort
     return printf(
     \  '%s%smap <silent> %s <expr> %s %s ? "%s" : %s',
     \  a:mode, recursive ? '' : 'nore', global ? '' : '<buffer>',
-    \  a:lhs, a:condition, a:rhs, mapping->get('expr', 0) ? $'({old_rhs})' : $'"{old_rhs}"'
+    \  a:lhs, a:condition, a:rhs,
+    \  mapping->get('expr', 0) ? $'({old_rhs})' : $'"{old_rhs->escape('"')}"'
     \)
   endif
   return ''

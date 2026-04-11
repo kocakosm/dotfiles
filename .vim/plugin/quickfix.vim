@@ -27,10 +27,8 @@ endfunction
 augroup Quickfix
   autocmd!
   " Automatically open the location/quickfix window
-  execute 'autocmd QuickFixCmdPost ' . s:quickfix_cmds() .
-        \ " nested call async#execute('cwindow | doautocmd BufEnter')"
-  execute 'autocmd QuickFixCmdPost ' . s:loclist_cmds() .
-        \ " nested call async#execute('silent! lwindow | doautocmd BufEnter')"
+  execute 'autocmd QuickFixCmdPost ' . s:quickfix_cmds() . " nested call async#execute('cwindow')"
+  execute 'autocmd QuickFixCmdPost ' . s:loclist_cmds() . " nested call async#execute('silent! lwindow')"
   autocmd VimEnter * nested if count(v:argv, '-q') | cwindow | endif
   " Close the corresponding location list when quitting a window
   autocmd QuitPre * nested if &filetype != 'qf' | silent! lclose | endif

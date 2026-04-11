@@ -12,11 +12,16 @@ def HighlightYank()
       const col_end = v[1][2] + v[1][3] + 1
       return [v[0][1], col_beg, col_end - col_beg]
     }))
-    timer_start(duration, (_) => m->matchdelete(win_getid()))
+    const winid = win_getid()
+    timer_start(duration, (_) => {
+      if winbufnr(winid) != -1
+        m->matchdelete(winid)
+      endif
+    })
   endif
 enddef
 
-augroup __HighlightYank__
+augroup HighlightYank
   autocmd!
   autocmd TextYankPost * HighlightYank()
 augroup END

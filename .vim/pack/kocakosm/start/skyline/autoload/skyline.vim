@@ -105,7 +105,7 @@ def ClearCache(winid: number): void
   cache->filter((k, _) => str2nr(k->split('\:')[0]) != winid)
 enddef
 
-augroup __Skyline__
+augroup Skyline
   autocmd!
   autocmd FileType,BufWinEnter * ClearCache(win_getid())
 augroup END

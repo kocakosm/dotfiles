@@ -62,18 +62,18 @@ function! s:contains(list, element) abort
   return index(a:list, a:element) >= 0
 endfunction
 
-augroup __StickyBuffers__ | augroup END
+augroup StickyBuffers | augroup END
 
 function! s:enable_plugin() abort
-  autocmd! __StickyBuffers__
-  autocmd __StickyBuffers__ WinNew * call <sid>on_win_new()
-  autocmd __StickyBuffers__ BufWinEnter * call <sid>on_buf_win_enter()
-  autocmd __StickyBuffers__ BufEnter * call <sid>on_buf_enter()
-  autocmd __StickyBuffers__ BufLeave * call <sid>on_buf_leave()
+  autocmd! StickyBuffers
+  autocmd StickyBuffers WinNew * call <sid>on_win_new()
+  autocmd StickyBuffers BufWinEnter * call <sid>on_buf_win_enter()
+  autocmd StickyBuffers BufEnter * call <sid>on_buf_enter()
+  autocmd StickyBuffers BufLeave * call <sid>on_buf_leave()
 endfunction
 
 function! s:disable_plugin() abort
-  autocmd! __StickyBuffers__
+  autocmd! StickyBuffers
 endfunction
 
 if get(g:, 'sticky_buffers_enabled', 1)

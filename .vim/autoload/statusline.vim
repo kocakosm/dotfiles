@@ -22,7 +22,7 @@ enddef
 
 export def GitHead(): string
   const h = git#Head()
-  return ' ' .. (empty(h) ? 'N/A' : h)
+  return empty(h) ? '' : ' ' .. h
 enddef
 
 export def Filename(): string

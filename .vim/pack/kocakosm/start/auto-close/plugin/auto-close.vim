@@ -33,7 +33,7 @@ function! s:close_windows(windows) abort
   endfor
 endfunction
 
-augroup __AutoClose__
+augroup AutoClose
   autocmd!
   autocmd QuitPre * call <sid>on_quit_pre()
 augroup END

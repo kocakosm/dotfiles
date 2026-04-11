@@ -32,17 +32,17 @@ nnoremap <silent> <plug>(cooler#nohlsearch) <cmd>nohlsearch<cr>
 inoremap <silent> <plug>(cooler#nohlsearch) <cmd>nohlsearch<cr>
 xnoremap <silent> <plug>(cooler#nohlsearch) <cmd>nohlsearch<cr>
 
-augroup __Cooler__ | autocmd! | augroup END
+augroup Cooler | autocmd! | augroup END
 
 def Cooler(hlsearch: bool): void
-  autocmd! __Cooler__ CursorMoved,WinEnter,InsertEnter
+  autocmd! Cooler CursorMoved,WinEnter,InsertEnter
   if hlsearch
     if !getreg('/')->empty() | CheckHighlight() | endif
-    autocmd __Cooler__ CursorMoved,WinEnter * CheckHighlight()
-    autocmd __Cooler__ InsertEnter * StopHighlight()
+    autocmd Cooler CursorMoved,WinEnter * CheckHighlight()
+    autocmd Cooler InsertEnter * StopHighlight()
   endif
 enddef
 
-autocmd __Cooler__ OptionSet hlsearch Cooler(v:option_new == '1')
+autocmd Cooler OptionSet hlsearch Cooler(v:option_new == '1')
 
 Cooler(&hlsearch)
