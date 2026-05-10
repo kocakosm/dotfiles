@@ -1,7 +1,7 @@
 augroup Colorscheme
   autocmd!
   autocmd ColorScheme * call <sid>on_colorscheme(expand('<amatch>'))
-  autocmd BufWinEnter NERD_tree_tab_1 ++once set winhighlight=Normal:NerdTree
+  autocmd BufWinEnter NERD_tree* set winhighlight=Normal:NerdTree
 augroup END
 
 function! s:on_colorscheme(colorscheme) abort
@@ -10,7 +10,7 @@ function! s:on_colorscheme(colorscheme) abort
 endfunction
 
 function! s:hilal() abort
-  highlight NerdTree guibg=#1c242c
+  highlight NerdTree guibg=#171d21
   highlight VertSplit term=NONE cterm=NONE guibg=#1a2027 guifg=#0e141c
   highlight StatusLine term=NONE cterm=NONE guibg=#1a2027
   highlight StatusLineNC term=NONE cterm=NONE guibg=#1a2027
@@ -24,7 +24,7 @@ function! s:hilal() abort
 endfunction
 
 function! s:sorbet() abort
-  highlight NerdTree guibg=#1b1d2a
+  highlight NerdTree guibg=#1e1d2c
   highlight SignifySignAdd guifg=#00af5f guibg=NONE gui=NONE cterm=NONE
   highlight SignifySignChange guifg=#87afff guibg=NONE gui=NONE cterm=NONE
   highlight SignifySignDelete guifg=#d7005f guibg=NONE gui=NONE cterm=NONE
@@ -50,6 +50,7 @@ endfunction
 
 function! s:iceberg() abort
   call async#execute('set background=dark')
+  highlight NerdTree guibg=#13141c
   highlight LineNr guibg=NONE
   highlight CursorLineNr guibg=NONE gui=NONE
   highlight SignColumn guibg=NONE

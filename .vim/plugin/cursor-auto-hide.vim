@@ -18,4 +18,5 @@ augroup CursorAutoHide
   autocmd!
   autocmd CmdLineEnter * cursor.Show()
   autocmd BufWinEnter,BufEnter,FileType,CmdLineLeave * CursorAutoHide()
+  autocmd User CursorAutoHide CursorAutoHide()
 augroup END

@@ -1,7 +1,11 @@
 vim9script
 
+# TODO:
+# - filetype autocmd: unmap current mappings before defining new mappings
+# - define commands to enable/disable the plugin
+
 g:pairs = {
-  default: [['{', '}'], ['(', ')'], ['[', ']'], ['"', '"'], ["'", "'"]],
+  default: [['{', '}'], ['(', ')'], ['[', ']'], ['"', '"'], ["'", "'"], ['`', '`']],
   vim: [['{', '}'], ['(', ')'], ['[', ']'], ["'", "'"]],
 }
 
@@ -11,14 +15,43 @@ def GetPairs(): list<list<string>>
 enddef
 
 def IsInPair(): bool
-  const line = getline('.')
-  const cursor = getcursorcharpos()[2]
-  for pair in GetPairs()
-    if line[cursor - 2] == pair[0] && line[cursor - 1] == pair[1]
-      return true
+  const previous = GetPreviousCharacter()
+  const next = GetNextCharacter()
+  const p = GetPairs()->copy()->filter((_, p) => p[0] == previous)->flattennew()
+  if !p->empty() && p[1] == next
+    const buf = bufnr()
+    const last_line = line('$')
+    if (p[0] == p[1])
+      return matchbufline(buf, p[0], 1, last_line)->len() % 2 == 0
+    else
+      return matchbufline(buf, p[0], 1, last_line)->len() == matchbufline(buf, p[1], 1, last_line)->len()
     endif
-  endfor
+  endif
   return false
+enddef
+
+def ShouldAutoClose(c: string): bool
+  const pairs = GetPairs()
+  const next = GetNextCharacter()->trim()
+  if pairs->copy()->filter((_, p) => p[0] == p[1] && p[0] == c)->empty()
+    return next->empty() || pairs->mapnew((_, p) => p[1])->index(next) >= 0
+  else
+    const previous = GetPreviousCharacter()->trim()
+    return (next->empty() || pairs->mapnew((_, p) => p[1])->index(next) >= 0)
+      && (previous->empty() || pairs->mapnew((_, p) => p[0])->index(previous) >= 0)
+  endif
+enddef
+
+def GetNextCharacter(): string
+  return getline('.')->strcharpart(getcursorcharpos()[2] - 1, 1)
+enddef
+
+def GetPreviousCharacter(): string
+  return getline('.')->strcharpart(getcursorcharpos()[2] - 2, 1)
+enddef
+
+def ConditionalIMap(condition: string, lhs: string, rhs: string): void
+  execute keymap#conditional('i', condition, lhs, rhs, {global: 0})
 enddef
 
 augroup AutoPairs
@@ -26,12 +59,12 @@ augroup AutoPairs
   autocmd FileType * {
     const pairs = GetPairs()
     if !pairs->empty()
-      const options = {global: 0}
-      execute keymap#conditional('i', 'IsInPair()', '<cr>', '<cr><up><end><cr>', options)
-      execute keymap#conditional('i', 'IsInPair()', '<c-h>', '<backspace><del>', options)
-      execute keymap#conditional('i', 'IsInPair()', '<backspace>', '<backspace><del>', options)
-      for pair in pairs
-        execute $'inoremap <silent> <buffer> {pair[0]} {pair[0]}{pair[1]}<left>'
+      ConditionalIMap('IsInPair()', '<cr>', '<cr><up><end><cr>')
+      ConditionalIMap('IsInPair()', '<c-h>', '<backspace><del>')
+      ConditionalIMap('IsInPair()', '<backspace>', '<backspace><del>')
+      for p in pairs
+        ConditionalIMap($'ShouldAutoClose("{p[0]->escape('"')}")', p[0], $'{p[0]}{p[1]}<left>')
+        ConditionalIMap($'GetNextCharacter() == "{p[1]->escape('"')}"', p[1], '<right>')
       endfor
     endif
   }

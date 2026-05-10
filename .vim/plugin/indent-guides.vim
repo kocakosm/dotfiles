@@ -9,7 +9,7 @@ def IndentGuides(): void
   const bufnr = bufnr()
   Cleanup(bufnr)
   if &list
-    listeners[bufnr] = listener_add(OnBufferUpdate)
+    listeners[bufnr] = listener_add(OnBufferUpdate, bufnr)
     UpdateIndentGuides()
     UpdateIndentGuidesOnEmptyLines(1, line('$'))
   endif
@@ -44,7 +44,7 @@ enddef
 def OnBufferUpdate(bufnr: number, start: number, end: number, added: number, changes: list<any>): void
   UpdateIndentGuidesOnEmptyLines(
     min([line('$'), max([1, min([start, end + added - 1])])]),
-    min([line('$'), max([1, max([end, end + added - 1])])])
+    min([line('$'), max([1, max([end - 1, end + added - 1])])])
   )
 enddef
 
