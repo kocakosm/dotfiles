@@ -10,7 +10,7 @@ function! s:on_colorscheme(colorscheme) abort
 endfunction
 
 function! s:hilal() abort
-  highlight NerdTree guibg=#171d21
+  highlight NerdTree guibg=#121417
   highlight VertSplit term=NONE cterm=NONE guibg=#1a2027 guifg=#0e141c
   highlight StatusLine term=NONE cterm=NONE guibg=#1a2027
   highlight StatusLineNC term=NONE cterm=NONE guibg=#1a2027
@@ -24,7 +24,7 @@ function! s:hilal() abort
 endfunction
 
 function! s:sorbet() abort
-  highlight NerdTree guibg=#1e1d2c
+  highlight NerdTree guibg=#13141c
   highlight SignifySignAdd guifg=#00af5f guibg=NONE gui=NONE cterm=NONE
   highlight SignifySignChange guifg=#87afff guibg=NONE gui=NONE cterm=NONE
   highlight SignifySignDelete guifg=#d7005f guibg=NONE gui=NONE cterm=NONE

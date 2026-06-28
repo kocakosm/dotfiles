@@ -93,7 +93,6 @@ if index(split(&packpath, ','), system#user_data_dir('vim')) < 0
   execute 'set packpath+=' . system#user_data_dir('vim', 'after')
 endif
 
-
 " Set the window title
 set title
 set titlestring=%F\ %m

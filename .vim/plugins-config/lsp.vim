@@ -1,3 +1,5 @@
+let g:lsp_enable = v:false
+
 let s:servers = [#{
 \  name: 'jdtls',
 \  filetype: ['java'],
@@ -25,11 +27,14 @@ let s:options = #{
 \  filterCompletionDuplicates: v:true,
 \  hideDisabledCodeActions: v:true,
 \  omniComplete: v:true,
+\  semanticHighlight: v:false,
 \  outlineOnRight: v:true,
 \  outlineWinSize: 33,
+\  popupBorder: v:false,
 \  popupHighlight: 'Pmenu',
 \  showDiagInBalloon: v:true,
-\  usePopupInCodeAction: v:true
+\  usePopupInCodeAction: v:true,
+\  codeActionPopupDetails: 'server'
 \}
 
 function! s:jdtls_workspace_edit(cmd) abort
@@ -67,3 +72,6 @@ augroup VimLsp
   autocmd User LspSetup call <sid>on_lsp_setup()
   autocmd User LspAttached call <sid>on_lsp_attached()
 augroup END
+
+command! -bar LspEnable call LspEnable()
+command! -bar LspDisable call LspDisable()
