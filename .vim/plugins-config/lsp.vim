@@ -3,7 +3,7 @@ let g:lsp_enable = v:false
 let s:servers = [#{
 \  name: 'jdtls',
 \  filetype: ['java'],
-\  path: system#user_data_dir('lsp', 'servers', 'eclipse-jdt-ls', 'run.sh'),
+\  path: 'jdtls',
 \  args: [],
 \  initializationOptions: #{
 \    settings: #{
